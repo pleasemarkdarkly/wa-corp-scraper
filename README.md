@@ -44,7 +44,7 @@ The above fields are contained within a Corporation collection within Mongo. Add
 
 In addition to the above records a listing of all filings, document name, date of filing, are stored in Filings collection, the PDFs are not stored locally, however they are the main source of information. Periodic scanning (every quarter or four months) checks the existence of additional documents and updates the information accordingly. 
 
-Statistic link on the Search page provides a highlevel view of mongo charts. 
+Statistic link on the Search page provides a high-level view of mongo charts. 
 
 ### CLI
 
