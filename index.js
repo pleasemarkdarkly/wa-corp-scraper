@@ -1,7 +1,6 @@
-
-var CorporationBasicRawStream = require('./CorporationBasicRawStreams')
-var businessSearchCriteria = require('./businessSearchCriteria')
-var fetchAnnualReport = require('./fetchAnnualReport')
+var CorporationBasicRawStream = require("./CorporationBasicRawStreams");
+var businessSearchCriteria = require("./businessSearchCriteria");
+var fetchAnnualReport = require("./fetchAnnualReport");
 
 const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
   BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = 67,
@@ -53,37 +52,84 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 */
 
 // BusinessType_WA_LIMITED_LIABILITY_CORPORATION
-const WA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(100, 1, 1, 65, businessSearchCriteria);
+const WA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
+  100,
+  1,
+  1,
+  65,
+  businessSearchCriteria
+);
 WA_LIMITED_LIABILITY_CORPORATION._read();
 
 // BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP
-const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStream(100, 1, 1, 67, businessSearchCriteria);
+const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStream(
+  100,
+  1,
+  1,
+  67,
+  businessSearchCriteria
+);
 WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP._read();
 
 // BusinessType_WA_LIMITED_LIABILITY_PARTNERSHIP
-const WA_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(100, 1, 1, 68, businessSearchCriteria);
+const WA_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(
+  100,
+  1,
+  1,
+  68,
+  businessSearchCriteria
+);
 WA_LIMITED_LIABILITY_PARTNERSHIP._read();
 
 // BusinessType_WA_LIMITED_PARTNERSHIP
-const WA_LIMITED_PARTNERSHIP = new CorporationBasicRawStream(100, 1, 1, 69, businessSearchCriteria);
+const WA_LIMITED_PARTNERSHIP = new CorporationBasicRawStream(
+  100,
+  1,
+  1,
+  69,
+  businessSearchCriteria
+);
 WA_LIMITED_PARTNERSHIP._read();
 
 // BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY
-const WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY = new CorporationBasicRawStream(100, 1, 1, 79, businessSearchCriteria);
+const WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY = new CorporationBasicRawStream(
+  100,
+  1,
+  1,
+  79,
+  businessSearchCriteria
+);
 WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY._read();
 
 // BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP
-const WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(100, 1, 1, 76, businessSearchCriteria);
+const WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(
+  100,
+  1,
+  1,
+  76,
+  businessSearchCriteria
+);
 WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP._read();
 
 // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
-const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(100, 1, 1, 85, businessSearchCriteria);
+const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
+  100,
+  1,
+  1,
+  85,
+  businessSearchCriteria
+);
 WA_PROFESSIONAL_SERVICE_CORPORATION._read();
 
 // BusinessType_WA_PROFIT_CORPORATION
-const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(100, 1, 1, 86, businessSearchCriteria);
+const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
+  100,
+  1,
+  1,
+  86,
+  businessSearchCriteria
+);
 WA_PROFIT_CORPORATION._read();
 
 // fetch annual report in text
-fetchAnnualReport()
-
+// fetchAnnualReport();
