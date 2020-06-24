@@ -31,3 +31,10 @@
 * search by name
 * search by business purpose
 * save contact / company csv
+
+
+[] express routes
+* /search
+* /statistics
+* /wacorp?id=
+* /keyword?search=

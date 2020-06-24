@@ -1,4 +1,4 @@
-var businessSearchcriteria = 
+var businessSearchCriteria = 
     {
         "Type":"Agent",
         "BusinessStatusID":"1",
@@ -36,7 +36,7 @@ var businessSearchcriteria =
         "PrincipalAddress[State]":"",
         "PrincipalAddress[Country]":"USA",
 
-    }
-
-    module.exports = businessSearchcriteria;
+    };
+    
+    module.exports = businessSearchCriteria;
     

@@ -1,7 +1,8 @@
 var {
   postHttp
-} = require('./httpService')
-var fetchAnnualReportCriteriaEnpoint = "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList"
+} = require('./httpService');
+
+var fetchAnnualReportCriteriaEndpoint = "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList"
 
 var fetchAnnualReportCriteriaData = querystring.stringify({
   "ID": "11681672",
@@ -9,9 +10,9 @@ var fetchAnnualReportCriteriaData = querystring.stringify({
 });
 
 async function fetchAnnualReportCriteria() {
-  console.log('attempting to get %j', fetchAnnualReportCriteriaEnpoint);
-  const data = await postHttp(fetchAnnualReportCriteriaEnpoint, fetchAnnualReportCriteriaData)
+  console.log('attempting to get %j', fetchAnnualReportCriteriaEndpoint);
+  const data = await postHttp(fetchAnnualReportCriteriaEndpoint, fetchAnnualReportCriteriaData);
   console.log(data);
 }
 
-module.exports = fetchAnnualReportCriteria
+module.exports = fetchAnnualReportCriteria;
