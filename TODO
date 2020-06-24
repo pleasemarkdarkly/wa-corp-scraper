@@ -1,0 +1,32 @@
+[] cli yargs per readme, first and last 100 business console.log
+[] Timing of the fetch, PDF parsing CLI visual output for duration estimation
+[] Logger by each business type, save to file, duration - stability
+[] concurrency, no of concurrent http threads
+[] mongodb, folder serialize objects
+[] express routes for search, statstics, Rest API
+[] express front-end, number of companies per type, top 25 keywords in business purpose
+[] search box for first, last name, business purpose, results grid
+[] highlight company detail expands from right drawer
+[] template scraper files for lawyer site
+[] export search results csv
+[] Rest API search, view company
+[] Dockerfile, docker-compose file 
+[] Fuzzy search
+[] foreverd module
+
+
+
+* PDF processing
+* mongo/mongoose schema
+* corporate collection schema
+* index names and business purpose
+* test for running against entire db, return timing
+* yargs
+* schedule to update records, scheme to update records
+* express front-end
+* ant design style / css
+* title wa corporation type: count
+* wordcloud for business purpose
+* search by name
+* search by business purpose
+* save contact / company csv

@@ -1,13 +1,10 @@
-var { getHttp } = require('./httpService')
+var { getHttp } = require('./httpService');
+var BusinessInfoEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1206337';
 
+async function  fetchBusinessInformation() {
+   console.log('attempting to get %j', BusinessInfoEndpoint);
+   const data =  await getHttp(BusinessInfoEndpoint);
+   console.log(data);
+}
 
-var BussinessInfoEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1206337'
-
-
- async function  fetchBusinessInformation() {
-    console.log('attempting to get %j', BussinessInfoEndpoint);
-    const data =  await getHttp(BussinessInfoEndpoint)
-    console.log(data);
- }
-
- module.exports = fetchBusinessInformation
+module.exports = fetchBusinessInformation;

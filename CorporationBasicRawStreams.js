@@ -1,7 +1,6 @@
 const stream = require('stream');
 const  fetchTable   = require('./fetchTable');
 
-
 class CorporationBasicRawStream extends stream.Readable {
   concurrency = 4;
   isFetching = false;
@@ -19,29 +18,26 @@ class CorporationBasicRawStream extends stream.Readable {
     this.concurrency = concurrency
     this.BusinessTypeID = BusinessTypeID
 
-    if (!this.PageCount)
-      throw new Error("The number of businesses on each page must be included");
-
-    if(!this.PageID)
-      throw new Error("The page number must be specified")
-
-    if(!this.BusinessTypeID)
-      throw new Error("The business type must be specified")
+    if(!this.PageCount) throw new Error("The number of businesses on each page must be included");
+    if(!this.PageID) throw new Error("The page number must be specified")
+    if(!this.BusinessTypeID) throw new Error("The business type must be specified")
   }
-   async fetchOne() {
+
+  async fetchOne() {
     const fetchArgs = {
       PageID : this.PageID,
       PageCount: this.PageCount,
       BusinessTypeID: this.BusinessTypeID,
     };
+
     const computedArgs = { ...this.args, ...fetchArgs };
     console.log(fetchArgs);
     
     try {
       const table = await fetchTable(computedArgs);
       console.log(table);
-     const { TotalRowCount } = table
-     
+      const { TotalRowCount } = table
+
       if (!table) {
           this.isFetching = false;
           this.isFinished = true;

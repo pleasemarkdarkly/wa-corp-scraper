@@ -1,10 +1,10 @@
 var {
   annualPost
-} = require('./httpService')
+} = require('./httpService');
 const pdf = require('pdf-parse');
 const querystring = require('querystring');
 
-var annualReportEnpoint = "https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=Certificates\\2020\\04\\0013438857_OnlineReport.pdf&CorrespondenceFileName=0013438857_OnlineReport.pdf&DocumentTypeId=4"
+var annualReportEndpoint = "https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=Certificates\\2020\\04\\0013438857_OnlineReport.pdf&CorrespondenceFileName=0013438857_OnlineReport.pdf&DocumentTypeId=4"
 
 var annualReportData = querystring.stringify({
   "DocumentID": "16362324",
@@ -36,7 +36,7 @@ var annualReportData = querystring.stringify({
 
 async function fetchAnnualReport() {
   console.log('attempting to get %j', annualReportData);
-  const data = await annualPost(annualReportEnpoint, annualReportData)
+  const data = await annualPost(annualReportEndpoint, annualReportData)
   console.log(data);
   pdf(data).then(function (info) {
     info.toString("utf8")
