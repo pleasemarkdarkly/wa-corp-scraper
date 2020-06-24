@@ -2,7 +2,7 @@ var { postHttp } = require('./httpService');
 var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList';
 
 async function fetchTable(businessSearchCriteria) {
-    console.log('attempting to get %j', AdvancedSearchEndpoint);
+    console.log('Attempting to get %j', AdvancedSearchEndpoint);
     const data =  await postHttp(AdvancedSearchEndpoint, businessSearchCriteria)
     const totalCount = 200;
     let BUSINESS_SEARCH = []
