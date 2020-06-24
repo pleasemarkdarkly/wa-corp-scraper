@@ -34,9 +34,42 @@ class CorporationBasicRawStream extends stream.Readable {
     console.log(fetchArgs);
     
     try {
+      if(this.PageCount === -1) {
+          this.PageCount = Math.abs(this.PageCount)
+
+          const allArgs = {
+            PageID : this.PageCount,
+            PageCount: this.PageCount,
+            BusinessTypeID: this.BusinessTypeID,
+          };
+          const computedArgs = { ...this.args, ...allArgs };
+          console.log(allArgs);
+          const table = await fetchTable(computedArgs);
+          const { TotalRowCount } = table;
+
+          const newArgs = {
+            PageID : this.PageCount,
+            PageCount: TotalRowCount,
+            BusinessTypeID: this.BusinessTypeID,
+          };
+      
+          const newComputedArgs = { ...this.args, ...newArgs };
+          console.log(newArgs);
+
+          // const table = await fetchTable(newComputedArgs);
+          console.log("table");
+          this.isFetching = false;
+          this.isFinished = true;
+          return;
+
+      }
       const table = await fetchTable(computedArgs);
-      console.log(table);
       const { TotalRowCount } = table;
+      // if pagecount === -1 
+      // pagecount === totalrowcount
+      // fetch table
+      // else show table
+      console.log(table);
 
       if (!table) {
           this.isFetching = false;
@@ -47,7 +80,7 @@ class CorporationBasicRawStream extends stream.Readable {
         this.PageID = Math.floor((TotalRowCount / 100));
         const newArgs = {
           PageID : this.PageID,
-          PageCount: 100,
+          PageCount: 1, //to change back to 100
           BusinessTypeID: this.BusinessTypeID,
         };
         const newComputedArgs = { ...this.args, ...newArgs };

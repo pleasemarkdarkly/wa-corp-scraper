@@ -35,9 +35,9 @@ var annualReportData = querystring.stringify({
 })
 
 async function fetchAnnualReport() {
+  console.time("Time-taken-to-fetch-annual-report")
   console.log('attempting to get %j', annualReportData);
   const data = await annualPost(annualReportEndpoint, annualReportData)
-  console.log(data);
   pdf(data).then(function (info) {
     info.toString("utf8")
     console.log(info.text);

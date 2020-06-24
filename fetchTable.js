@@ -2,6 +2,7 @@ var { postHttp } = require('./httpService');
 var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList';
 
 async function fetchTable(businessSearchCriteria) {
+    console.time("timer1")
     console.log('Attempting to get %j', AdvancedSearchEndpoint);
     const data =  await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
     const totalCount = 200;
@@ -27,10 +28,9 @@ async function fetchTable(businessSearchCriteria) {
         BusinessType = businessInfo.BusinessType;
       }
     return {
-      HEADER:  BusinessType,
-      COUNT: BUSINESS_SEARCH.length,
-      TotalRowCount,
-      BUSINESS_SEARCH
+      // BusinessType.WA_LIMITED_LIABILITY_CORPORATION: total 32,000
+      BUSINESSTYPE:  BusinessType, TOTAL: BUSINESS_SEARCH.length,
+      BUSINESS_SEARCH,
     };
   };
 };
