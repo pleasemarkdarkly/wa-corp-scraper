@@ -1,4 +1,6 @@
+[] credentials to .env file
 [] cli yargs per readme, first and last 100 business console.log
+[] accept -1 to crawl all, or pass in BusinessType directly
 [] Timing of the fetch, PDF parsing CLI visual output for duration estimation
 [] Logger by each business type, save to file, duration - stability
 [] concurrency, no of concurrent http threads

@@ -3,14 +3,14 @@ var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdva
 
 async function fetchTable(businessSearchCriteria) {
     console.log('Attempting to get %j', AdvancedSearchEndpoint);
-    const data =  await postHttp(AdvancedSearchEndpoint, businessSearchCriteria)
+    const data =  await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
     const totalCount = 200;
-    let BUSINESS_SEARCH = []
+    let BUSINESS_SEARCH = [];
     let BusinessType;
     let TotalRowCount;
     if(data) {
       for (let i = 0; i < data.length; i++) {
-          let firstInfo = data[0]
+          let firstInfo = data[0];
           TotalRowCount = firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : null
           let businessInfo = data[i];
         const info = {
@@ -23,17 +23,16 @@ async function fetchTable(businessSearchCriteria) {
         }
 
         BUSINESS_SEARCH.push(info);
-      
         if (BUSINESS_SEARCH.length === totalCount) break;
-        BusinessType = businessInfo.BusinessType
+        BusinessType = businessInfo.BusinessType;
       }
     return {
       HEADER:  BusinessType,
       COUNT: BUSINESS_SEARCH.length,
       TotalRowCount,
       BUSINESS_SEARCH
-    }
-    }
-}
+    };
+  };
+};
 
 module.exports = fetchTable;
