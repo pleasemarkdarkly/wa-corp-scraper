@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
     "file-saver": "^2.0.2",
     "filesaver": "0.0.11",
     "https": "^1.0.0",
