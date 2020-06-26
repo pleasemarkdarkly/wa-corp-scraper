@@ -20,7 +20,7 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
 // BusinessTypeID = The business type number
 // criteria = the remaining business search criteria
 
-console.log("fetch 100 first and last of designated business types");
+// console.log("fetch 100 first and last of designated business types");
 
 /*
 TODO: Update CorporationBasicRawStream to accept -1 (for all records) and BusinessType object to crawl all filings of each BusinessType. Add ms timing and color logging.
@@ -38,11 +38,6 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
     (1)       Universal Business Identifier (UBI) | Business Name | Business Type | Date Filed
               Principal Office Phone | Principal Office Email | Governor First Name | Governor Last Name
               Nature of Business | Initial Report Received Date
-PrincipalOffice.PhoneNumber	
-PrincipalOffice.EmailAddress	
-OnlineReportNatureOfBusiness
-FilingDate
-DateOfIncorporation
     ...
 
     (32000)   Universal Business Identifier (UBI) | Business Name | Business Type | Date Filed
@@ -127,15 +122,99 @@ DateOfIncorporation
 // );
 // WA_PROFESSIONAL_SERVICE_CORPORATION._read();
 
-BusinessType_WA_PROFIT_CORPORATION
-const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
-  1,
-  1,
-  1,
-  86,
-  businessSearchCriteria
-);
-WA_PROFIT_CORPORATION._read();
+// BusinessType_WA_PROFIT_CORPORATION
+// const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
+//   100,
+//   1,
+//   1,
+//   86,
+//   businessSearchCriteria
+// );
+// WA_PROFIT_CORPORATION._read();
 
-// fetch annual report in text
-// fetchAnnualReport();
+
+
+
+// BusinessType_WA_LIMITED_LIABILITY_CORPORATION
+// const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
+//   -1,
+//   1,
+//   1,
+//   65,
+//   businessSearchCriteria
+// );
+// WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
+
+// // BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP
+// const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL = new CorporationBasicRawStream(
+//   -1,
+//   1,
+//   1,
+//   67,
+//   businessSearchCriteria
+// );
+// WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL._read();
+
+// // BusinessType_WA_LIMITED_LIABILITY_PARTNERSHIP
+// const WA_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRawStream(
+//   -1,
+//   1,
+//   1,
+//   68,
+//   businessSearchCriteria
+// );
+// WA_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
+
+// // BusinessType_WA_LIMITED_PARTNERSHIP
+// const WA_LIMITED_PARTNERSHIP_ALL = new CorporationBasicRawStream(
+//   -1,
+//   1,
+//   1,
+//   69,
+//   businessSearchCriteria
+// );
+// WA_LIMITED_PARTNERSHIP_ALL._read();
+
+// // BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY
+// const WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL = new CorporationBasicRawStream(
+//   -1,
+//   1,
+//   1,
+//   79,
+//   businessSearchCriteria
+// );
+// WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL._read();
+
+// // BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP
+// const WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRawStream(
+//   -1,
+//   1,
+//   1,
+//   76,
+//   businessSearchCriteria
+// );
+// WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
+
+// // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
+// const WA_PROFESSIONAL_SERVICE_CORPORATION_ALL = new CorporationBasicRawStream(
+//   -1,
+//   1,
+//   1,
+//   85,
+//   businessSearchCriteria
+// );
+// WA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read();
+
+
+// BusinessType_WA_PROFIT_CORPORATION
+// const WA_PROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
+//   -1,
+//   1,
+//   1,
+//   86,
+//   businessSearchCriteria
+// );
+// WA_PROFIT_CORPORATION_ALL._read();
+
+// // fetch annual report in text
+fetchAnnualReport();

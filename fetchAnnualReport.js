@@ -27,6 +27,8 @@ let options = {
 
 
 async function fetchAnnualReport() {
+  console.time("Time-taken-to-fetch-annual-report")
+  console.log("fetch the annual report of designated business type");
   const data = await annualPost(annualReportEndpoint, annualSearchCriteria);
   // console.log("_________________DADADADADAD_________________", data);
   pdf(data, options).then(function (info) {
@@ -53,20 +55,35 @@ async function fetchAnnualReport() {
      newstr_two=JSON.parse(newstr_two)
 
      str_three = properties[2].replace(/.$/,' "} ')
-     backstr_three = str_three.replace('you answered \"yes\"',"n")
+     backstr_three = str_three.replace('you answered \"yes\"',"you answered yes")
      newstr_three = backstr_three.replace(/\r?\n|\r/g, "")
     newstr_three=JSON.parse(newstr_three)
+    // console.log(newstr_one, newstr_two, newstr_three);
+    
       const report = { 
-         "Universal Business Identifier": newstr_one['6'],
-        "Business Name": newstr_one['11'],
-        "Business Type": newstr_one['16'],
-        "Filling Date": newstr_one['78'],
-       "Principal Office Phone": newstr_two['17'],
-        "Principal Office Email": newstr_two['23'], 
-        "Governor First Name" : newstr_two['107'],
-        "Governor Last Name": newstr_two['108'],
-        "Nature of Business" : newstr_one['60'],
-        'Initial Report': newstr_one['101']
+        name: newstr_one['6'],
+        type: newstr_one['16'],
+        status: newstr_one['21'],
+        ubi: newstr_one['11'],
+        principal_office: newstr_two['29'],
+        registered_agent_name: newstr_two['93'],
+        registered_agent_consent:  `${newstr_one['84']} ${newstr_one['85']}`,
+        registered_agent_mailing_address: `${newstr_one['31']} ${newstr_one['32']} ${newstr_one['33']}`,
+        date_filed: newstr_one['78'],
+        principal_office_phone: newstr_two['17'],
+        principal_office_email: newstr_two['23'], 
+        principal_office_street_address: newstr_one['26'],
+        governor_first_name: newstr_two['107'],
+        governor_last_name: newstr_two['108'],
+        nature_of_business : newstr_one['60'],       
+        return_address_for_filing: `${newstr_three['37']} ${newstr_three['38']} ${newstr_three['39']}`,
+        return_address_attention: `${newstr_three['37']} ${newstr_three['38']} ${newstr_three['39']}`,
+        signer_last_name: newstr_three['75'],
+        signer_first_name: newstr_three['70'],
+        signer_title: newstr_three['86'],
+        initial_report_work_order: newstr_three['95'],
+        initial_report_received_date: newstr_one['101'],
+        initial_report_amount: newstr_three['99'],
       }
       console.log(report);
       return report

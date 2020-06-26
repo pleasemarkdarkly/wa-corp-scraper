@@ -1,5 +1,4 @@
 node_modules
-httpService.js
 *.tar.gz
-.env
+*.env
 *.log
