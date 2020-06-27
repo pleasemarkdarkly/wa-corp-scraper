@@ -1,18 +1,25 @@
 var {
   postHttp
 } = require('./httpService');
+const querystring = require("querystring");
+
 
 var fetchAnnualReportCriteriaEndpoint = "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList"
 
-var fetchAnnualReportCriteriaData = querystring.stringify({
-  "ID": "11681672",
-  "FilingNumber": "13438857"
-});
+// var fetchAnnualReportCriteriaData = {
+//   "ID": "557070",
+//   "FilingNumber": "13674375"
+// };
 
-async function fetchAnnualReportCriteria() {
+async function fetchAnnualReportCriteria(FilingNumber, ID) {
+  var fetchAnnualReportCriteriaData = {
+      FilingNumber,
+      ID
+    };
   console.log('attempting to get %j', fetchAnnualReportCriteriaEndpoint);
+  console.time("time-taken")
   const data = await postHttp(fetchAnnualReportCriteriaEndpoint, fetchAnnualReportCriteriaData);
-  console.log(data);
+    return data;
 }
 
 module.exports = fetchAnnualReportCriteria;

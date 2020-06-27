@@ -1,10 +1,11 @@
 var { getHttp } = require('./httpService');
-var fillingInfoEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetBusinessFilingList?IsOnline=true&businessId=557070';
 
-async function  fetchFillingInformation() {
+async function  fetchFillingInformation(BusinessID) {
+    var fillingInfoEndpoint = `https://cfda.sos.wa.gov/api/BusinessSearch/GetBusinessFilingList?IsOnline=true&businessId=${BusinessID}`;
     console.log('attempting to get %j', fillingInfoEndpoint);
+    console.time("time-taken")
     const data = await getHttp(fillingInfoEndpoint);
-    console.log(data);
+    return data
 }
 
 module.exports = fetchFillingInformation;

@@ -69,7 +69,7 @@ const annualPost = async (postEndpoint, postData) => {
             'Content-Type': 'application/pdf',
         },
         agent,
-        body: postData,
+        body: querystring.stringify(postData),
         encoding: null
 
     };

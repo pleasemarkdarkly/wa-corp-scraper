@@ -1,6 +1,9 @@
 var CorporationBasicRawStream = require("./CorporationBasicRawStreams");
 var businessSearchCriteria = require("./businessSearchCriteria");
 var fetchAnnualReport = require("./fetchAnnualReport");
+var fetchAnnualReportCriteria = require('./fetchAnnualReportCriteria')
+var fetchBusinessInformation = require('./fetchBillingInformation')
+var fetchFillingInformation = require('./fetchBillingInformation')
 require('dotenv').config()
 
 
@@ -54,7 +57,7 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 
 // BusinessType_WA_LIMITED_LIABILITY_CORPORATION
 // const WA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
-//   100,
+//   5,
 //   1,
 //   1,
 //   65,
@@ -122,15 +125,15 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 // );
 // WA_PROFESSIONAL_SERVICE_CORPORATION._read();
 
-// BusinessType_WA_PROFIT_CORPORATION
-// const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
-//   100,
-//   1,
-//   1,
-//   86,
-//   businessSearchCriteria
-// );
-// WA_PROFIT_CORPORATION._read();
+BusinessType_WA_PROFIT_CORPORATION
+const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
+  2,
+  1,
+  1,
+  86,
+  businessSearchCriteria
+);
+WA_PROFIT_CORPORATION._read();
 
 
 
@@ -217,4 +220,6 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 // WA_PROFIT_CORPORATION_ALL._read();
 
 // // fetch annual report in text
-fetchAnnualReport();
+// fetchAnnualReport();
+
+// fetchFillingInformation()

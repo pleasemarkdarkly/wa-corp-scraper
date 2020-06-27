@@ -1,4 +1,8 @@
 var { postHttp } = require('./httpService');
+var fetchFillingInformation = require('./fetchBillingInformation');
+var fetchAnnualReportCriteria = require('./fetchAnnualReportCriteria');
+var fetchAnnualReport = require('./fetchAnnualReport')
+
 var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList';
 
 async function fetchTable(businessSearchCriteria) {
@@ -15,6 +19,31 @@ async function fetchTable(businessSearchCriteria) {
           let firstInfo = data[0];
           TotalRowCount = firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : null
           let businessInfo = data[i];
+          let BusinessID = data[i].BusinessID;
+        console.log(BusinessID)
+
+        fillingInformation  = await fetchFillingInformation(BusinessID)
+     let FilingNumber, ID, annualReport, annualReportCriteria = [], annualDueNotice;
+    //  console.log(fillingInformation.length);
+     for (let i = 0; i < fillingInformation.length; i++) {
+        annualReport = fillingInformation[0];
+        FilingNumber = annualReport.FilingNumber;
+        ID = annualReport.Transactionid 
+        //console.log(annualReport, "Annual Report");
+        annualReportCriteria = await fetchAnnualReportCriteria(FilingNumber, ID)
+        // console.log(annualReportCriteria, "Annual Report criteria");
+        break;
+     }
+    for(let i = 0; i < annualReportCriteria.length; i++) {
+      if(annualReportCriteria[i].DocumentTypeID === 4) {
+         annualDueNotice = annualReportCriteria[0]
+        //  console.log(annualDueNotice, "Annual Report criteria");
+         await fetchAnnualReport(annualDueNotice);
+         break;
+      } else {
+        console.log('No report to download');
+      }
+    }
         const info = {
           UBINumber: businessInfo.UBINumber,
           BusinessName: businessInfo.BusinessName,
@@ -35,7 +64,8 @@ async function fetchTable(businessSearchCriteria) {
       // do not remove the total count
       TotalRowCount
     };
+
+   };
   };
-};
 
 module.exports = fetchTable;
