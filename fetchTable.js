@@ -1,4 +1,10 @@
 var { postHttp } = require('./httpService');
+var clc = require("cli-color");
+var info = clc.white.bold;
+var error = clc.red.bold;
+var warn = clc.yellow;
+var notice = clc.blue;
+
 var fetchFillingInformation = require('./fetchBillingInformation');
 var fetchAnnualReportCriteria = require('./fetchAnnualReportCriteria');
 var fetchAnnualReport = require('./fetchAnnualReport')
@@ -6,9 +12,9 @@ var fetchAnnualReport = require('./fetchAnnualReport')
 var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList';
 
 async function fetchTable(businessSearchCriteria) {
-    console.time("time-taken")
-    console.log('Attempting to get %j', AdvancedSearchEndpoint);
-    console.log("fetch 100 first and last of designated business types");
+    console.time("Time-taken");
+    console.log(notice('Attempting to get %j.', AdvancedSearchEndpoint));
+    console.log(notice("Fetch 100 first and last of designated business types"));
     const data =  await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
     const totalCount = 200;
     let BUSINESS_SEARCH = [];
@@ -41,7 +47,7 @@ async function fetchTable(businessSearchCriteria) {
          await fetchAnnualReport(annualDueNotice);
          break;
       } else {
-        console.log('No report to download');
+        console.log(warn('No report to download.'));
       }
     }
         const info = {

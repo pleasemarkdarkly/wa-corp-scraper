@@ -1,8 +1,15 @@
+
+var clc = require("cli-color");
 var CorporationBasicRawStream = require("./CorporationBasicRawStreams");
 var businessSearchCriteria = require("./businessSearchCriteria");
 var fetchAnnualReport = require("./fetchAnnualReport");
+
 require('dotenv').config()
 
+var info = clc.white.bold;
+var error = clc.red.bold;
+var warn = clc.yellow;
+var notice = clc.blue;
 
 const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
   BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = 67,
@@ -20,7 +27,7 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
 // BusinessTypeID = The business type number
 // criteria = the remaining business search criteria
 
-console.log("fetch 100 first and last of designated business types");
+console.log(info("INFO: Fetch 100 first and last of designated business types"));
 
 /*
 TODO: Update CorporationBasicRawStream to accept -1 (for all records) and BusinessType object to crawl all filings of each BusinessType. Add ms timing and color logging.
@@ -131,9 +138,6 @@ const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
   businessSearchCriteria
 );
 WA_PROFIT_CORPORATION._read();
-
-
-
 
 // BusinessType_WA_LIMITED_LIABILITY_CORPORATION
 // const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(

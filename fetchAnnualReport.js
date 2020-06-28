@@ -3,8 +3,13 @@ const pdf = require("pdf-parse");
 const annualSearchCriteria = require('./annualSearchCriteria')
 const querystring = require('querystring');
 
+var clc = require('cli-color');
+var info = clc.white.bold;
+var error = clc.red.bold;
+var warn = clc.yellow;
+var notice = clc.blue;
 
-  var annualReportEndpoint =  
+var annualReportEndpoint =  
   "https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=Certificates\\2020\\04\\0013415175_OnlineReport.pdf&CorrespondenceFileName=0013415175_OnlineReport.pdf&DocumentTypeId=4"
 
 function render_page(pageData) {
@@ -39,12 +44,10 @@ let options = {
   pagerender: render_page
 }
 
-
 async function fetchAnnualReport(annualSearchCriteria) {
   console.time("Time-taken-to-fetch-annual-report")
-  console.log("fetch the annual report of designated business type");
+  console.log(notice("Fetch the annual report of designated business type"));
 
- 
   const FileLocationCorrespondence = annualSearchCriteria.FileLocationCorrespondence;
   const CorrespondenceFileName = annualSearchCriteria.CorrespondenceFileName;
   const DocumentTypeID = annualSearchCriteria.DocumentTypeID;
@@ -53,13 +56,10 @@ async function fetchAnnualReport(annualSearchCriteria) {
   
   var annualReportEndpoint = 
   `https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=${FileLocationCorrespondence}&CorrespondenceFileName=${CorrespondenceFileName}&DocumentTypeId=${DocumentTypeID}`
- 
   
-  console.log('Attempting to get %j', annualReportEndpoint);
-
+  console.log(notice('Attempting to get %j', annualReportEndpoint));
   
   const data = await annualPost(annualReportEndpoint, annualSearchCriteria);
-  // console.log("_________________DADADADADAD_________________", data);
   pdf(data, options).then(function (info) {
     console.log("-----------------------------ANNUAL REPORT----------------------");
     let properties, 
