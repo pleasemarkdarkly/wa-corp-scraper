@@ -28,7 +28,6 @@ var annualSearchCriteria = {
 }
 
 module.exports = annualSearchCriteria
-
 [
     {
       FilingNumber: 13674375,

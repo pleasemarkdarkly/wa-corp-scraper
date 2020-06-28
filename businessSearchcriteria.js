@@ -35,7 +35,6 @@ var businessSearchCriteria =
         "PrincipalAddress[ID]":"0",
         "PrincipalAddress[State]":"",
         "PrincipalAddress[Country]":"USA",
-
     };
     
     module.exports = businessSearchCriteria;

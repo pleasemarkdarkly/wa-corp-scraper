@@ -1,11 +1,17 @@
 var SocksProxyAgent = require('socks-proxy-agent');
+var clc = require("cli-color");
+
 const fetch = require('node-fetch');
 const querystring = require('querystring');
 const dotenv = require('dotenv');
 
+var info = clc.white.bold;
+var error = clc.red.bold;
+var warn = clc.yellow;
+var notice = clc.blue;
+
 
 dotenv.config();
-
 
 const SOCKS_USER = process.env.SOCKS_USER || "None";
 const SOCKS_PASSWORD = process.env.SOCKS_PASSWORD || "None";
@@ -18,9 +24,7 @@ const user = SOCKS_USER,
   host = SOCKS_HOST,
   port = SOCKS_PORT;
 
-
 const agent = new SocksProxyAgent(`socks5://${user}:${pass}@${host}:${port}/`);
-
 
 const postHttp = async (postEndpoint, postData) => {
     const requestOptions = {
@@ -50,7 +54,7 @@ const getHttp = async (getEndpoint) => {
 
 const handleResponse = (response) => {    
     return response.text().then(text => {
-        console.timeEnd("time-taken")
+        console.timeEnd("Time-taken")
         const data = text && JSON.parse(text);
         if (!response.ok) {
             const error = data && data.error
@@ -91,8 +95,6 @@ const handleAnnualPDF = (response) => {
             return Promise.reject(error);
         }
         return data;
-        
-
     });
 }
 

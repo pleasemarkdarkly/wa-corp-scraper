@@ -18,9 +18,9 @@ class CorporationBasicRawStream extends stream.Readable {
     this.concurrency = concurrency;
     this.BusinessTypeID = BusinessTypeID;
 
-    if(!this.PageCount) throw new Error("The number of businesses on each page must be included");
-    if(!this.PageID) throw new Error("The page number must be specified");
-    if(!this.BusinessTypeID) throw new Error("The business type must be specified");
+    if(!this.PageCount) throw new Error("The number of businesses on each page must be included.");
+    if(!this.PageID) throw new Error("The page number must be specified.");
+    if(!this.BusinessTypeID) throw new Error("The business type must be specified.");
   }
 
   async fetchOne() {

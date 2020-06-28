@@ -1,6 +1,14 @@
 var {
   postHttp
 } = require('./httpService');
+
+var clc = require("cli-color");
+
+var info = clc.white.bold;
+var error = clc.red.bold;
+var warn = clc.yellow;
+var notice = clc.blue;
+
 const querystring = require("querystring");
 
 
@@ -16,8 +24,8 @@ async function fetchAnnualReportCriteria(FilingNumber, ID) {
       FilingNumber,
       ID
     };
-  console.log('attempting to get %j', fetchAnnualReportCriteriaEndpoint);
-  console.time("time-taken")
+  console.log(notice('Attempting to get %j.', fetchAnnualReportCriteriaEndpoint));
+  console.time("Time-taken");
   const data = await postHttp(fetchAnnualReportCriteriaEndpoint, fetchAnnualReportCriteriaData);
     return data;
 }
