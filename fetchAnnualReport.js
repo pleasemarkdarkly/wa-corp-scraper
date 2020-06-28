@@ -14,10 +14,22 @@ function render_page(pageData) {
   }
   return pageData.getTextContent(render_options)
   .then(function(textContent) {
-        var obj = {}, txt = '', txtArr = [], mtx
+        var obj = {}, txt = '', txtArr = [], mtx, obj2={}
         textContent.items.forEach(function(property, i) {
-          obj[i]= property.str
+          txt +=property.str          
+          // obj[i]= property.str
         });        
+        txt = txt.replace(/     /g, "")
+        txt = txt.replace(/    /g, "")
+        txt = txt.replace(/   /g, "")
+        txt = txt.replace(/  /g, "")
+        txt = txt.split(' ');
+
+        
+        txt.forEach(function(t, i) {
+          obj[i]= t
+        });   
+        // console.log(obj2);
       return JSON.stringify(obj)
   });
  
@@ -81,32 +93,32 @@ async function fetchAnnualReport(annualSearchCriteria) {
     //  console.log(newstr_three);
 
     newstr_three=JSON.parse(newstr_three)
-    // console.log(newstr_one, newstr_two, newstr_three);
+    console.log(newstr_one, newstr_two, newstr_three);
     
       const report = { 
-        name: newstr_one['6'],
-        type: newstr_one['16'],
-        status: newstr_one['21'],
-        ubi: newstr_one['11'],
+        name:`${newstr_one['8']} ${newstr_one['9']}`,
+        type: `${newstr_one['21']} ${newstr_one['22']} ${newstr_one['23']}`,
+        status: newstr_one['28'],
+        ubi: `${newstr_one['14']} ${newstr_one['15']} ${newstr_one['16']}`,
         principal_office: newstr_two['33'],
-        registered_agent_name: newstr_two['100'],
+        registered_agent_name:  `${newstr_three['49']} ${newstr_one['54']}`,
         registered_agent_consent:  `${newstr_one['68']} ${newstr_one['70']}`,
-        registered_agent_mailing_address: ` ${newstr_two['102']} ${newstr_one['103']} ${newstr_one['104']}`,
-        date_filed: newstr_one['80'],
-        principal_office_phone: newstr_two['17'],
-        principal_office_email: newstr_two['23'], 
-        principal_office_street_address: `${newstr_one['26']}, ${newstr_one['28']}`,
+        registered_agent_mailing_address: `${newstr_one['50']} ${newstr_one['51']} ${newstr_one['52']} ${newstr_one['53']} ${newstr_one['54']} ${newstr_one['55']} ${newstr_one['56']} ${newstr_one['57']} ${newstr_one['58']}`,
+        date_filed: newstr_one['117'],
+        principal_office_phone: newstr_one['101'],
+        principal_office_email: newstr_one['105'], 
+        principal_office_street_address: `${newstr_one['35']} ${newstr_one['36']} ${newstr_one['37']} ${newstr_one['38']} ${newstr_one['39']} ${newstr_one['40']} ${newstr_one['41']} ${newstr_one['42']} ${newstr_one['43']}`,
         governor_first_name: newstr_two['113'],
         governor_last_name: newstr_two['114'],
-        nature_of_business : newstr_one['62'],       
+        nature_of_business : `${newstr_one['89']} ${newstr_one['90']} ${newstr_one['91']} `,       
         return_address_for_filing: `${newstr_three['37']} ${newstr_three['38']} ${newstr_three['39']}`,
         return_address_attention: `${newstr_three['37']} ${newstr_three['38']} ${newstr_three['39']}`,
         signer_last_name: newstr_three['59'],
         signer_first_name: newstr_three['53'],
-        signer_title: newstr_three['70'],
-        initial_report_work_order: newstr_three['76'],
-        initial_report_received_date: newstr_one['103'],
-        initial_report_amount: newstr_one['104'],
+        signer_title: newstr_three[''],
+        initial_report_work_order:`${newstr_three['90']} ${newstr_three['91']}`,
+        initial_report_received_date: newstr_three['95'],
+        initial_report_amount: newstr_three['97'],
       }
       console.log(report);
       return report
