@@ -20,14 +20,17 @@ async function fetchTable(businessSearchCriteria) {
     let BUSINESS_SEARCH = [];
     let BusinessType;
     let TotalRowCount;
+    let  BussinessInformation;
+    let fillingInformation;
     if(data) {
       for (let i = 0; i < data.length; i++) {
           let firstInfo = data[0];
           TotalRowCount = firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : null
           let businessInfo = data[i];
           let BusinessID = data[i].BusinessID;
-        console.log(BusinessID)
 
+        BussinessInformation  = await fetchBusinessInformation(BusinessID)
+        // PrincipalOffice.EmailAddress
         fillingInformation  = await fetchFillingInformation(BusinessID)
      let FilingNumber, ID, annualReport, annualReportCriteria = [], annualDueNotice;
     //  console.log(fillingInformation.length);

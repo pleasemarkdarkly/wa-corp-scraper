@@ -15,6 +15,7 @@
     "file-saver": "^2.0.2",
     "filesaver": "0.0.11",
     "https": "^1.0.0",
+    "mongoose": "^5.9.20",
     "node-blob": "0.0.2",
     "node-fetch": "^2.6.0",
     "pdf-parse": "^1.1.1",

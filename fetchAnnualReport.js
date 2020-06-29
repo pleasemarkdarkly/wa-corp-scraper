@@ -27,7 +27,7 @@ function render_page(pageData) {
         txt = txt.replace(/     /g, "")
         txt = txt.replace(/    /g, "")
         txt = txt.replace(/   /g, "")
-        txt = txt.replace(/  /g, "")
+        // txt = txt.replace(/  /g, "")
         txt = txt.split(' ');
 
         
