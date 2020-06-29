@@ -2,7 +2,9 @@
 
 ### Initial download
 
-`https://www.sos.wa.gov/corps/alldata.aspx` provides the entire data set to initialize the mongodb database. 
+`https://www.sos.wa.gov/corps/alldata.aspx` provides the entire data set to initialize the mongodb database.
+
+Every night at 2am, https://www.sos.wa.gov/_assets/corps/jsonCorpsData.zip
 
 Entities without an UBI can be skipped and are of no value. Entities without the following fields are without value and should not be retained:
 
