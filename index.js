@@ -23,7 +23,7 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
   BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = 76,
   BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION = 85,
   BusinessType_WA_PROFIT_CORPORATION = 86;
-  
+
 // TODO: Ask Natasha about what other entities Non-Profits?
 
 // CorporationBasicRawStream(PageCount, PageID, concurrency, BusinessTypeID,  criteria  )
@@ -63,14 +63,16 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
 */
 
 // BusinessType_WA_LIMITED_LIABILITY_CORPORATION
-// const WA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
-//   100,
-//   1,
-//   1,
-//   65,
-//   businessSearchCriteria
-// );
-// WA_LIMITED_LIABILITY_CORPORATION._read();
+/*
+const WA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
+   200,
+   1,
+   1,
+   65,
+   businessSearchCriteria
+ );
+WA_LIMITED_LIABILITY_CORPORATION._read();
+*/
 
 // // BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP
 // const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStream(
@@ -123,6 +125,7 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
 // WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP._read();
 
 // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
+/*
 const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
@@ -131,7 +134,7 @@ const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
   businessSearchCriteria
 );
 WA_PROFESSIONAL_SERVICE_CORPORATION._read();
-
+*/
 // BusinessType_WA_PROFIT_CORPORATION
 // const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
 //   100,
@@ -142,15 +145,15 @@ WA_PROFESSIONAL_SERVICE_CORPORATION._read();
 // );
 // WA_PROFIT_CORPORATION._read();
 
-// BusinessType_WA_LIMITED_LIABILITY_CORPORATION
-// const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
-//   -1,
-//   1,
-//   1,
-//   65,
-//   businessSearchCriteria
-// );
-// WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
+//  BusinessType_WA_LIMITED_LIABILITY_CORPORATION
+ const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
+   ALL_RECORDS,
+   1,
+   1,
+   BusinessType_WA_LIMITED_LIABILITY_CORPORATION,
+   businessSearchCriteria
+ );
+ WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
 
 // // BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP
 // const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL = new CorporationBasicRawStream(
