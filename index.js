@@ -1,8 +1,5 @@
-
 var clc = require("cli-color");
 var CorporationBasicRawStream = require("./CorporationBasicRawStreams");
-var businessSearchCriteria = require("./businessSearchCriteria");
-var fetchAnnualReport = require("./fetchAnnualReport");
 
 require('dotenv').config()
 
@@ -120,18 +117,18 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 // WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP._read();
 
 // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
-const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
-  100,
-  1,
-  1,
-  85,
-  businessSearchCriteria
-);
-WA_PROFESSIONAL_SERVICE_CORPORATION._read();
+// const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
+//   2,
+//   1,
+//   1,
+//   85,
+//   businessSearchCriteria
+// );
+// WA_PROFESSIONAL_SERVICE_CORPORATION._read();
 
 // BusinessType_WA_PROFIT_CORPORATION
 // const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
-//   100,
+//   2,
 //   1,
 //   1,
 //   86,
@@ -139,15 +136,15 @@ WA_PROFESSIONAL_SERVICE_CORPORATION._read();
 // );
 // WA_PROFIT_CORPORATION._read();
 
-// BusinessType_WA_LIMITED_LIABILITY_CORPORATION
-// const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
-//   -1,
-//   1,
-//   1,
-//   65,
-//   businessSearchCriteria
-// );
-// WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
+BusinessType_WA_LIMITED_LIABILITY_CORPORATION
+const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
+  -1,
+  1,
+  1,
+  65,
+  businessSearchCriteria
+);
+WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
 
 // // BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP
 // const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL = new CorporationBasicRawStream(

@@ -1,4 +1,5 @@
-function ConvertToCSV(objArray) {
+const fs = require('fs')
+function ConvertToCSV(objArray, id) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
 
@@ -11,9 +12,10 @@ function ConvertToCSV(objArray) {
         }
 
         str += line + '\r\n';
-    }
-    console.log(str);
-    
+    }    
+        const file = fs.createWriteStream(`./csv-output/${id}`);
+        file.write(str);
+        file.end();
     return str;
 }
 

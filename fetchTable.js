@@ -1,5 +1,6 @@
 var { postHttp } = require('./httpService');
 var clc = require("cli-color");
+
 var info = clc.white.bold;
 var error = clc.red.bold;
 var warn = clc.yellow;
@@ -8,8 +9,9 @@ var notice = clc.blue;
 var fetchFillingInformation = require('./fetchBillingInformation');
 var fetchAnnualReportCriteria = require('./fetchAnnualReportCriteria');
 var fetchAnnualReport = require('./fetchAnnualReport');
-var fetchBusinessInformation = require('./fetchBusinessInformation')
-var convertToCSV = require('./helpers/convertToCSV')
+var fetchBusinessInformation = require('./fetchBusinessInformation');
+var convertToCSV = require('./helpers/convertToCSV');
+
 
 var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList';
 
@@ -23,6 +25,7 @@ async function fetchTable(businessSearchCriteria) {
     let BUSINESS_INFO = [];
     let ALL_CSV = [];
     let BusinessType;
+    let BusinessID;
     let TotalRowCount;
     let  BussinessInformation;
     let fillingInformation;
@@ -31,15 +34,14 @@ async function fetchTable(businessSearchCriteria) {
           let firstInfo = data[0];
           TotalRowCount = firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : null
           let businessInfo = data[i];
-          let BusinessID = data[i].BusinessID;
+          BusinessID = data[i].BusinessID;
 
         BussinessInformation  = await fetchBusinessInformation(BusinessID)
 
         fillingInformation  = await fetchFillingInformation(BusinessID)
      let FilingNumber, ID, annualReport, annualReportCriteria = [], annualDueNotice;
-    //  console.log(fillingInformation.length);
      for (let i = 0; i < fillingInformation.length; i++) {
-       if (fillingInformation[i].FilingTypeName ===	"ANNUAL REPORT") {
+       if (fillingInformation[i].FilingTypeName ===	"ANNUAL REPORT"  ||  fillingInformation[i].FilingTypeName === 'INITIAL REPORT') {
         annualReport = fillingInformation[0];
         FilingNumber = annualReport.FilingNumber;
         ID = annualReport.Transactionid;
@@ -49,7 +51,7 @@ async function fetchTable(businessSearchCriteria) {
         // console.log(annualReportCriteria, "Annual Report criteria");
         break;
        }
-       console.log(warn('Not an annual report'));
+       console.log(warn('NOT AN ANNUAL OR ONLINE REPORT'));
      }
     for(let i = 0; i < annualReportCriteria.length; i++) {
       if(annualReportCriteria[i].DocumentTypeID === 4) {
@@ -85,15 +87,14 @@ async function fetchTable(businessSearchCriteria) {
           email: BussinessInformation.registered_agent_mail
         })
       }
-      const CSV = convertToCSV(BUSINESS_INFO)
-      ALL_CSV.push(CSV)
+      const CSV = convertToCSV(BUSINESS_INFO, BusinessID)
+      // ALL_CSV.push(CSV)
+
     return {
       BUSINESSTYPE:  BusinessType, TOTAL: BUSINESS_SEARCH.length,
       BUSINESS_SEARCH,
       // do not remove the total count
       TotalRowCount,
-      BUSINESS_CSV_TEXT: CSV,
-      BUSSINESS_CSV_ARRAY: ALL_CSV,
     };
 
    };
