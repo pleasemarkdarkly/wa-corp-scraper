@@ -1,5 +1,6 @@
 
 var clc = require("cli-color");
+
 var CorporationBasicRawStream = require("./CorporationBasicRawStreams");
 var businessSearchCriteria = require("./businessSearchCriteria");
 var fetchAnnualReport = require("./fetchAnnualReport");
@@ -11,6 +12,9 @@ var error = clc.red.bold;
 var warn = clc.yellow;
 var notice = clc.blue;
 
+const ALL_RECORDS = -1;
+
+// All Business Types 
 const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
   BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = 67,
   BusinessType_WA_LIMITED_LIABILITY_PARTNERSHIP = 68,
@@ -19,6 +23,8 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
   BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = 76,
   BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION = 85,
   BusinessType_WA_PROFIT_CORPORATION = 86;
+  
+// TODO: Ask Natasha about what other entities Non-Profits?
 
 // CorporationBasicRawStream(PageCount, PageID, concurrency, BusinessTypeID,  criteria  )
 // PageCount = The number of business to fetch at a time
@@ -30,9 +36,6 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
 // console.log(info("INFO: Fetch 100 first and last of designated business types"));
 
 /*
-TODO: Update CorporationBasicRawStream to accept -1 (for all records) and BusinessType object to crawl all filings of each BusinessType. Add ms timing and color logging.
-      Adding the Filing PDF (https://www.npmjs.com/package/textract), timing and a summary output. Example function,
-
     const WA_CORPORATION_ALL = new CorporationBasicRawStream(-1, 1, 1, BusinessType, businessSearchCriteria);
     WA_CORPORATION_ALL._read();
 
@@ -121,7 +124,7 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 
 // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
 const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
-  -1,
+  ALL_RECORDS,
   1,
   1,
   85,

@@ -11,20 +11,14 @@ var notice = clc.blue;
 
 const querystring = require("querystring");
 
-
 var fetchAnnualReportCriteriaEndpoint = "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList"
-
-// var fetchAnnualReportCriteriaData = {
-//   "ID": "557070",
-//   "FilingNumber": "13674375"
-// };
 
 async function fetchAnnualReportCriteria(FilingNumber, ID) {
   var fetchAnnualReportCriteriaData = {
       FilingNumber,
       ID
     };
-  console.log(notice('Attempting to get %j.', fetchAnnualReportCriteriaEndpoint));
+  console.log(notice('Annual report ', fetchAnnualReportCriteriaEndpoint));
   // console.time("Time-taken");
   const data = await postHttp(fetchAnnualReportCriteriaEndpoint, fetchAnnualReportCriteriaData);
     return data;

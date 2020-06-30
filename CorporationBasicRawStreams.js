@@ -1,6 +1,10 @@
 const stream = require('stream');
 const  fetchTable   = require('./fetchTable');
 
+/*
+  TODO: Argument to increase concurrency
+*/
+
 class CorporationBasicRawStream extends stream.Readable {
   concurrency = 4;
   isFetching = false;
