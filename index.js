@@ -121,7 +121,7 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 
 // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
 const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
-  5,
+  100,
   1,
   1,
   85,
