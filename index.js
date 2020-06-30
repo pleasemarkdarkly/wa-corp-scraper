@@ -119,25 +119,25 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 // );
 // WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP._read();
 
-// // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
-// const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
+// BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
+const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
+  5,
+  1,
+  1,
+  85,
+  businessSearchCriteria
+);
+WA_PROFESSIONAL_SERVICE_CORPORATION._read();
+
+// BusinessType_WA_PROFIT_CORPORATION
+// const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
 //   100,
 //   1,
 //   1,
-//   85,
+//   86,
 //   businessSearchCriteria
 // );
-// WA_PROFESSIONAL_SERVICE_CORPORATION._read();
-
-BusinessType_WA_PROFIT_CORPORATION
-const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
-  100,
-  1,
-  1,
-  86,
-  businessSearchCriteria
-);
-WA_PROFIT_CORPORATION._read();
+// WA_PROFIT_CORPORATION._read();
 
 // BusinessType_WA_LIMITED_LIABILITY_CORPORATION
 // const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
@@ -220,5 +220,3 @@ WA_PROFIT_CORPORATION._read();
 // );
 // WA_PROFIT_CORPORATION_ALL._read();
 
-// // fetch annual report in text
-// fetchAnnualReport();

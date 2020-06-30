@@ -100,6 +100,7 @@ async function fetchAnnualReport(annualSearchCriteria) {
         type: `${newstr_one['21']} ${newstr_one['22']} ${newstr_one['23']}`,
         status: newstr_one['28'],
         ubi: `${newstr_one['14']} ${newstr_one['15']} ${newstr_one['16']}`,
+
         principal_office: newstr_two['33'],
         registered_agent_name:  `${newstr_three['49']} ${newstr_one['54']}`,
         registered_agent_consent:  `${newstr_one['68']} ${newstr_one['70']}`,
