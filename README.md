@@ -1,11 +1,9 @@
 #### Washington Corporation Scraper / Crawler
 
-### Initial download
+### Washington Corporation Scraper Module and Search
 
 `https://www.sos.wa.gov/corps/alldata.aspx` provides the entire data set to initialize the mongodb database.
-
 Every night at 2am, https://www.sos.wa.gov/_assets/corps/jsonCorpsData.zip
-
 Entities without an UBI can be skipped and are of no value. Entities without the following fields are without value and should not be retained:
 
 ```
@@ -32,16 +30,9 @@ ReturnAddressForThisFiling
     Address
 ```
 
-### Strategy for updating entity records
+### Scraper
 
-Add a flag by entity or by group (of previously searched) to 'watch' for information change, thus upon 2am nightly dump (configurable through .env days to update) the JSON is scanned for only the UBIs we are interested in updating. 
-
-
-### Updates from the initial ingest
-
-* Section is outdated due to the nightly bulk updates SOS provides
-
-This repo crawls and mirrors the following active business types: 
+Business Types:
 
 `WA LIMITED LIABILITY COMPANY
 WA LIMITED LIABILITY LIMITED PARTNERSHIP
@@ -79,88 +70,37 @@ Initial Report Work Order
 Initial Report Received Date
 Initial Report Amount
 
-_(incomplete use a superset of both the initial report and the annual report)
+(incomplete use a superset of both the initial report and the annual report)
 
-### Package
+### Project Package
 
 `https://github.com/pleasemarkdarkly/typescript-express-docker` to encapsulate the final project. 
 
-### Schema
-
-The above fields are contained within a Corporation collection within Mongo. Additionally, a log of when the data was first scraped and last verification date.
-
-In addition to the above records a listing of all filings, document name, date of filing, are stored in Filings collection, the PDFs are not stored locally, however they are the main source of information. Periodic scanning (every quarter or four months) checks the existence of additional documents and updates the information accordingly. 
-
-Statistic link on the Search page provides a high-level view of mongo charts. 
-
-### Entity Flags
-
-TBD
 
 ### Express Routes / Rest API and Search Page
 
 The following fields are searchable and return a list grid of results which can be expanded with a right drawer or inline to present all details. 
-
-Checkbox for Governors, Return Address Filing Name, Authorized Person Name and Business Name - share string. 
-
-This is to say that a string is repeated between these fields. `https://www.npmjs.com/package/stopword` Should be used to remove words such as 'The' from interfering with this check.
+Search by Individual Name or Business Name and Keywords.
+Scraper combines Business Name, Nature of Business after removing stop words for keywords variable. Scraper combines all individual names for keywords for names field.
 
 ---
-
-Business Name
-Nature of Business
-
+Business Name | Nature of Business
+---
+Registered Agent Name | Governors Name | Return Address (Attention) Name 
 ---
 
-Registered Agent Name
-Governors Name
-Return Address (Attention) Name 
+### Rest API
+
+/lawyer/[state]/bar_number
+/corporation/[state]/ubi_number
 
 ### CLI TBD
-
-The following commands are supported. 
-
-Run the application in a daemon mode with forever. 
 ```
 --daemon 
-```
-
-Specifies the port for express to use. Defaults to 4444.
-```
 --port [4444]
-```
-
-Directory or database.  Path to directory to save the Corporate and Filings collection as serialized objects or mongodb URI and port.
-```
 --directory | --database [mongodb:27027]
-```
-
-Countdown until next scan. Default is 120 days.
-```
---countdown 120d 
-```
-
-Stylesheets. Directory to look for a .css file to replace express style of the search page.
-```
---style
-```
-
-Rest API. Enable Rest API for reading and writing. 
-```
---enable_rest
-```
-
-### Search commands
-
-The following three commands are required together to export a file. The filename of the csv, which Business types to include and the search term to match against first, last name and business purpose.
-
-Export functions. Export filename in csv. If no file is provided, a file template.csv is created. 
-```
+--refresh 120d # in days 
 --export [filename]
-```
-
-BusinessType. Full BusinessType or 1 through 8, determines the Business types to be included in the search/export result. 
-```
 --type 
 
 WA LIMITED LIABILITY COMPANY
@@ -171,9 +111,4 @@ WA PROFESSIONAL LIMITED LIABILITY COMPANY
 WA PROFESSIONAL LIMITED LIABILITY PARTNERSHIP
 WA PROFESSIONAL SERVICE CORPORATION
 WA PROFIT CORPORATION
-```
-
-Search term. 
-```
---search [term]
 ```
