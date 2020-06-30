@@ -25,7 +25,7 @@ async function fetchAnnualReportCriteria(FilingNumber, ID) {
       ID
     };
   console.log(notice('Attempting to get %j.', fetchAnnualReportCriteriaEndpoint));
-  console.time("Time-taken");
+  // console.time("Time-taken");
   const data = await postHttp(fetchAnnualReportCriteriaEndpoint, fetchAnnualReportCriteriaData);
     return data;
 }

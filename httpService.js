@@ -10,7 +10,6 @@ var error = clc.red.bold;
 var warn = clc.yellow;
 var notice = clc.blue;
 
-
 dotenv.config();
 
 const SOCKS_USER = process.env.SOCKS_USER || "None";
@@ -32,7 +31,7 @@ const postHttp = async (postEndpoint, postData) => {
         headers: { 
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        agent,
+        // agent,
         body: querystring.stringify(postData)
     };
 
@@ -45,7 +44,7 @@ const getHttp = async (getEndpoint) => {
        method: 'GET',
         headers: {
             'content-type': 'text/html',        },
-            agent,
+            //agent,
     };
 
      const response = await fetch(getEndpoint, requestOptions);
@@ -54,7 +53,7 @@ const getHttp = async (getEndpoint) => {
 
 const handleResponse = (response) => {    
     return response.text().then(text => {
-        console.timeEnd("Time-taken")
+        // console.timeEnd("Time-taken")
         const data = text && JSON.parse(text);
         if (!response.ok) {
             const error = data && data.error
@@ -72,7 +71,7 @@ const annualPost = async (postEndpoint, postData) => {
         headers: { 
             'Content-Type': 'application/pdf',
         },
-        agent,
+        // agent,
         body: querystring.stringify(postData),
         encoding: null
 

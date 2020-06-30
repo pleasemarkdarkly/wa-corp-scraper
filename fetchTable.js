@@ -14,7 +14,7 @@ var convertToCSV = require('./helpers/convertToCSV')
 var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList';
 
 async function fetchTable(businessSearchCriteria) {
-    console.time("Time-taken");
+    // console.time("Time-taken");
     console.log(notice('Attempting to get %j.', AdvancedSearchEndpoint));
     console.log(notice("Fetch 100 first and last of designated business types"));
     const data =  await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);

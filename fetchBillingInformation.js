@@ -6,10 +6,10 @@ var warn = clc.yellow;
 var notice = clc.blue;
 
 async function  fetchFillingInformation(BusinessID) {
-    console.time("Time-taken");
+    // console.time("Time-taken");
     var fillingInfoEndpoint = `https://cfda.sos.wa.gov/api/BusinessSearch/GetBusinessFilingList?IsOnline=true&businessId=${BusinessID}`;
     console.log(notice('Attempting to get %j', fillingInfoEndpoint));
-    console.time(info("Time-taken"))
+    // console.time(info("Time-taken"))
     const data = await getHttp(fillingInfoEndpoint);
     return data
 }

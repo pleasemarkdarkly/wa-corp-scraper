@@ -7,7 +7,7 @@ var notice = clc.blue;
 
 
 async function  fetchBusinessInformation(BussinessID) {
-   console.time("Time-taken");
+   // console.time("Time-taken");
    var BusinessInfoEndpoint = `https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=${BussinessID}`;
 
    console.log(notice('Attempting to get %j', BusinessInfoEndpoint));

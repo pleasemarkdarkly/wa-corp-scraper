@@ -27,7 +27,7 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
 // BusinessTypeID = The business type number
 // criteria = the remaining business search criteria
 
-console.log(info("INFO: Fetch 100 first and last of designated business types"));
+// console.log(info("INFO: Fetch 100 first and last of designated business types"));
 
 /*
 TODO: Update CorporationBasicRawStream to accept -1 (for all records) and BusinessType object to crawl all filings of each BusinessType. Add ms timing and color logging.
@@ -121,7 +121,7 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 
 // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
 const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
-  100,
+  -1,
   1,
   1,
   85,
