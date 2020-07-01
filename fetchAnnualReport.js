@@ -4,6 +4,7 @@ const annualSearchCriteria = require('./annualSearchCriteria')
 const querystring = require('querystring');
 
 var clc = require('cli-color');
+
 var info = clc.white.bold;
 var error = clc.red.bold;
 var warn = clc.yellow;
@@ -29,7 +30,6 @@ function render_page(pageData) {
         txt = txt.replace(/   /g, "")
         // txt = txt.replace(/  /g, "")
         txt = txt.split(' ');
-
         
         txt.forEach(function(t, i) {
           obj[i]= t
@@ -43,6 +43,12 @@ function render_page(pageData) {
 let options = {
   pagerender: render_page
 }
+
+/*
+  TODO: create variable to save stop word extracted business purpose and business name, var keywords;
+        https://www.npmjs.com/package/stopword
+        each "contact has to have a unique email" so for CSV create contact for each email/individual (governor or signer)
+*/
 
 async function fetchAnnualReport(annualSearchCriteria) {
   console.time("Time-taken-to-fetch-annual-report")
@@ -58,6 +64,10 @@ async function fetchAnnualReport(annualSearchCriteria) {
   `https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=${FileLocationCorrespondence}&CorrespondenceFileName=${CorrespondenceFileName}&DocumentTypeId=${DocumentTypeID}`
   
   console.log(notice('Attempting to get %j', annualReportEndpoint));
+
+  /*
+    Cleaner way to parse annual report, split on keyword?
+  */
   console.time("Time-taken-to-fetch-annual-report");
   const data = await annualPost(annualReportEndpoint, annualSearchCriteria);
   pdf(data, options).then(function (info) {

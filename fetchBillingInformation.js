@@ -5,13 +5,13 @@ var error = clc.red.bold;
 var warn = clc.yellow;
 var notice = clc.blue;
 
-async function  fetchFillingInformation(BusinessID) {
-    console.time("Time-taken");
+async function  fetchFilingInformation(BusinessID) {
+    // console.time("Time-taken");
     var fillingInfoEndpoint = `https://cfda.sos.wa.gov/api/BusinessSearch/GetBusinessFilingList?IsOnline=true&businessId=${BusinessID}`;
-    console.log(notice('Attempting to get %j', fillingInfoEndpoint));
-    console.time(info("Time-taken"))
+    console.log(notice('Filing information', fillingInfoEndpoint));
+    // console.time(info("Time-taken"))
     const data = await getHttp(fillingInfoEndpoint);
     return data
 }
 
-module.exports = fetchFillingInformation;
+module.exports = fetchFilingInformation;

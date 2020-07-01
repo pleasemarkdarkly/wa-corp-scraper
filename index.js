@@ -1,4 +1,5 @@
 var clc = require("cli-color");
+var businessSearchCriteria = require('./businessSearchcriteria')
 var CorporationBasicRawStream = require("./CorporationBasicRawStreams");
 
 require('dotenv').config()
@@ -8,6 +9,9 @@ var error = clc.red.bold;
 var warn = clc.yellow;
 var notice = clc.blue;
 
+const ALL_RECORDS = -1;
+
+// All Business Types 
 const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
   BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = 67,
   BusinessType_WA_LIMITED_LIABILITY_PARTNERSHIP = 68,
@@ -17,6 +21,8 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
   BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION = 85,
   BusinessType_WA_PROFIT_CORPORATION = 86;
 
+// TODO: Ask Natasha about what other entities Non-Profits?
+
 // CorporationBasicRawStream(PageCount, PageID, concurrency, BusinessTypeID,  criteria  )
 // PageCount = The number of business to fetch at a time
 // PageID = The starting page
@@ -24,12 +30,9 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
 // BusinessTypeID = The business type number
 // criteria = the remaining business search criteria
 
-console.log(info("INFO: Fetch 100 first and last of designated business types"));
+// console.log(info("INFO: Fetch 100 first and last of designated business types"));
 
 /*
-TODO: Update CorporationBasicRawStream to accept -1 (for all records) and BusinessType object to crawl all filings of each BusinessType. Add ms timing and color logging.
-      Adding the Filing PDF (https://www.npmjs.com/package/textract), timing and a summary output. Example function,
-
     const WA_CORPORATION_ALL = new CorporationBasicRawStream(-1, 1, 1, BusinessType, businessSearchCriteria);
     WA_CORPORATION_ALL._read();
 
@@ -57,14 +60,16 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 */
 
 // BusinessType_WA_LIMITED_LIABILITY_CORPORATION
-// const WA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
-//   100,
-//   1,
-//   1,
-//   65,
-//   businessSearchCriteria
-// );
-// WA_LIMITED_LIABILITY_CORPORATION._read();
+/*
+const WA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
+   100,
+   1,
+   1,
+   65,
+   businessSearchCriteria
+ );
+WA_LIMITED_LIABILITY_CORPORATION._read();
+*/
 
 // // BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP
 // const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStream(
@@ -86,7 +91,7 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 // );
 // WA_LIMITED_LIABILITY_PARTNERSHIP._read();
 
-// // BusinessType_WA_LIMITED_PARTNERSHIP
+// BusinessType_WA_LIMITED_PARTNERSHIP
 // const WA_LIMITED_PARTNERSHIP = new CorporationBasicRawStream(
 //   100,
 //   1,
@@ -96,14 +101,14 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 // );
 // WA_LIMITED_PARTNERSHIP._read();
 
-// // BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY
+// BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY
 // const WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY = new CorporationBasicRawStream(
-//   100,
-//   1,
-//   1,
-//   79,
-//   businessSearchCriteria
-// );
+//    100,
+//    1,
+//    1,
+//    79,
+//    businessSearchCriteria
+//  );
 // WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY._read();
 
 // // BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP
@@ -118,7 +123,7 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 
 // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
 // const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
-//   2,
+//   100,
 //   1,
 //   1,
 //   85,
@@ -128,7 +133,7 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 
 // BusinessType_WA_PROFIT_CORPORATION
 // const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
-//   2,
+//   100,
 //   1,
 //   1,
 //   86,
@@ -136,19 +141,19 @@ TODO: Update CorporationBasicRawStream to accept -1 (for all records) and Busine
 // );
 // WA_PROFIT_CORPORATION._read();
 
-BusinessType_WA_LIMITED_LIABILITY_CORPORATION
-const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
-  -1,
-  1,
-  1,
-  65,
-  businessSearchCriteria
-);
-WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
+// BusinessType_WA_LIMITED_LIABILITY_CORPORATION
+// const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
+//   ALL_RECORDS,
+//   1,
+//   1,
+//   65,
+//   businessSearchCriteria
+// );
+// WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
 
 // // BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP
 // const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL = new CorporationBasicRawStream(
-//   -1,
+//   ALL_RECORDS,
 //   1,
 //   1,
 //   67,
@@ -158,7 +163,7 @@ WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
 
 // // BusinessType_WA_LIMITED_LIABILITY_PARTNERSHIP
 // const WA_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRawStream(
-//   -1,
+//   ALL_RECORDS,
 //   1,
 //   1,
 //   68,
@@ -168,7 +173,7 @@ WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
 
 // // BusinessType_WA_LIMITED_PARTNERSHIP
 // const WA_LIMITED_PARTNERSHIP_ALL = new CorporationBasicRawStream(
-//   -1,
+//   ALL_RECORDS,
 //   1,
 //   1,
 //   69,
@@ -178,7 +183,7 @@ WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
 
 // // BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY
 // const WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL = new CorporationBasicRawStream(
-//   -1,
+//  ALL_RECORDS1,
 //   1,
 //   1,
 //   79,
@@ -188,7 +193,7 @@ WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
 
 // // BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP
 // const WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRawStream(
-//   -1,
+//   ALL_RECORDS,
 //   1,
 //   1,
 //   76,
@@ -196,20 +201,20 @@ WA_LIMITED_LIABILITY_CORPORATION_ALL._read();
 // );
 // WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
 
-// // BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
-// const WA_PROFESSIONAL_SERVICE_CORPORATION_ALL = new CorporationBasicRawStream(
-//   -1,
-//   1,
-//   1,
-//   85,
-//   businessSearchCriteria
-// );
-// WA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read();
+BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
+const WA_PROFESSIONAL_SERVICE_CORPORATION_ALL = new CorporationBasicRawStream(
+  ALL_RECORDS,
+  1,
+  1,
+  85,
+  businessSearchCriteria
+);
+WA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read();
 
 
 // BusinessType_WA_PROFIT_CORPORATION
 // const WA_PROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
-//   -1,
+//   ALL_RECORDS,
 //   1,
 //   1,
 //   86,

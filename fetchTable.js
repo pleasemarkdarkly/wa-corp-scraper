@@ -9,26 +9,31 @@ var notice = clc.blue;
 var fetchFillingInformation = require('./fetchBillingInformation');
 var fetchAnnualReportCriteria = require('./fetchAnnualReportCriteria');
 var fetchAnnualReport = require('./fetchAnnualReport');
-var fetchBusinessInformation = require('./fetchBusinessInformation');
-var convertToCSV = require('./helpers/convertToCSV');
-
+var fetchBusinessInformation = require('./fetchBusinessInformation')
+var convertToCSV = require('./helpers/convertCSV')
 
 var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList';
 
 async function fetchTable(businessSearchCriteria) {
-    console.time("Time-taken");
-    console.log(notice('Attempting to get %j.', AdvancedSearchEndpoint));
-    console.log(notice("Fetch 100 first and last of designated business types"));
+    // console.time("Time-taken");
+    console.log(notice('Fetching search criteria', AdvancedSearchEndpoint));
     const data =  await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
+    
+    /*
+      Remove limit for full BusinessType export
+    */
     const totalCount = 200;
+
     let BUSINESS_SEARCH = [];
     let BUSINESS_INFO = [];
     let ALL_CSV = [];
+
     let BusinessType;
     let BusinessID;
     let TotalRowCount;
-    let  BussinessInformation;
+    let BusinessInformation;
     let fillingInformation;
+    
     if(data) {
       for (let i = 0; i < data.length; i++) {
           let firstInfo = data[0];
@@ -36,10 +41,10 @@ async function fetchTable(businessSearchCriteria) {
           let businessInfo = data[i];
           BusinessID = data[i].BusinessID;
 
-        BussinessInformation  = await fetchBusinessInformation(BusinessID)
+        BusinessInformation  = await fetchBusinessInformation(BusinessID);
 
         fillingInformation  = await fetchFillingInformation(BusinessID)
-     let FilingNumber, ID, annualReport, annualReportCriteria = [], annualDueNotice;
+     let FilingNumber, ID, annualReport, annualReportCriteria = [], FilingDateTime, annualDueNotice;
      for (let i = 0; i < fillingInformation.length; i++) {
        if (fillingInformation[i].FilingTypeName ===	"ANNUAL REPORT"  ||  fillingInformation[i].FilingTypeName === 'INITIAL REPORT') {
         annualReport = fillingInformation[0];
@@ -55,11 +60,11 @@ async function fetchTable(businessSearchCriteria) {
      }
     for(let i = 0; i < annualReportCriteria.length; i++) {
       if(annualReportCriteria[i].DocumentTypeID === 4) {
-         annualDueNotice = annualReportCriteria[0]
+        annualDueNotice = annualReportCriteria[0]
         //  console.log(annualDueNotice, "Annual Report criteria");
-        // STILL WORKING ON PARSING AND ERROR
+        // TODO: handle parsing and errors 
         //  await fetchAnnualReport(annualDueNotice);
-         break;
+        break;
       } else {
         console.log(warn('No report to download.'));
       }
@@ -74,17 +79,17 @@ async function fetchTable(businessSearchCriteria) {
           
         }
 
-        BUSINESS_SEARCH.push({...info, ...BussinessInformation, date_filed: FilingDateTime});
+        BUSINESS_SEARCH.push({...info, ...BusinessInformation, date_filed: FilingDateTime});
         if (BUSINESS_SEARCH.length === totalCount) break;
         BusinessType = businessInfo.BusinessType;
         BUSINESS_INFO.push({
-          business_name_ubi: `${BussinessInformation.name} (${BussinessInformation.ubi})`,
-          business_purpose: BussinessInformation.nature_of_business,
-          governor_first_last_name: `${BussinessInformation.signer_first_name} (${BussinessInformation.signer_last_name})`,
-          governor_phone: BussinessInformation.principal_office_phone,
-          entity_email: BussinessInformation.principal_office_email,
-          registered_agent_first_last_name: BussinessInformation.registered_agent_name,
-          email: BussinessInformation.registered_agent_mail
+          business_name_ubi: `${BusinessInformation.name} (${BusinessInformation.ubi})`,
+          business_purpose: BusinessInformation.nature_of_business,
+          governor_first_last_name: `${BusinessInformation.signer_first_name} (${BusinessInformation.signer_last_name})`,
+          governor_phone: BusinessInformation.principal_office_phone,
+          entity_email: BusinessInformation.principal_office_email,
+          registered_agent_first_last_name: BusinessInformation.registered_agent_name,
+          email: BusinessInformation.registered_agent_mail
         })
       }
       const CSV = convertToCSV(BUSINESS_INFO, BusinessID)
