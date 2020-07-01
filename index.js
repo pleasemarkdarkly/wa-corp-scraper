@@ -201,6 +201,7 @@ WA_LIMITED_LIABILITY_CORPORATION._read();
 // );
 // WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
 
+/*
 BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
 const WA_PROFESSIONAL_SERVICE_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
@@ -210,15 +211,15 @@ const WA_PROFESSIONAL_SERVICE_CORPORATION_ALL = new CorporationBasicRawStream(
   businessSearchCriteria
 );
 WA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read();
+*/
 
-
-// BusinessType_WA_PROFIT_CORPORATION
-// const WA_PROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
-//   ALL_RECORDS,
-//   1,
-//   1,
-//   86,
-//   businessSearchCriteria
-// );
-// WA_PROFIT_CORPORATION_ALL._read();
+BusinessType_WA_PROFIT_CORPORATION
+const WA_PROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
+  ALL_RECORDS,
+  1,
+  1,
+  86,
+  businessSearchCriteria
+);
+WA_PROFIT_CORPORATION_ALL._read();
 
