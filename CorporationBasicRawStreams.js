@@ -40,7 +40,6 @@ class CorporationBasicRawStream extends stream.Readable {
     try {
       if(this.PageCount === -1) {
           this.PageCount = Math.abs(this.PageCount)
-
           const allArgs = {
             PageID : this.PageCount,
             PageCount: this.PageCount,
@@ -53,18 +52,17 @@ class CorporationBasicRawStream extends stream.Readable {
         for(let i = 0; i < 100; i++) {
           const newArgs = {
             PageID : this.PageCount,
-            PageCount: parseInt(TotalRowCount/100),
+            PageCount: `${TotalRowCount > 100 ? parseInt(TotalRowCount/100) : TotalRowCount }`,
             BusinessTypeID: this.BusinessTypeID,
           };
-      
           const newComputedArgs = { ...this.args, ...newArgs };
           console.log(newArgs);
-
           const totalTable = await fetchTable(newComputedArgs);
           this.PageCount++;
           console.log(totalTable);
+          return totalTable;
         }
-        this.isFetching = false;
+          this.isFetching = false;
           this.isFinished = true;
           return;
       }
@@ -78,10 +76,10 @@ class CorporationBasicRawStream extends stream.Readable {
           return;
       } 
       else if(TotalRowCount) {
-        this.PageID = Math.floor((TotalRowCount / 100));
+        this.PageID = Math.floor((TotalRowCount / 10));
         const newArgs = {
           PageID : this.PageID,
-          PageCount: 100, //to change back to 100
+          PageCount: 2, //to change back to 100
           BusinessTypeID: this.BusinessTypeID,
         };
         const newComputedArgs = { ...this.args, ...newArgs };
@@ -90,10 +88,11 @@ class CorporationBasicRawStream extends stream.Readable {
         console.log(newTable);
         this.isFetching = false;
         this.isFinished = true;
-        return;
+        return newTable;
       }
       else {
         this.stopFetching();
+        return table
       }
     } catch (e) {
       console.error(e);
@@ -102,23 +101,20 @@ class CorporationBasicRawStream extends stream.Readable {
 
    async fetchWorker() {
     while (this.isFetching) {
-      await this.fetchOne();
+    return  await this.fetchOne();
     }
   }
 
   async startFetching() {
     this.isFetching = true;
-    for (let i = 0; i < this.concurrency; i++){
-      this.fetchWorker();
-      this.PageID++;
-    } 
+   return this.fetchWorker();
   }
 
   stopFetching = () => (this.isFetching = false);
 
   _read() {
     if (this.isFetching || this.isFinished) return;
-    this.startFetching();
+    return this.startFetching();
   }
 }
 

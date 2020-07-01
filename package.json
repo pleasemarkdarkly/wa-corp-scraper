@@ -17,15 +17,18 @@
     "file-saver": "^2.0.2",
     "filesaver": "0.0.11",
     "https": "^1.0.0",
+    "moment": "^2.27.0",
     "mongoose": "^5.9.20",
     "node-blob": "0.0.2",
     "node-fetch": "^2.6.0",
+    "p-limit": "^3.0.1",
     "pdf-parse": "^1.1.1",
     "pdf-to-text": "0.0.7",
     "querystring": "^0.2.0",
     "simple-color-logger": "^1.2.3",
     "socks": "^2.3.3",
     "socks-proxy-agent": "^5.0.0",
+    "stopword": "^1.0.1",
     "textract": "^2.5.0",
     "url": "^0.11.0"
   }

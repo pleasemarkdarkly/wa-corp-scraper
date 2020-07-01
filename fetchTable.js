@@ -1,5 +1,7 @@
 var { postHttp } = require('./httpService');
 var clc = require("cli-color");
+sw = require('stopword')
+
 
 var info = clc.white.bold;
 var error = clc.red.bold;
@@ -13,6 +15,7 @@ var fetchBusinessInformation = require('./fetchBusinessInformation')
 var convertToCSV = require('./helpers/convertCSV')
 
 var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList';
+
 
 async function fetchTable(businessSearchCriteria) {
     // console.time("Time-taken");
@@ -82,14 +85,18 @@ async function fetchTable(businessSearchCriteria) {
         BUSINESS_SEARCH.push({...info, ...BusinessInformation, date_filed: FilingDateTime});
         if (BUSINESS_SEARCH.length === totalCount) break;
         BusinessType = businessInfo.BusinessType;
+        const keyword = `${BusinessInformation.name} ${BusinessInformation.nature_of_business}`
+        const oldkeyword = keyword.split(' ')
+        const NewKeyWord = sw.removeStopwords(oldkeyword)
         BUSINESS_INFO.push({
-          business_name_ubi: `${BusinessInformation.name} (${BusinessInformation.ubi})`,
-          business_purpose: BusinessInformation.nature_of_business,
-          governor_first_last_name: `${BusinessInformation.signer_first_name} (${BusinessInformation.signer_last_name})`,
-          governor_phone: BusinessInformation.principal_office_phone,
-          entity_email: BusinessInformation.principal_office_email,
-          registered_agent_first_last_name: BusinessInformation.registered_agent_name,
-          email: BusinessInformation.registered_agent_mail
+          "business_name_ubi": `${BusinessInformation.name} (${BusinessInformation.ubi})`,
+          "business_purpose": BusinessInformation.nature_of_business,
+          "governor_first_last_name": `${BusinessInformation.signer_first_name} (${BusinessInformation.signer_last_name})`,
+          "governor_phone": BusinessInformation.principal_office_phone,
+          "entity_email": BusinessInformation.principal_office_email,
+          "registered_agent_first_last_name": BusinessInformation.registered_agent_name,
+          "email": BusinessInformation.registered_agent_mail,
+          "keyword": NewKeyWord
         })
       }
       const CSV = convertToCSV(BUSINESS_INFO, BusinessID)

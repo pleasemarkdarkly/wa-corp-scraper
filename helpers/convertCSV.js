@@ -1,4 +1,5 @@
 const fs = require('fs')
+const moment = require('moment')
 function ConvertToCSV(objArray, id) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
@@ -13,7 +14,7 @@ function ConvertToCSV(objArray, id) {
 
         str += line + '\r\n';
     }    
-        const file = fs.createWriteStream(`./csv-output/${id}`);
+        const file = fs.createWriteStream(`./csv-output/${moment().format('MM-DD-YYYY HH-mm')}.csv`);
         file.write(str);
         file.end();
     return str;
