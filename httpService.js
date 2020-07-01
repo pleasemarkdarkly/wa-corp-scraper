@@ -10,14 +10,12 @@ var error = clc.red.bold;
 var warn = clc.yellow;
 var notice = clc.blue;
 
-
 dotenv.config();
 
 const SOCKS_USER = process.env.SOCKS_USER || "None";
 const SOCKS_PASSWORD = process.env.SOCKS_PASSWORD || "None";
 const SOCKS_HOST = process.env.SOCKS_HOST || "None";
 const SOCKS_PORT = process.env.SOCKS_PORT || "None";
-
 
 const user = SOCKS_USER,
   pass = SOCKS_PASSWORD,

@@ -100,7 +100,7 @@ class CorporationBasicRawStream extends stream.Readable {
     }
   }
 
-   async fetchWorker() {
+  async fetchWorker() {
     while (this.isFetching) {
       await this.fetchOne();
     }

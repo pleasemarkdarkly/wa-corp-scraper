@@ -64,10 +64,6 @@ async function fetchAnnualReport(annualSearchCriteria) {
   `https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=${FileLocationCorrespondence}&CorrespondenceFileName=${CorrespondenceFileName}&DocumentTypeId=${DocumentTypeID}`
   
   console.log(notice('Attempting to get %j', annualReportEndpoint));
-
-  /*
-    Cleaner way to parse annual report, split on keyword?
-  */
   console.time("Time-taken-to-fetch-annual-report");
   const data = await annualPost(annualReportEndpoint, annualSearchCriteria);
   pdf(data, options).then(function (info) {
