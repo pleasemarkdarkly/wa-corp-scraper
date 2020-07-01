@@ -1,10 +1,6 @@
 const stream = require('stream');
 const  fetchTable   = require('./fetchTable');
 
-/*
-  TODO: Argument to increase concurrency
-*/
-
 class CorporationBasicRawStream extends stream.Readable {
   concurrency = 4;
   isFetching = false;
@@ -79,7 +75,7 @@ class CorporationBasicRawStream extends stream.Readable {
         this.PageID = Math.floor((TotalRowCount / 10));
         const newArgs = {
           PageID : this.PageID,
-          PageCount: 2, //to change back to 100
+          PageCount: 100, //to change back to 100
           BusinessTypeID: this.BusinessTypeID,
         };
         const newComputedArgs = { ...this.args, ...newArgs };
@@ -99,7 +95,7 @@ class CorporationBasicRawStream extends stream.Readable {
     }
   }
 
-   async fetchWorker() {
+  async fetchWorker() {
     while (this.isFetching) {
     return  await this.fetchOne();
     }

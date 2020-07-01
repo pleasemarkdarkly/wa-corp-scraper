@@ -26,6 +26,17 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
   BusinessType_WA_PUBLIC_BENEFIT_CORPORATION = 87;
 
 // TODO: Ask Natasha about what other entities Non-Profits?
+// const BusinessType = {
+//   WA_LIMITED_LIABILITY_CORPORATION: 65,
+//   WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP: 67,
+//   WA_LIMITED_LIABILITY_PARTNERSHIP: 68,
+//   WA_LIMITED_PARTNERSHIP: 69,
+//   WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY: 79,
+//   WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP: 76,
+//   WA_PROFESSIONAL_SERVICE_CORPORATION: 85,
+//   WA_PROFIT_CORPORATION: 86,
+//   WA_NON_PROFIT: 1,
+// }
 
 // CorporationBasicRawStream(PageCount, PageID, concurrency, BusinessTypeID,  criteria  )
 // PageCount = The number of business to fetch at a time
@@ -201,7 +212,7 @@ const WA_LIMITED_PARTNERSHIP_ALL = new CorporationBasicRawStream(
   BusinessType_WA_LIMITED_PARTNERSHIP,
   businessSearchCriteria
 );
-WA_LIMITED_PARTNERSHIP_ALL._read();
+//WA_LIMITED_PARTNERSHIP_ALL._read();
 
 BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY
 const WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL = new CorporationBasicRawStream(
@@ -222,6 +233,7 @@ const WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRa
   businessSearchCriteria
 );
 //WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
+
 
 BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
 const WA_PROFESSIONAL_SERVICE_CORPORATION_ALL = new CorporationBasicRawStream(
@@ -323,5 +335,5 @@ const WA_NONPROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
   }
 }
 
-//  run_200_business();
- run_all_business();
+run_200_business();
+//  run_all_business();
