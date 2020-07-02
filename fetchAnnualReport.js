@@ -68,7 +68,7 @@ async function fetchAnnualReport(annualSearchCriteria) {
   const data = await annualPost(annualReportEndpoint, annualSearchCriteria);
   pdf(data, options).then(function (info) {
     console.log(
-      "-----------------------------ANNUAL REPORT----------------------"
+      "----------------------ANNUAL REPORT----------------------"
     );
     let properties,
       str_one,
