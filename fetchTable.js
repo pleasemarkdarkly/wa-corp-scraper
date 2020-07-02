@@ -2,7 +2,6 @@ var { postHttp } = require('./httpService');
 var clc = require("cli-color");
 sw = require('stopword')
 
-
 var info = clc.white.bold;
 var error = clc.red.bold;
 var warn = clc.yellow;
@@ -15,7 +14,6 @@ var fetchBusinessInformation = require('./fetchBusinessInformation')
 var convertToCSV = require('./helpers/convertCSV')
 
 var AdvancedSearchEndpoint = 'https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList';
-
 
 async function fetchTable(businessSearchCriteria) {
     // console.time("Time-taken");
@@ -54,9 +52,7 @@ async function fetchTable(businessSearchCriteria) {
         FilingNumber = annualReport.FilingNumber;
         ID = annualReport.Transactionid;
         FilingDateTime	= annualReport.FilingDateTime	
-        //console.log(annualReport, "Annual Report");
-        annualReportCriteria = await fetchAnnualReportCriteria(FilingNumber, ID)
-        // console.log(annualReportCriteria, "Annual Report criteria");
+        annualReportCriteria = await fetchAnnualReportCriteria(FilingNumber, ID);
         break;
        }
        console.log(warn('NOT AN ANNUAL OR ONLINE REPORT'));
@@ -79,15 +75,16 @@ async function fetchTable(businessSearchCriteria) {
           AgentName: businessInfo.AgentName,
           FullAddress: businessInfo.PrincipalOffice.PrincipalStreetAddress.FullAddress,
           CorrespondenceEmailAddress: businessInfo.CorrespondenceEmailAddress,
-          
         }
 
         BUSINESS_SEARCH.push({...info, ...BusinessInformation, date_filed: FilingDateTime});
         if (BUSINESS_SEARCH.length === totalCount) break;
         BusinessType = businessInfo.BusinessType;
+
         const keyword = `${BusinessInformation.name} ${BusinessInformation.nature_of_business}`
         const oldkeyword = keyword.split(' ')
         const NewKeyWord = sw.removeStopwords(oldkeyword)
+        
         BUSINESS_INFO.push({
           "business_name_ubi": `${BusinessInformation.name} (${BusinessInformation.ubi})`,
           "business_purpose": BusinessInformation.nature_of_business,
@@ -101,15 +98,13 @@ async function fetchTable(businessSearchCriteria) {
       }
       const CSV = convertToCSV(BUSINESS_INFO, BusinessID)
       // ALL_CSV.push(CSV)
-
     return {
       BUSINESSTYPE:  BusinessType, TOTAL: BUSINESS_SEARCH.length,
       BUSINESS_SEARCH,
       // do not remove the total count
       TotalRowCount,
     };
-
-   };
   };
+};
 
 module.exports = fetchTable;
