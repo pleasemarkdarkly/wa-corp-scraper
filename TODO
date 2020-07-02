@@ -1,10 +1,10 @@
 [] credentials to .env file
 [] initialize / with data dumps from sos at 2am
 [] flag individual company to watch for update 
-[] accept -1 to crawl all, or pass in BusinessType directly
+[X] accept -1 to crawl all, or pass in BusinessType directly
 [] Timing of the fetch, PDF parsing CLI visual output for duration estimation
-[] Logger by each business type, save to file, duration - stability
-[] concurrency, no of concurrent http threads
+[X] Logger by each business type, save to file, duration - stability
+[X] concurrency, no of concurrent http threads
 [] mongodb, folder serialize objects
 [] express routes for search, statstics, Rest API
 [] express front-end, number of companies per type, top 25 keywords in business purpose
@@ -12,12 +12,12 @@
 [] highlight company detail expands from right drawer
 [] template scraper files for lawyer site
 [] search names
-[] remove stopwords
+[X] remove stopwords
 [] flag for similar string in names/business name
-[] export search results csv
+[X] export search results csv
 [] Rest API search, CRUD company
 [] Dockerfile, docker-compose file 
-[] Fuzzy search
+[X] Fuzzy search
 [] foreverd module
 [] cli yargs per readme, first and last 100 business console.log
 [X] https://www.npmjs.com/package/simple-color-logger
