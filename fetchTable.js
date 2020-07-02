@@ -29,9 +29,7 @@ const special_extraction_words = [
   "llc",
   "l.l.c.",
   "lawful",
-  "retail",
-  "service",
-  "services"
+  "retail"
 ];
 
 function removeFromString(arr,str){
@@ -150,10 +148,11 @@ async function fetchTable(businessSearchCriteria) {
 
       */
 
-      let keywords = `${newKeyword}`.toString().replace(/[~`!@#$%^&*(){}\[\];:"'<,.>?\/\\|_+=-]/g, " ").toLowerCase().trim();
+      let keywords = `${newKeyword}`.toString().replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]/g, " ").toLowerCase().trim();
       keywords = removeFromString(special_extraction_words,keywords);
       keywords = keywords.replace(/(^\s*)|(\s*$)/gi,"");
       keywords = keywords.replace(/[ ]{2,}/gi," ");
+      keywords = keywords.replace(/\n/,"");
 
       console.log(
         warn("(" + BusinessInformation.ubi + ") " + "keywords: " + keywords)
