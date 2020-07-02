@@ -3,7 +3,7 @@ var { getHttp } = require('./httpService');
 async function  fetchBusinessInformation(BussinessID) {
    var BusinessInfoEndpoint = `https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=${BussinessID}`;
 
-   console.log(notice('Business information ', BusinessInfoEndpoint));
+   console.log('Business information ', BusinessInfoEndpoint);
    const BussinessInformation =  await getHttp(BusinessInfoEndpoint);   
    return {
       name: BussinessInformation.BusinessName,
