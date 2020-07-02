@@ -2,20 +2,18 @@ const stream = require('stream');
 const  fetchTable   = require('./fetchTable');
 
 class CorporationBasicRawStream extends stream.Readable {
-  concurrency = 4;
   isFetching = false;
   isFinished = false;
   PageID = 1;
   PageCount;
   BusinessTypeID;
 
-  constructor(PageCount, PageID, concurrency, BusinessTypeID, args) {
+  constructor(PageCount, PageID, BusinessTypeID, args) {
     super({ objectMode: true, highWaterMark: 128 });
 
     this.PageCount = PageCount;
     this.PageID = PageID;
     this.args = args;
-    this.concurrency = concurrency;
     this.BusinessTypeID = BusinessTypeID;
 
     if(!this.PageCount) throw new Error("The number of businesses on each page must be included.");
@@ -45,6 +43,7 @@ class CorporationBasicRawStream extends stream.Readable {
           console.log(allArgs);
           const table = await fetchTable(computedArgs);
           const { TotalRowCount } = table;
+          let totalTable, Tables = [];
         for(let i = 0; i < 100; i++) {
           const newArgs = {
             PageID : this.PageCount,
@@ -53,14 +52,15 @@ class CorporationBasicRawStream extends stream.Readable {
           };
           const newComputedArgs = { ...this.args, ...newArgs };
           console.log(newArgs);
-          const totalTable = await fetchTable(newComputedArgs);
+          totalTable = await fetchTable(newComputedArgs);
           this.PageCount++;
           console.log(totalTable);
-          return totalTable;
+          if(TotalRowCount < 100) return totalTable;
+          Tables.push(totalTable)
         }
           this.isFetching = false;
           this.isFinished = true;
-          return;
+          return Tables;
       }
       const table = await fetchTable(computedArgs);
       const { TotalRowCount } = table;

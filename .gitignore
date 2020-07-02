@@ -3,4 +3,4 @@
 .log
 sos
 node_modules
-/csv-output
+csv-output

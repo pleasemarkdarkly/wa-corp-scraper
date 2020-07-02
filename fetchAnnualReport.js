@@ -1,7 +1,5 @@
 var { annualPost } = require("./httpService");
 const pdf = require("pdf-parse");
-const annualSearchCriteria = require('./annualSearchCriteria')
-const querystring = require('querystring');
 
 var clc = require('cli-color');
 

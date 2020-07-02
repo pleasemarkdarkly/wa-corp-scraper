@@ -38,10 +38,9 @@ const BusinessType_WA_LIMITED_LIABILITY_CORPORATION = 65,
 //   WA_NON_PROFIT: 1,
 // }
 
-// CorporationBasicRawStream(PageCount, PageID, concurrency, BusinessTypeID,  criteria  )
+// CorporationBasicRawStream(PageCount, PageID, BusinessTypeID,  criteria  )
 // PageCount = The number of business to fetch at a time
 // PageID = The starting page
-// concurrency = The number of pages to load more
 // BusinessTypeID = The business type number
 // criteria = the remaining business search criteria
 
@@ -78,7 +77,6 @@ BusinessType_WA_LIMITED_LIABILITY_CORPORATION
 const WA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
    100,
    1,
-   1,
    BusinessType_WA_LIMITED_LIABILITY_CORPORATION,
    businessSearchCriteria
  );
@@ -89,7 +87,6 @@ const WA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
 const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStream(
   100,
   1,
-  1,
   BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP,
   businessSearchCriteria
 );
@@ -98,7 +95,6 @@ const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStre
 BusinessType_WA_LIMITED_LIABILITY_PARTNERSHIP
 const WA_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(
   100,
-  1,
   1,
   BusinessType_WA_LIMITED_LIABILITY_PARTNERSHIP,
   businessSearchCriteria
@@ -109,7 +105,6 @@ BusinessType_WA_LIMITED_PARTNERSHIP
 const WA_LIMITED_PARTNERSHIP = new CorporationBasicRawStream(
   100,
   1,
-  1,
   BusinessType_WA_LIMITED_PARTNERSHIP,
   businessSearchCriteria
 );
@@ -118,7 +113,6 @@ const WA_LIMITED_PARTNERSHIP = new CorporationBasicRawStream(
 BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY
 const WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY = new CorporationBasicRawStream(
    100,
-   1,
    1,
    BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY,
    businessSearchCriteria
@@ -129,7 +123,6 @@ BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP
 const WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(
   100,
   1,
-  1,
   BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP,
   businessSearchCriteria
 );
@@ -138,7 +131,6 @@ const WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStr
 BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
 const WA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
   100,
-  1,
   1,
   BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION,
   businessSearchCriteria
@@ -149,7 +141,6 @@ BusinessType_WA_PROFIT_CORPORATION
 const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
   100,
   1,
-  1,
   BusinessType_WA_PROFIT_CORPORATION,
   businessSearchCriteria
 );
@@ -157,7 +148,6 @@ const WA_PROFIT_CORPORATION = new CorporationBasicRawStream(
 BusinessType_WA_NONPROFIT_CORPORATION
 const WA_NONPROFIT_CORPORATION = new CorporationBasicRawStream(
   100,
-  1,
   1,
   BusinessType_WA_NONPROFIT_CORPORATION,
   businessSearchCriteria
@@ -168,7 +158,6 @@ BusinessType_WA_PUBLIC_BENEFIT_CORPORATION
 const WA_PUBLIC_BENEFIT_CORPORATION = new CorporationBasicRawStream(
   100,
   1,
-  1,
   BusinessType_WA_PUBLIC_BENEFIT_CORPORATION,
   businessSearchCriteria
 );
@@ -177,7 +166,6 @@ const WA_PUBLIC_BENEFIT_CORPORATION = new CorporationBasicRawStream(
 BusinessType_WA_LIMITED_LIABILITY_CORPORATION
 const WA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
-  1,
   1,
   BusinessType_WA_LIMITED_LIABILITY_CORPORATION,
   businessSearchCriteria
@@ -188,7 +176,6 @@ BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP
 const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
-  1,
   BusinessType_WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP,
   businessSearchCriteria
 );
@@ -197,7 +184,6 @@ const WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL = new CorporationBasicRaw
 BusinessType_WA_LIMITED_LIABILITY_PARTNERSHIP
 const WA_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
-  1,
   1,
   BusinessType_WA_LIMITED_LIABILITY_PARTNERSHIP,
   businessSearchCriteria
@@ -208,7 +194,6 @@ BusinessType_WA_LIMITED_PARTNERSHIP
 const WA_LIMITED_PARTNERSHIP_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
-  1,
   BusinessType_WA_LIMITED_PARTNERSHIP,
   businessSearchCriteria
 );
@@ -218,7 +203,6 @@ BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY
 const WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL = new CorporationBasicRawStream(
  ALL_RECORDS,
   1,
-  1,
   BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY,
   businessSearchCriteria
 );
@@ -227,7 +211,6 @@ const WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL = new CorporationBasicRawStr
  BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP
 const WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
-  1,
   1,
   BusinessType_WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP,
   businessSearchCriteria
@@ -239,7 +222,6 @@ BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION
 const WA_PROFESSIONAL_SERVICE_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
-  1,
   BusinessType_WA_PROFESSIONAL_SERVICE_CORPORATION,
   businessSearchCriteria
 );
@@ -250,7 +232,6 @@ BusinessType_WA_PROFIT_CORPORATION
 const WA_PROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
-  1,
   BusinessType_WA_PROFIT_CORPORATION,
   businessSearchCriteria
 );
@@ -260,7 +241,6 @@ BusinessType_WA_PUBLIC_BENEFIT_CORPORATION
 const WA_PUBLIC_BENEFIT_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
-  1,
   BusinessType_WA_PUBLIC_BENEFIT_CORPORATION,
   businessSearchCriteria
 );
@@ -269,7 +249,6 @@ const WA_PUBLIC_BENEFIT_CORPORATION_ALL = new CorporationBasicRawStream(
 BusinessType_WA_NONPROFIT_CORPORATION
 const WA_NONPROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
-  1,
   1,
   BusinessType_WA_NONPROFIT_CORPORATION,
   businessSearchCriteria
@@ -335,5 +314,5 @@ const WA_NONPROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
   }
 }
 
-run_200_business();
-//  run_all_business();
+// run_200_business();
+ run_all_business();
