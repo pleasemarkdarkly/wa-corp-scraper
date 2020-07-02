@@ -84,20 +84,19 @@ async function fetchTable(businessSearchCriteria) {
         const keyword = `${BusinessInformation.name} ${BusinessInformation.nature_of_business}`
         const oldkeyword = keyword.split(' ')
         const NewKeyWord = sw.removeStopwords(oldkeyword)
-        
+        const keywords = `${NewKeyWord}`.toString().replace(/,/g, '"')
         BUSINESS_INFO.push({
-          "business_name_ubi": `${BusinessInformation.name} (${BusinessInformation.ubi})`,
-          "business_purpose": BusinessInformation.nature_of_business,
-          "governor_first_last_name": `${BusinessInformation.signer_first_name} (${BusinessInformation.signer_last_name})`,
-          "governor_phone": BusinessInformation.principal_office_phone,
-          "entity_email": BusinessInformation.principal_office_email,
-          "registered_agent_first_last_name": BusinessInformation.registered_agent_name,
-          "email": BusinessInformation.registered_agent_mail,
-          "keyword": NewKeyWord
+          "business_name_ubi":`"${BusinessInformation.name}" "${BusinessInformation.ubi}"`,
+          "business_purpose":`"${BusinessInformation.nature_of_business}"`,
+          "governor_first_last_name": `"${BusinessInformation.signer_first_name}" "${BusinessInformation.signer_last_name}"`,
+          "governor_phone": `"${BusinessInformation.principal_office_phone}"`,
+          "entity_email": `"${BusinessInformation.principal_office_email}"`,
+          "registered_agent_first_last_name": `"${BusinessInformation.registered_agent_name}"`,
+          "email":`"${BusinessInformation.registered_agent_mail}"`,
+          "keyword":`"${keywords}"`
         })
       }
       const CSV = convertToCSV(BUSINESS_INFO, BusinessID)
-      // ALL_CSV.push(CSV)
     return {
       BUSINESSTYPE:  BusinessType, TOTAL: BUSINESS_SEARCH.length,
       BUSINESS_SEARCH,
