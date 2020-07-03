@@ -11,6 +11,7 @@ var warn = clc.yellow;
 var notice = clc.blue;
 
 const ALL_RECORDS = -1;
+const _RECORDS = 100;
 
 const BusinessType = {
   WA_LIMITED_LIABILITY_CORPORATION: 65,
@@ -58,70 +59,70 @@ const BusinessType = {
 */
 
 const CWA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_LIMITED_LIABILITY_CORPORATION,
   businessSearchCriteria
 );
 
 const CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP,
   businessSearchCriteria
 );
 
 const CWA_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_LIMITED_LIABILITY_PARTNERSHIP,
   businessSearchCriteria
 );
 
 const CWA_LIMITED_PARTNERSHIP = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_LIMITED_PARTNERSHIP,
   businessSearchCriteria
 );
 
 const CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY,
   businessSearchCriteria
 );
 
 const CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP,
   businessSearchCriteria
 );
 
 const CWA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_PROFESSIONAL_SERVICE_CORPORATION,
   businessSearchCriteria
 );
 
 const CWA_PROFIT_CORPORATION = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_PROFIT_CORPORATION,
   businessSearchCriteria
 );
 
 const CWA_NONPROFIT_CORPORATION = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_NONPROFIT_CORPORATION,
   businessSearchCriteria
 );
 
 const CWA_PUBLIC_BENEFIT_CORPORATION = new CorporationBasicRawStream(
-  100,
+  _RECORDS,
   1,
   BusinessType.WA_PUBLIC_BENEFIT_CORPORATION,
   businessSearchCriteria

@@ -12,25 +12,25 @@ TODO: Each record above is to be printed in the following manner. This is an inc
 
 */
 
-function ConvertToCSV(objArray, id) {
+function ConvertToCSV(objArray, BusinessTypeID) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '', str2  = '', header = '';    
     for (var i = 0; i < array.length; i++) {
         let line = '';
         for (var index in array[i]) {
-            if (line != '') line += ','
-            if (header != '') header += ' '
+            if (line != '') line += ', '
+            if (header != '') header += ', '
 
             line += `${array[i][index]}`;
-            header += index;
+            header += `"${index}"`;
         }
-        str += line + '\r\n';
+        str += `${line}` + '\r\n';
     } 
-    str2 += header + '\r\n';
+    str2 += `${header}` + '\r\n';
 
         // TODO: Add Business Type code to filename, i.e. 86 - MM-DD...
 
-        const file = fs.createWriteStream(`./csv-output/${moment().format('MM-DD-YYYY HH-mm')}.csv`);
+        const file = fs.createWriteStream(`./csv-output/${BusinessTypeID}-${moment().format('MM-DD-YYYY HH-mm')}.csv`);
         file.write(str2);
         file.write(str);
         file.end();

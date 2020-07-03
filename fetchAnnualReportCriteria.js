@@ -7,6 +7,7 @@ async function fetchAnnualReportCriteria(FilingNumber, ID) {
     FilingNumber,
     ID,
   };
+  
   console.log("Annual report ", fetchAnnualReportCriteriaEndpoint);
 
   const data = await postHttp(

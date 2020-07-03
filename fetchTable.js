@@ -37,7 +37,7 @@ function removeFromString(arr,str){
   return str.replace(regex, '')
 }
 
-async function fetchTable(businessSearchCriteria) {
+async function fetchTable(businessSearchCriteria) {  
   // console.time("Time-taken");
   console.log(notice("Fetching search criteria", AdvancedSearchEndpoint));
   const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
@@ -45,17 +45,17 @@ async function fetchTable(businessSearchCriteria) {
   /*
       Remove limit for full BusinessType export
     */
-  const totalCount = 200;
+  let totalCount = 1000;
 
   let BUSINESS_SEARCH = [];
   let BUSINESS_INFO = [];
   let ALL_CSV = [];
 
-  let BusinessType;
   let BusinessID;
   let TotalRowCount;
   let BusinessInformation;
   let fillingInformation;
+  let BusinessTypeID = businessSearchCriteria.BusinessTypeID
 
   if (data) {
     for (let i = 0; i < data.length; i++) {
@@ -64,6 +64,7 @@ async function fetchTable(businessSearchCriteria) {
         firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : null;
       let businessInfo = data[i];
       BusinessID = data[i].BusinessID;
+
 
       BusinessInformation = await fetchBusinessInformation(BusinessID);
       fillingInformation = await fetchFillingInformation(BusinessID);
@@ -125,12 +126,16 @@ async function fetchTable(businessSearchCriteria) {
         date_filed: FilingDateTime,
       });
 
-      if (BUSINESS_SEARCH.length === totalCount) break;
+      if (BUSINESS_SEARCH.length === totalCount) {
+        console.log(
+          warn(`${totalCount} bussinesses processed`)
+        );
+        totalCount +=1000;
+
+      };
       /*
         TODO: Count number of total PDF reports processed and output update every 1000 businesses if not limited by test number. 
       */
-
-      BusinessType = businessInfo.BusinessType;
       const keyword = `${BusinessInformation.name} ${BusinessInformation.nature_of_business}`;
       const oldKeyword = keyword.split(" ");
       const newKeyword = sw.removeStopwords(oldKeyword);
@@ -158,22 +163,57 @@ async function fetchTable(businessSearchCriteria) {
       console.log(
         warn(BusinessInformation.name + "(" + BusinessInformation.ubi + ") " + "keywords: " + keywords)
       );
-
       BUSINESS_INFO.push({
-        business_name_ubi: `"${BusinessInformation.name}" "${BusinessInformation.ubi}"`,
-        business_purpose: `"${BusinessInformation.nature_of_business}"`,
-        governor_first_last_name: `"${BusinessInformation.signer_first_name}" "${BusinessInformation.signer_last_name}"`,
-        governor_phone: `"${BusinessInformation.principal_office_phone}"`,
-        entity_email: `"${BusinessInformation.principal_office_email}"`,
-        registered_agent_first_last_name: `"${BusinessInformation.registered_agent_name}"`,
-        email: `"${BusinessInformation.registered_agent_mail}"`,
-        /*
-          TODO: strip newlines from keywords
-          */
-        keyword: `"${keywords}"`,
+        "Business Name":`"#${BusinessInformation.name}"`,
+        "UBI": `"${BusinessInformation.ubi}"`,
+        "Business Type": `"${BusinessInformation.type}"`,
+        "Business Status": `"${BusinessInformation.status}"`,
+        "Nature of Business": `"${BusinessInformation.nature_of_business}"`,
+        "Principal Office Email": `"${BusinessInformation.principal_office_email}"`,
+        "Principal Office Phone": `"${BusinessInformation.principal_office_phone}"`,
+        "Principal Office Street Address (1)": `"${BusinessInformation.principal_office_street_address_1}"`,
+        "Principal Office Street Address (2)": `"${BusinessInformation.principal_office_street_address_2}"`,
+        "Principal Office State":  `"${BusinessInformation.principal_office_state}"`,
+        "Principal Office Zip": `"${BusinessInformation.principal_office_zip}"`,
+        "Principal Office Address Full": `"${BusinessInformation.principal_office_full_address}"`,
+        "Principal Office Mailing Street Address (1)": `"${BusinessInformation.principal_office_mailing_street_address_1}"`,
+        "Principal Office Mailing Street Address (2)": `"${BusinessInformation.principal_office_mailing_street_address_2}"`,
+        "Principal Office Mailing City": `"${BusinessInformation.principal_office_mailing_city}"`,
+        "Principal Office Mailing State": `"${BusinessInformation.principal_office_mailing_state}"`,
+        "Principal Office Mailing Street Zip": `"${BusinessInformation.principal_office_mailing_zip}"`,
+        "Principal Office Mailing Address Full": `"${BusinessInformation.principal_office_mailing_full_address}"`,
+        "Business Expiration Date": `"${BusinessInformation.business_expiration_date}"`,
+        "Business Formation Date": `"${BusinessInformation.business_formation_date}"`,
+        "Governor First name": `"${BusinessInformation.governor_first_name}"`,
+        "Governor Last Name": `"${BusinessInformation.governor_last_name}"`,
+        "Governor Type": `"${BusinessInformation.governor_type}"`,
+        "Registered Agent First Name": `"${BusinessInformation.registered_agent_first_name}"`,
+        "Registered Agent Last Name": `"${BusinessInformation.registered_agent_last_name}"`,
+        "Registered Agent Mailing Address": `"${BusinessInformation.registered_agent_mailing_address}"`,
+        "Registered Agent Email": `"${BusinessInformation.registered_agent_email}"`,
+        "Return Address for Filing Attention First Name": `"${BusinessInformation.return_address_for_filing_attention_first_name}"`,
+        "Return Address for Filing Attention Last Name": `"${BusinessInformation.return_address_for_filing_attention_last_name}"`,
+        "Return Address for Filing Attention Email": `"${BusinessInformation.return_address_for_filing_attention_email}"`,
+        "Return Address Filing Mailing Street Address (1)": `"${BusinessInformation.return_address_filing_mailing_street_address_1}"`,
+        "Return Address Filing Mailing Street Address (2)": `"${BusinessInformation.return_address_filing_mailing_street_address_2}"`,
+        "Return Address Filing Mailing City": `"${BusinessInformation.return_address_filing_mailing_city}"`,
+        "Return Address Filing Mailing State": `"${BusinessInformation.return_address_filing_mailing_state}"`,
+        "Return Address Filing Mailing Zip": `"${BusinessInformation.return_address_filing_mailing_zip}"`,
+        "Authorized Person Signer Title": `"${BusinessInformation.authorized_signer_title}"`,
+        "Authorized Person Signer First Name":  `"${BusinessInformation.authorized_signer_first_name}"`,
+        "Authorized Person Signer Last Name": `"${BusinessInformation.authorized_signer_last_name}"`,
+        "Authorized Person Type": `"${BusinessInformation.authorized_person_type}"`,
+        "Last Filing Date": `"${BusinessInformation.last_filing_date}"`,
+        "Business Keywords": `"${BusinessInformation.keywords}"`,
+
       });
+       BusinessType = businessInfo.BusinessType;
+
     }
-    const CSV = convertToCSV(BUSINESS_INFO, BusinessID);
+
+    console.log(BusinessTypeID);
+    
+    const CSV = convertToCSV(BUSINESS_INFO, BusinessTypeID);
     return {
       BUSINESSTYPE: BusinessType,
       TOTAL: BUSINESS_SEARCH.length,
