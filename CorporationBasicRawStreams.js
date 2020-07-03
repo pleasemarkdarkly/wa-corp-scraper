@@ -1,5 +1,11 @@
 const stream = require("stream");
 const fetchTable = require("./fetchTable");
+var clc = require("cli-color");
+
+var info = clc.white.bold;
+var error = clc.red.bold;
+var warn = clc.yellow;
+var notice = clc.blue;
 
 class CorporationBasicRawStream extends stream.Readable {
   isFetching = false;
@@ -33,6 +39,8 @@ class CorporationBasicRawStream extends stream.Readable {
     };
 
     const computedArgs = { ...this.args, ...fetchArgs };
+
+    // console.log(info("CorporationBasicRawStream fetch arguments:"));
     console.log(fetchArgs);
 
     try {
@@ -44,7 +52,7 @@ class CorporationBasicRawStream extends stream.Readable {
           BusinessTypeID: this.BusinessTypeID,
         };
         const computedArgs = { ...this.args, ...allArgs };
-        console.log(allArgs);
+        // console.log(allArgs);
         const table = await fetchTable(computedArgs);
         const { TotalRowCount } = table;
         let totalTable,
@@ -60,10 +68,16 @@ class CorporationBasicRawStream extends stream.Readable {
             BusinessTypeID: this.BusinessTypeID,
           };
           const newComputedArgs = { ...this.args, ...newArgs };
+       
+          console.log(warn("CorporationBasicRawStream: newComputedArgs:"));
           console.log(newArgs);
+       
           totalTable = await fetchTable(newComputedArgs);
           this.PageCount++;
+       
+          console.log(warn("CorporationBasicRawStream (totalTable):"));
           console.log(totalTable);
+
           if (TotalRowCount < 100) return totalTable;
           Tables.push(totalTable);
         }
@@ -87,9 +101,9 @@ class CorporationBasicRawStream extends stream.Readable {
           BusinessTypeID: this.BusinessTypeID,
         };
         const newComputedArgs = { ...this.args, ...newArgs };
-        console.log(newArgs);
+        // console.log(newArgs);
         const newTable = await fetchTable(newComputedArgs);
-        console.log(newTable);
+        // console.log(newTable);
         this.isFetching = false;
         this.isFinished = true;
         return newTable;

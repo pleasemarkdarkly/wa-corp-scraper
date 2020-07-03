@@ -51,7 +51,7 @@ let options = {
 */
 
 async function fetchAnnualReport(annualSearchCriteria) {
-  console.time("Time-taken-to-fetch-annual-report");
+  // console.time("Time-taken-to-fetch-annual-report");
   console.log(notice("Fetch the annual report of designated business type"));
 
   const FileLocationCorrespondence =
@@ -64,7 +64,7 @@ async function fetchAnnualReport(annualSearchCriteria) {
   var annualReportEndpoint = `https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=${FileLocationCorrespondence}&CorrespondenceFileName=${CorrespondenceFileName}&DocumentTypeId=${DocumentTypeID}`;
 
   console.log(notice("Attempting to get %j", annualReportEndpoint));
-  console.time("Time-taken-to-fetch-annual-report");
+  console.time("Annual-Report");
   const data = await annualPost(annualReportEndpoint, annualSearchCriteria);
   pdf(data, options).then(function (info) {
     console.log(
@@ -101,7 +101,7 @@ async function fetchAnnualReport(annualSearchCriteria) {
     //  console.log(newstr_three);
 
     newstr_three = JSON.parse(newstr_three);
-    console.log(newstr_one, newstr_two, newstr_three);
+    // console.log(newstr_one, newstr_two, newstr_three);
     /*
     TODO: Extract the following (basically all the variables from the annual/initial report)
 
@@ -133,7 +133,10 @@ async function fetchAnnualReport(annualSearchCriteria) {
       initial_report_received_date: newstr_three["95"],
       initial_report_amount: newstr_three["97"],
     };
-    console.log(report);
+    
+    // console.log(notice("Report:"));
+    // console.log(report);
+
     return report;
   });
 }

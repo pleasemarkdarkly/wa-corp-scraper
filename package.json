@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
+    "clean": "rm -rf ./csv-output/*",
     "count": "cat ./csv-output/* | wc -l",
     "save": "git add . && git commit -m 'update' && git push"
   },

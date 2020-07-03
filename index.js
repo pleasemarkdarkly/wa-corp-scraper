@@ -198,6 +198,10 @@ const CWA_NONPROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
   businessSearchCriteria
 );
 
+/* 
+  TODO: Move to testing module, and add switch to yargs
+*/
+
 const run_200_business = async () => {
   let promises = [],
     promise;
@@ -228,11 +232,19 @@ const run_200_business = async () => {
   }
 };
 
+/*
+  TODO: yargs 
+  --concurrency 
+
+  */
+
+const num_threads = 10;
+
 const run_all_business = async () => {
   let promises = [],
     promise;
   try {
-    const limit = pLimit(1);
+    const limit = pLimit(num_threads);
     promise = [
       limit(() => CWA_LIMITED_LIABILITY_CORPORATION_ALL._read()),
       limit(() => CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL._read()),

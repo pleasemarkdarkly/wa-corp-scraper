@@ -53,7 +53,7 @@ const getHttp = async (getEndpoint) => {
 
 const handleResponse = (response) => {
   return response.text().then((text) => {
-    console.timeEnd("Time-taken")
+    // console.timeEnd("Time-taken")
     const data = text && JSON.parse(text);
     if (!response.ok) {
       const error = data && data.error;
@@ -82,7 +82,7 @@ const handleAnnualPDF = (response) => {
   // console.log(response.headers);
 
   return response.arrayBuffer().then((text) => {
-    console.timeEnd("Time-taken-to-fetch-annual-report");
+    console.timeEnd("Annual-Report");
     const data = text;
     if (!response.ok) {
       const error = data && data.error;
