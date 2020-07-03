@@ -82,7 +82,7 @@ const handleAnnualPDF = (response) => {
   // console.log(response.headers);
 
   return response.arrayBuffer().then((text) => {
-    console.timeEnd("Annual-Report");
+    console.timeEnd("Time-taken-to-fetch-annual-report");
     const data = text;
     if (!response.ok) {
       const error = data && data.error;
