@@ -152,10 +152,11 @@ async function fetchTable(businessSearchCriteria) {
       keywords = removeFromString(special_extraction_words,keywords);
       keywords = keywords.replace(/(^\s*)|(\s*$)/gi,"");
       keywords = keywords.replace(/[ ]{2,}/gi," ");
+      // any single character remove
       keywords = keywords.replace(/\n/,"");
 
       console.log(
-        warn("(" + BusinessInformation.ubi + ") " + "keywords: " + keywords)
+        warn(BusinessInformation.name + "(" + BusinessInformation.ubi + ") " + "keywords: " + keywords)
       );
 
       BUSINESS_INFO.push({

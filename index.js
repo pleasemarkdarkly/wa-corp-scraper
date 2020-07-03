@@ -257,5 +257,17 @@ const run_all_business = async () => {
   }
 };
 
+// TODO: On Ctrl-C Save location of company fetches to resume on restart
+  /*
+  https://nodejs.org/api/process.html
+
+  process.on('SIGINT', function() {
+    console.log("Caught interrupt signal");
+
+    if (i_should_exit)
+        process.exit();
+  });
+  */
+
 run_200_business();
 //run_all_business();
