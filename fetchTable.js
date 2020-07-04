@@ -29,15 +29,15 @@ const special_extraction_words = [
   "llc",
   "l.l.c.",
   "lawful",
-  "retail",
+  "retail"
 ];
 
-function removeFromString(arr, str) {
-  let regex = new RegExp("\\b" + arr.join("|") + "\\b", "gi");
-  return str.replace(regex, "");
+function removeFromString(arr,str){
+  let regex = new RegExp("\\b"+arr.join('|')+"\\b","gi")
+  return str.replace(regex, '')
 }
 
-async function fetchTable(businessSearchCriteria) {
+async function fetchTable(businessSearchCriteria) {  
   // console.time("Time-taken");
   console.log(notice("Fetching search criteria", AdvancedSearchEndpoint));
   const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
@@ -55,7 +55,7 @@ async function fetchTable(businessSearchCriteria) {
   let TotalRowCount;
   let BusinessInformation;
   let fillingInformation;
-  let BusinessTypeID = businessSearchCriteria.BusinessTypeID;
+  let BusinessTypeID = businessSearchCriteria.BusinessTypeID
 
   if (data) {
     for (let i = 0; i < data.length; i++) {
@@ -64,6 +64,7 @@ async function fetchTable(businessSearchCriteria) {
         firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : null;
       let businessInfo = data[i];
       BusinessID = data[i].BusinessID;
+
 
       BusinessInformation = await fetchBusinessInformation(BusinessID);
       fillingInformation = await fetchFillingInformation(BusinessID);
@@ -97,6 +98,7 @@ async function fetchTable(businessSearchCriteria) {
         if (annualReportCriteria[i].DocumentTypeID === 4) {
           annualDueNotice = annualReportCriteria[0];
           //  console.log(annualDueNotice, "Annual Report criteria");
+          // TODO: handle parsing and errors
           //  await fetchAnnualReport(annualDueNotice);
           break;
         } else {
@@ -125,10 +127,15 @@ async function fetchTable(businessSearchCriteria) {
       });
 
       if (BUSINESS_SEARCH.length === totalCount) {
-        console.log(warn(`Number of entities processed: ${totalCount}`));
-        totalCount += 1000;
-      }
+        console.log(
+          warn(`${totalCount} bussinesses processed`)
+        );
+        totalCount +=1000;
 
+      };
+      /*
+        TODO: Count number of total PDF reports processed and output update every 1000 businesses if not limited by test number. 
+      */
       const keyword = `${BusinessInformation.name} ${BusinessInformation.nature_of_business}`;
       const oldKeyword = keyword.split(" ");
       const newKeyword = sw.removeStopwords(oldKeyword);
@@ -146,37 +153,21 @@ async function fetchTable(businessSearchCriteria) {
 
       */
 
-      let keywords = `${newKeyword}`
-        .toString()
-        .replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]/g, " ")
-        .toLowerCase()
-        .trim();
-      keywords = removeFromString(special_extraction_words, keywords);
-      keywords = keywords.replace(/(^\s*)|(\s*$)/gi, "");
-      keywords = keywords.replace(/[ ]{2,}/gi, " ");
+      let keywords = `${newKeyword}`.toString().replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]/g, " ").toLowerCase().trim();
+      keywords = removeFromString(special_extraction_words,keywords);
+      keywords = keywords.replace(/(^\s*)|(\s*$)/gi,"");
+      keywords = keywords.replace(/[ ]{2,}/gi," ");
       // any single character remove
-      keywords = keywords.replace(/\n/, "");
+      keywords = keywords.replace(/\n/,"");
 
       console.log(
-        warn(
-          BusinessInformation.name +
-            "(" +
-            BusinessInformation.ubi +
-            ") " +
-            "keywords: " +
-            keywords
-        )
+        warn(BusinessInformation.name + "(" + BusinessInformation.ubi + ") " + "keywords: " + keywords)
       );
+      
 
-      /*
-        TODO: replace all values null with ''. 
-          CorrespondenceEmailAddress
-          last_filing_date
-
-      */
       BUSINESS_INFO.push({
-        "Business Name": `"#${BusinessInformation.name}"`,
-        UBI: `"${BusinessInformation.ubi}"`,
+        "Business Name":`"#${BusinessInformation.name}"`,
+        "UBI": `"${BusinessInformation.ubi}"`,
         "Business Type": `"${BusinessInformation.type}"`,
         "Business Status": `"${BusinessInformation.status}"`,
         "Nature of Business": `"${BusinessInformation.nature_of_business}"`,
@@ -184,7 +175,8 @@ async function fetchTable(businessSearchCriteria) {
         "Principal Office Phone": `"${BusinessInformation.principal_office_phone}"`,
         "Principal Office Street Address (1)": `"${BusinessInformation.principal_office_street_address_1}"`,
         "Principal Office Street Address (2)": `"${BusinessInformation.principal_office_street_address_2}"`,
-        "Principal Office State": `"${BusinessInformation.principal_office_state}"`,
+        "Principal Office City": `"${BusinessInformation.principal_office_city}"`,
+        "Principal Office State":  `"${BusinessInformation.principal_office_state}"`,
         "Principal Office Zip": `"${BusinessInformation.principal_office_zip}"`,
         "Principal Office Address Full": `"${BusinessInformation.principal_office_full_address}"`,
         "Principal Office Mailing Street Address (1)": `"${BusinessInformation.principal_office_mailing_street_address_1}"`,
@@ -211,17 +203,19 @@ async function fetchTable(businessSearchCriteria) {
         "Return Address Filing Mailing State": `"${BusinessInformation.return_address_filing_mailing_state}"`,
         "Return Address Filing Mailing Zip": `"${BusinessInformation.return_address_filing_mailing_zip}"`,
         "Authorized Person Signer Title": `"${BusinessInformation.authorized_signer_title}"`,
-        "Authorized Person Signer First Name": `"${BusinessInformation.authorized_signer_first_name}"`,
+        "Authorized Person Signer First Name":  `"${BusinessInformation.authorized_signer_first_name}"`,
         "Authorized Person Signer Last Name": `"${BusinessInformation.authorized_signer_last_name}"`,
         "Authorized Person Type": `"${BusinessInformation.authorized_person_type}"`,
         "Last Filing Date": `"${BusinessInformation.last_filing_date}"`,
         "Business Keywords": `"${BusinessInformation.keywords}"`,
+
       });
-      BusinessType = businessInfo.BusinessType;
+       BusinessType = businessInfo.BusinessType;
+
     }
 
-    // console.log(notice("Business TypeID: " + BusinessTypeID));
-
+    console.log(BusinessTypeID);
+    
     const CSV = convertToCSV(BUSINESS_INFO, BusinessTypeID);
     return {
       BUSINESSTYPE: BusinessType,
