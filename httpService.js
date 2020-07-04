@@ -37,6 +37,25 @@ const postHttp = async (postEndpoint, postData) => {
   const response = await fetch(postEndpoint, requestOptions);
   return handleResponse(response);
 };
+/*
+  TODO: Handle these errors:
+
+  FetchError: request to https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList failed, reason: read ECONNRESET
+    at ClientRequest.<anonymous> (/Users/mark.phillips/Developer/wa-corp-scraper/node_modules/node-fetch/lib/index.js:1455:11)
+    at ClientRequest.emit (events.js:315:20)
+    at TLSSocket.socketErrorListener (_http_client.js:467:9)
+    at TLSSocket.emit (events.js:315:20)
+    at emitErrorNT (internal/streams/destroy.js:100:8)
+    at emitErrorCloseNT (internal/streams/destroy.js:68:3)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21) {
+  type: 'system',
+  errno: 'ECONNRESET',
+  code: 'ECONNRESET'
+}
+
+by sleeping for 5 minutes
+
+*/
 
 const getHttp = async (getEndpoint) => {
   const requestOptions = {
