@@ -36,9 +36,17 @@ function removeFromString(arr,str){
   let regex = new RegExp("\\b"+arr.join('|')+"\\b","gi")
   return str.replace(regex, '')
 }
-
+let startTime,
+    fetchTableTime, 
+    fetchBusinessTime, 
+    fetchBillingTime, 
+    fetchAnnualTime, 
+    averageFT_time,
+    averageBT_time,
+    averageBL_time,
+    averageAL_time;
 async function fetchTable(businessSearchCriteria) {  
-  // console.time("Time-taken");
+  startTime = Date.now();
   console.log(notice("Fetching search criteria", AdvancedSearchEndpoint));
   const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
 
@@ -47,7 +55,7 @@ async function fetchTable(businessSearchCriteria) {
     */
   let totalCount = 1000;
 
-  let BUSINESS_SEARCH = [];
+  let BUSINESS_INFORMATION_REPORT = [];
   let BUSINESS_INFO = [];
   let ALL_CSV = [];
 
@@ -58,6 +66,8 @@ async function fetchTable(businessSearchCriteria) {
   let BusinessTypeID = businessSearchCriteria.BusinessTypeID
 
   if (data) {
+    fetchTableTime = Date.now();
+    averageFT_time = fetchTableTime - startTime;
     for (let i = 0; i < data.length; i++) {
       let firstInfo = data[0];
       TotalRowCount =
@@ -67,7 +77,15 @@ async function fetchTable(businessSearchCriteria) {
 
 
       BusinessInformation = await fetchBusinessInformation(BusinessID);
+      if(BusinessInformation) {
+        fetchBusinessTime = Date.now();
+        averageBT_time = fetchBusinessTime - startTime;
+      };
       fillingInformation = await fetchFillingInformation(BusinessID);
+      if(fillingInformation) {
+        fetchBillingTime = Date.now();
+        averageBL_time = fetchBillingTime - startTime;
+      }
 
       let FilingNumber,
         ID,
@@ -97,6 +115,8 @@ async function fetchTable(businessSearchCriteria) {
       for (let i = 0; i < annualReportCriteria.length; i++) {
         if (annualReportCriteria[i].DocumentTypeID === 4) {
           annualDueNotice = annualReportCriteria[0];
+          fetchAnnualTime = Date.now();
+          averageAL_time = fetchAnnualTime - startTime;
           //  console.log(annualDueNotice, "Annual Report criteria");
           // TODO: handle parsing and errors
           //  await fetchAnnualReport(annualDueNotice);
@@ -120,13 +140,13 @@ async function fetchTable(businessSearchCriteria) {
         CorrespondenceEmailAddress: businessInfo.CorrespondenceEmailAddress,
       };
 
-      BUSINESS_SEARCH.push({
+      BUSINESS_INFORMATION_REPORT.push({
         ...info,
         ...BusinessInformation,
         date_filed: FilingDateTime,
       });
 
-      if (BUSINESS_SEARCH.length === totalCount) {
+      if (BUSINESS_INFORMATION_REPORT.length === totalCount) {
         console.log(
           warn(`${totalCount} bussinesses processed`)
         );
@@ -214,15 +234,18 @@ async function fetchTable(businessSearchCriteria) {
 
     }
 
-    console.log(BusinessTypeID);
+    console.log(averageAL_time, averageBL_time, averageFT_time, averageBT_time, "Average Times");
     
     const CSV = convertToCSV(BUSINESS_INFO, BusinessTypeID);
     return {
       BUSINESSTYPE: BusinessType,
-      TOTAL: BUSINESS_SEARCH.length,
-      BUSINESS_SEARCH,
-      // do not remove the total count
-      TotalRowCount,
+      TOTAL_BUSINESS_PARSED: BUSINESS_INFORMATION_REPORT.length,
+      TIME_TO_FETCH_BUSINESS_TABLES: `${averageFT_time}ms`,
+      TIME_TO_FETCH_ANNUAL_REPORT: `${averageAL_time}ms`,
+      TIME_TO_FETCH_FILLING_REPORT: `${averageBL_time}ms`,
+      TIME_TO_FETCH_BUSINESS_INFORMATION: `${averageBT_time}ms`,
+      TOTAL_AVAILABLE_BUSINESS: TotalRowCount,
+      BUSINESS_INFORMATION_REPORT,
     };
   }
 }

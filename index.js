@@ -238,7 +238,7 @@ const run_200_business = async () => {
 
   */
 
-const num_threads = 10;
+const num_threads = 1;
 
 const run_all_business = async () => {
   let promises = [],
