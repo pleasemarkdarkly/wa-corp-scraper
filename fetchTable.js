@@ -44,7 +44,8 @@ let startTime,
     averageFT_time,
     averageBT_time,
     averageBL_time,
-    averageAL_time;
+    averageAL_time,
+    totalTimeTaken;
 async function fetchTable(businessSearchCriteria) {  
   startTime = Date.now();
   console.log(notice("Fetching search criteria", AdvancedSearchEndpoint));
@@ -71,7 +72,7 @@ async function fetchTable(businessSearchCriteria) {
     for (let i = 0; i < data.length; i++) {
       let firstInfo = data[0];
       TotalRowCount =
-        firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : null;
+        firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
       let businessInfo = data[i];
       BusinessID = data[i].BusinessID;
 
@@ -234,8 +235,8 @@ async function fetchTable(businessSearchCriteria) {
 
     }
 
-    console.log(averageAL_time, averageBL_time, averageFT_time, averageBT_time, "Average Times");
-    
+
+    totalTimeTaken = averageAL_time + averageBL_time + averageFT_time + averageBT_time;
     const CSV = convertToCSV(BUSINESS_INFO, BusinessTypeID);
     return {
       BUSINESSTYPE: BusinessType,
@@ -245,6 +246,7 @@ async function fetchTable(businessSearchCriteria) {
       TIME_TO_FETCH_FILLING_REPORT: `${averageBL_time}ms`,
       TIME_TO_FETCH_BUSINESS_INFORMATION: `${averageBT_time}ms`,
       TOTAL_AVAILABLE_BUSINESS: TotalRowCount,
+      TOTAL_TIME_TAKEN: `${totalTimeTaken}ms`,
       BUSINESS_INFORMATION_REPORT,
     };
   }
