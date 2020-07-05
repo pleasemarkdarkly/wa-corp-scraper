@@ -84,11 +84,12 @@ The following fields are searchable and return a list grid of results which can 
 Search by Individual Name or Business Name and Keywords.
 Scraper combines Business Name, Nature of Business after removing stop words for keywords variable. Scraper combines all individual names for keywords for names field.
 
----
-Business Name | Nature of Business
----
-Registered Agent Name | Governors Name | Return Address (Attention) Name 
----
+* Business Name
+* Nature of Business
+* Registered Agent Name
+* Governors Name
+* Return Address (Attention) Name 
+
 
 ### Rest API
 
