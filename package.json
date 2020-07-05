@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
+    "stop": "forever stop",
+    "stopall": "forever stopall",
     "clean": "rm -rf ./csv-output/*",
     "count": "cat ./csv-output/* | wc -l",
-    "save": "git add . && git commit -m 'update' && git push"
+    "save": "git add . && git commit -m 'update' && git push origin develop"
   },
   "author": "Mark Phillips",
   "license": "ISC",
@@ -19,10 +21,12 @@
     "dotenv": "^8.2.0",
     "file-saver": "^2.0.2",
     "filesaver": "0.0.11",
+    "forever": "^3.0.0",
     "https": "^1.0.0",
     "moment": "^2.27.0",
     "mongoose": "^5.9.20",
     "node-blob": "0.0.2",
+    "node-cron": "^2.0.3",
     "node-fetch": "^2.6.0",
     "p-limit": "^3.0.1",
     "pdf-parse": "^1.1.1",

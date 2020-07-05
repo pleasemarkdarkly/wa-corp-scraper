@@ -14,12 +14,13 @@ class CorporationBasicRawStream extends stream.Readable {
   PageCount;
   BusinessTypeID;
 
-  constructor(PageCount, PageID, BusinessTypeID, args) {
+  constructor(PageCount, PageID, BusinessTypeID, SearchEntityName, args) {
     super({ objectMode: true, highWaterMark: 128 });
 
     this.PageCount = PageCount;
     this.PageID = PageID;
     this.args = args;
+    this.SearchEntityName = SearchEntityName;
     this.BusinessTypeID = BusinessTypeID;
 
     if (!this.PageCount)
@@ -36,6 +37,8 @@ class CorporationBasicRawStream extends stream.Readable {
       PageID: this.PageID,
       PageCount: this.PageCount,
       BusinessTypeID: this.BusinessTypeID,
+      SearchEntityName: this.SearchEntityName,
+      SearchType: `${this.SearchEntityName === '' ? ' ' : `Contains`}`,
     };
 
     const computedArgs = { ...this.args, ...fetchArgs };
@@ -50,20 +53,22 @@ class CorporationBasicRawStream extends stream.Readable {
           PageID: this.PageCount,
           PageCount: this.PageCount,
           BusinessTypeID: this.BusinessTypeID,
+          SearchEntityName: this.SearchEntityName,
+          SearchType: `${this.SearchEntityName === '' ? '' : `Contains`}`,
         };
         const computedArgs = { ...this.args, ...allArgs };
         // console.log(allArgs);
         const table = await fetchTable(computedArgs);
-        const { TotalRowCount } = table;
+        const { TOTAL_AVAILABLE_BUSINESS } = table;
         let totalTable,
           Tables = [];
         for (let i = 0; i < 100; i++) {
           const newArgs = {
             PageID: this.PageCount,
             PageCount: `${
-              TotalRowCount > 100
-                ? parseInt(TotalRowCount / 100)
-                : TotalRowCount
+              TOTAL_AVAILABLE_BUSINESS > 100
+                ? parseInt(TOTAL_AVAILABLE_BUSINESS / 100)
+                : TOTAL_AVAILABLE_BUSINESS
             }`,
             BusinessTypeID: this.BusinessTypeID,
           };
@@ -78,7 +83,7 @@ class CorporationBasicRawStream extends stream.Readable {
           console.log(warn("CorporationBasicRawStream (totalTable):"));
           console.log(totalTable);
 
-          if (TotalRowCount < 100) return totalTable;
+          if (TOTAL_AVAILABLE_BUSINESS < 100) return totalTable;
           Tables.push(totalTable);
         }
         this.isFetching = false;
@@ -86,24 +91,26 @@ class CorporationBasicRawStream extends stream.Readable {
         return Tables;
       }
       const table = await fetchTable(computedArgs);
-      const { TotalRowCount } = table;
+      const { TOTAL_AVAILABLE_BUSINESS } = table;
       console.log(table);
 
       if (!table) {
         this.isFetching = false;
         this.isFinished = true;
         return;
-      } else if (TotalRowCount) {
-        this.PageID = Math.floor(TotalRowCount / 10);
+      } else if (TOTAL_AVAILABLE_BUSINESS) {
+        this.PageID = Math.floor(TOTAL_AVAILABLE_BUSINESS / 10);
         const newArgs = {
           PageID: this.PageID,
           PageCount: 100, //to change back to 100
           BusinessTypeID: this.BusinessTypeID,
+          SearchEntityName: this.SearchEntityName,
+          SearchType: `${this.SearchEntityName === '' ? '' : `Contains`}`,
         };
         const newComputedArgs = { ...this.args, ...newArgs };
-        // console.log(newArgs);
+        console.log(newArgs);
         const newTable = await fetchTable(newComputedArgs);
-        // console.log(newTable);
+        console.log(newTable);
         this.isFetching = false;
         this.isFinished = true;
         return newTable;

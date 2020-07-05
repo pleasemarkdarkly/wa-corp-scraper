@@ -1,8 +1,6 @@
 var businessSearchCriteria = {
   Type: "Agent",
   BusinessStatusID: "1",
-  SearchEntityName: "",
-  SearchType: "",
   AgentName: "",
   PrincipalName: "",
   StartDateOfIncorporation: "",
