@@ -65,6 +65,7 @@ async function fetchTable(businessSearchCriteria) {
   let BusinessInformation;
   let fillingInformation;
   let BusinessTypeID = businessSearchCriteria.BusinessTypeID
+  let SearchEntityName = businessSearchCriteria.SearchEntityName
 
   if (data) {
     fetchTableTime = Date.now();
@@ -189,7 +190,7 @@ async function fetchTable(businessSearchCriteria) {
       BUSINESS_INFO.push({
         "Business Name":`"#${BusinessInformation.name}"`,
         "UBI": `"${BusinessInformation.ubi}"`,
-        "Business Type": `"${BusinessInformation.type}"`,
+        "Search Term": `"${SearchEntityName}"`,
         "Business Status": `"${BusinessInformation.status}"`,
         "Nature of Business": `"${BusinessInformation.nature_of_business}"`,
         "Principal Office Email": `"${BusinessInformation.principal_office_email}"`,

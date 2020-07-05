@@ -12,6 +12,7 @@ var notice = clc.blue;
 
 const ALL_RECORDS = -1;
 const _RECORDS = 100;
+const SEARCH_ENTITY = "COURT"
 
 const BusinessType = {
   WA_LIMITED_LIABILITY_CORPORATION: 65,
@@ -30,10 +31,11 @@ const BusinessType = {
 // PageCount = The number of business to fetch at a time
 // PageID = The starting page
 // BusinessTypeID = The business type number
+// search entity keyword
 // criteria = the remaining business search criteria
 
 /*
-    const WA_CORPORATION_ALL = new CorporationBasicRawStream(-1, 1, 1, BusinessType, businessSearchCriteria);
+    const WA_CORPORATION_ALL = new CorporationBasicRawStream(-1, 1, "court", BusinessType, businessSearchCriteria);
     WA_CORPORATION_ALL._read();
 
     The following block is the preferred output for each company from the PDF parse and the console.log.
@@ -62,6 +64,7 @@ const CWA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
   _RECORDS,
   1,
   BusinessType.WA_LIMITED_LIABILITY_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -69,6 +72,7 @@ const CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStr
   _RECORDS,
   1,
   BusinessType.WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -76,6 +80,7 @@ const CWA_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(
   _RECORDS,
   1,
   BusinessType.WA_LIMITED_LIABILITY_PARTNERSHIP,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -83,6 +88,7 @@ const CWA_LIMITED_PARTNERSHIP = new CorporationBasicRawStream(
   _RECORDS,
   1,
   BusinessType.WA_LIMITED_PARTNERSHIP,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -90,6 +96,7 @@ const CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY = new CorporationBasicRawStream
   _RECORDS,
   1,
   BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -97,6 +104,7 @@ const CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawSt
   _RECORDS,
   1,
   BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -104,6 +112,7 @@ const CWA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
   _RECORDS,
   1,
   BusinessType.WA_PROFESSIONAL_SERVICE_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -111,6 +120,7 @@ const CWA_PROFIT_CORPORATION = new CorporationBasicRawStream(
   _RECORDS,
   1,
   BusinessType.WA_PROFIT_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -118,6 +128,7 @@ const CWA_NONPROFIT_CORPORATION = new CorporationBasicRawStream(
   _RECORDS,
   1,
   BusinessType.WA_NONPROFIT_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -125,6 +136,7 @@ const CWA_PUBLIC_BENEFIT_CORPORATION = new CorporationBasicRawStream(
   _RECORDS,
   1,
   BusinessType.WA_PUBLIC_BENEFIT_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -132,6 +144,7 @@ const CWA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
   BusinessType.WA_LIMITED_LIABILITY_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -139,6 +152,7 @@ const CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL = new CorporationBasicRa
   ALL_RECORDS,
   1,
   BusinessType.WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -146,6 +160,7 @@ const CWA_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
   BusinessType.WA_LIMITED_LIABILITY_PARTNERSHIP,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -153,6 +168,7 @@ const CWA_LIMITED_PARTNERSHIP_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
   BusinessType.WA_LIMITED_PARTNERSHIP,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -160,6 +176,7 @@ const CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL = new CorporationBasicRawSt
   ALL_RECORDS,
   1,
   BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -167,6 +184,7 @@ const CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicR
   ALL_RECORDS,
   1,
   BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -174,6 +192,7 @@ const CWA_PROFESSIONAL_SERVICE_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
   BusinessType.WA_PROFESSIONAL_SERVICE_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -181,6 +200,7 @@ const CWA_PROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
   BusinessType.WA_PROFIT_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -188,6 +208,7 @@ const CWA_PUBLIC_BENEFIT_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
   BusinessType.WA_PUBLIC_BENEFIT_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -195,6 +216,7 @@ const CWA_NONPROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
   ALL_RECORDS,
   1,
   BusinessType.WA_NONPROFIT_CORPORATION,
+  SEARCH_ENTITY,
   businessSearchCriteria
 );
 
@@ -282,5 +304,8 @@ const run_all_business = async () => {
   });
   */
 
-run_200_business();
-// run_all_business();
+ run_200_business();
+//run_all_business();
+
+
+// module.exports = { run_all_business, run_200_business}
