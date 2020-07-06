@@ -1,7 +1,44 @@
-[] credentials to .env file
-[] initialize / with data dumps from sos at 2am
-[] flag individual company to watch for update 
-[X] accept -1 to crawl all, or pass in BusinessType directly
+
+[] search contains (active)
+    [] keywords:
+        [] back
+        [] massage
+        [] chiro
+        [] medical
+        [] auto
+        [] vehicle
+        [] attorney
+        [] law
+        [] bar
+        [] resturant
+        [] bicycle
+        [] camp
+        [] online
+        [] investigation
+        [] detective
+        [] bakery
+        [] nail salon
+        [] salon
+        [] bbq
+        [] collision
+        [] auto repair
+        [] cruise
+        [] media
+        [] dogs
+        [] animals
+        [] pet
+        [] magic
+        [] dating
+        [] wine
+        [] winery
+        [] marketing
+        [] casino
+        [] party
+        [] bread
+        [] catering
+    [] all non-profits
+
+[] proxy credentials to .env file
 [] Timing of the fetch, PDF parsing CLI visual output for duration estimation
 [X] Logger by each business type, save to file, duration - stability
 [X] concurrency, no of concurrent http threads
