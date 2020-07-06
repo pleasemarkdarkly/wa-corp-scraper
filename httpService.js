@@ -30,32 +30,13 @@ const postHttp = async (postEndpoint, postData) => {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    agent,
+//    agent,
     body: querystring.stringify(postData),
   };
 
   const response = await fetch(postEndpoint, requestOptions);
   return handleResponse(response);
 };
-/*
-  TODO: Handle these errors:
-
-  FetchError: request to https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList failed, reason: read ECONNRESET
-    at ClientRequest.<anonymous> (/Users/mark.phillips/Developer/wa-corp-scraper/node_modules/node-fetch/lib/index.js:1455:11)
-    at ClientRequest.emit (events.js:315:20)
-    at TLSSocket.socketErrorListener (_http_client.js:467:9)
-    at TLSSocket.emit (events.js:315:20)
-    at emitErrorNT (internal/streams/destroy.js:100:8)
-    at emitErrorCloseNT (internal/streams/destroy.js:68:3)
-    at processTicksAndRejections (internal/process/task_queues.js:84:21) {
-  type: 'system',
-  errno: 'ECONNRESET',
-  code: 'ECONNRESET'
-}
-
-by sleeping for 5 minutes
-
-*/
 
 const getHttp = async (getEndpoint) => {
   const requestOptions = {
@@ -63,7 +44,7 @@ const getHttp = async (getEndpoint) => {
     headers: {
       "content-type": "text/html",
     },
-    agent,
+//    agent,
   };
 
   const response = await fetch(getEndpoint, requestOptions);
@@ -88,7 +69,7 @@ const annualPost = async (postEndpoint, postData) => {
     headers: {
       "Content-Type": "application/pdf",
     },
-    agent,
+//    agent,
     body: querystring.stringify(postData),
     encoding: null,
   };

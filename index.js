@@ -12,7 +12,7 @@ var notice = clc.blue;
 
 const ALL_RECORDS = -1;
 const _RECORDS = 100;
-const SEARCH_ENTITY = "COURT"
+const SEARCH_ENTITY = "ATTORNEY"
 
 const BusinessType = {
   WA_LIMITED_LIABILITY_CORPORATION: 65,

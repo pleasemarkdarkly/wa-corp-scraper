@@ -102,7 +102,7 @@ async function fetchTable(businessSearchCriteria) {
         ) {
           annualReport = fillingInformation[0];
           FilingNumber = annualReport.FilingNumber;
-          ID = annualReport.Transactionid;
+          ID = annualReport.TransactionId;
           FilingDateTime = annualReport.FilingDateTime;
           annualReportCriteria = await fetchAnnualReportCriteria(
             FilingNumber,

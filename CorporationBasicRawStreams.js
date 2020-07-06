@@ -38,7 +38,7 @@ class CorporationBasicRawStream extends stream.Readable {
       PageCount: this.PageCount,
       BusinessTypeID: this.BusinessTypeID,
       SearchEntityName: this.SearchEntityName,
-      SearchType: `${this.SearchEntityName === '' ? ' ' : `Contains`}`,
+      SearchType: `${this.SearchEntityName === "" ? " " : `Contains`}`,
     };
 
     const computedArgs = { ...this.args, ...fetchArgs };
@@ -54,7 +54,7 @@ class CorporationBasicRawStream extends stream.Readable {
           PageCount: this.PageCount,
           BusinessTypeID: this.BusinessTypeID,
           SearchEntityName: this.SearchEntityName,
-          SearchType: `${this.SearchEntityName === '' ? '' : `Contains`}`,
+          SearchType: `${this.SearchEntityName === "" ? "" : `Contains`}`,
         };
         const computedArgs = { ...this.args, ...allArgs };
         // console.log(allArgs);
@@ -73,13 +73,13 @@ class CorporationBasicRawStream extends stream.Readable {
             BusinessTypeID: this.BusinessTypeID,
           };
           const newComputedArgs = { ...this.args, ...newArgs };
-       
+
           console.log(warn("CorporationBasicRawStream: newComputedArgs:"));
           console.log(newArgs);
-       
+
           totalTable = await fetchTable(newComputedArgs);
           this.PageCount++;
-       
+
           console.log(warn("CorporationBasicRawStream (totalTable):"));
           console.log(totalTable);
 
@@ -105,7 +105,7 @@ class CorporationBasicRawStream extends stream.Readable {
           PageCount: 100, //to change back to 100
           BusinessTypeID: this.BusinessTypeID,
           SearchEntityName: this.SearchEntityName,
-          SearchType: `${this.SearchEntityName === '' ? '' : `Contains`}`,
+          SearchType: `${this.SearchEntityName === "" ? "" : `Contains`}`,
         };
         const newComputedArgs = { ...this.args, ...newArgs };
         console.log(newArgs);
