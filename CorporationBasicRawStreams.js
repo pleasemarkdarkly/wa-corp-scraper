@@ -7,19 +7,32 @@ var error = clc.red.bold;
 var warn = clc.yellow;
 var notice = clc.blue;
 
+
+/*
+  camel case and ID is Id or id but no ID
+
+*/
+
 class CorporationBasicRawStream extends stream.Readable {
   isFetching = false;
   isFinished = false;
+ 
+ // change to pageId 
   PageID = 1;
+
+  // pageCount unless this is a class 
   PageCount;
+
   BusinessTypeID;
 
   constructor(PageCount, PageID, BusinessTypeID, SearchEntityName, args) {
     super({ objectMode: true, highWaterMark: 128 });
 
+    
     this.PageCount = PageCount;
     this.PageID = PageID;
     this.args = args;
+    
     this.SearchEntityName = SearchEntityName;
     this.BusinessTypeID = BusinessTypeID;
 

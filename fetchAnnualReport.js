@@ -70,6 +70,9 @@ async function fetchAnnualReport(annualSearchCriteria) {
     console.log(
       "----------------------ANNUAL REPORT----------------------"
     );
+
+    // TODO: make these temporary variables more descriptive so I can understand what they do
+
     let properties,
       str_one,
       backstr_one,
@@ -107,6 +110,8 @@ async function fetchAnnualReport(annualSearchCriteria) {
 
     "UBI", "Business Name", "Business Type", "Business Status", "Nature of Business", "Principal Office Email", "Principal Office Phone", "Principal Office Street Address (1)", "Principal Office Street Address (2)", "Principal Office City", "Principal Office State", "Principal Office Zip", "Principal Office Address Full", "Principal Office Mailing Street Address (1)", "Principal Office Mailing Street Address (2)", "Principal Office Mailing City", "Principal Office Mailing State", "Principal Office Mailing Street Zip", "Principal Office Mailing Address Full", "Business Expiration Date", "Business Formation Date", Governor First name", "Governor Last Name", "Governor Type", "Registered Agent First Name", "Registered Agent Last Name", "Registered Agent Mailing Address", "Registered Agent Email", "Return Address for Filing Attention First Name", "Return Address for Filing Attention Last Name", "Return Address for Filing Attention Email", "Return Address Filing Mailing Street Address (1)", "Return Address Filing Mailing Street Address (2", "Return Address Filing Mailing City", "Return Address Filing Mailing State", "Return Address Filing Mailing Zip", "Authorized Person Signer Title", "Authorized Person Signer First Name", "Authorized Person Signer Last Name", "Authorized Person Type", "Last Filing Date", "Business Keywords"
 */
+
+
     const report = {
       name: `${newstr_one["8"]} ${newstr_one["9"]}`,
       type: `${newstr_one["21"]} ${newstr_one["22"]} ${newstr_one["23"]}`,
@@ -134,6 +139,8 @@ async function fetchAnnualReport(annualSearchCriteria) {
       initial_report_amount: newstr_three["97"],
     };
     
+    // TODO: Move all console.log test code into a debugging logging output with winston
+
     // console.log(notice("Report:"));
     // console.log(report);
 

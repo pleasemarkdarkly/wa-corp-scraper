@@ -2,6 +2,7 @@ var { postHttp } = require("./httpService");
 
 var fetchAnnualReportCriteriaEndpoint =
   "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList";
+  // is filing number a class? or ID a class
 async function fetchAnnualReportCriteria(FilingNumber, ID) {
   var fetchAnnualReportCriteriaData = {
     FilingNumber,
