@@ -43,11 +43,6 @@ let options = {
   pagerender: render_page,
 };
 
-/*
-  TODO: create variable to save stop word extracted business purpose and business name, var keywords;
-        https://www.npmjs.com/package/stopword
-        each "contact has to have a unique email" so for CSV create contact for each email/individual (governor or signer)
-*/
 
 async function fetchAnnualReport(annualSearchCriteria: {FileLocationCorrespondence: string, CorrespondenceFileName: string, DocumentTypeID: string}) {
   // console.time("Time-taken-to-fetch-annual-report");
@@ -104,11 +99,51 @@ async function fetchAnnualReport(annualSearchCriteria: {FileLocationCorresponden
 
     newstr_three = JSON.parse(newstr_three);
     // console.log(newstr_one, newstr_two, newstr_three);
-    /*
-    TODO: Extract the following (basically all the variables from the annual/initial report)
 
-    "UBI", "Business Name", "Business Type", "Business Status", "Nature of Business", "Principal Office Email", "Principal Office Phone", "Principal Office Street Address (1)", "Principal Office Street Address (2)", "Principal Office City", "Principal Office State", "Principal Office Zip", "Principal Office Address Full", "Principal Office Mailing Street Address (1)", "Principal Office Mailing Street Address (2)", "Principal Office Mailing City", "Principal Office Mailing State", "Principal Office Mailing Street Zip", "Principal Office Mailing Address Full", "Business Expiration Date", "Business Formation Date", Governor First name", "Governor Last Name", "Governor Type", "Registered Agent First Name", "Registered Agent Last Name", "Registered Agent Mailing Address", "Registered Agent Email", "Return Address for Filing Attention First Name", "Return Address for Filing Attention Last Name", "Return Address for Filing Attention Email", "Return Address Filing Mailing Street Address (1)", "Return Address Filing Mailing Street Address (2", "Return Address Filing Mailing City", "Return Address Filing Mailing State", "Return Address Filing Mailing Zip", "Authorized Person Signer Title", "Authorized Person Signer First Name", "Authorized Person Signer Last Name", "Authorized Person Type", "Last Filing Date", "Business Keywords"
-*/
+    /*
+    "UBI", 
+    "Business Name", 
+    "Business Type", 
+    "Business Status", 
+    "Nature of Business", 
+    "Principal Office Email", 
+    "Principal Office Phone", 
+    "Principal Office Street Address (1)", 
+    "Principal Office Street Address (2)", 
+    "Principal Office City", 
+    "Principal Office State", 
+    "Principal Office Zip", 
+    "Principal Office Address Full", 
+    "Principal Office Mailing Street Address (1)", 
+    "Principal Office Mailing Street Address (2)", 
+    "Principal Office Mailing City", 
+    "Principal Office Mailing State", 
+    "Principal Office Mailing Street Zip", 
+    "Principal Office Mailing Address Full", 
+    "Business Expiration Date", 
+    "Business Formation Date", 
+    "Governor First name", 
+    "Governor Last Name", 
+    "Governor Type", 
+    "Registered Agent First Name", 
+    "Registered Agent Last Name", 
+    "Registered Agent Mailing Address", 
+    "Registered Agent Email", 
+    "Return Address for Filing Attention First Name", 
+    "Return Address for Filing Attention Last Name", 
+    "Return Address for Filing Attention Email", 
+    "Return Address Filing Mailing Street Address (1)", 
+    "Return Address Filing Mailing Street Address (2", 
+    "Return Address Filing Mailing City", 
+    "Return Address Filing Mailing State", 
+    "Return Address Filing Mailing Zip", 
+    "Authorized Person Signer Title", 
+    "Authorized Person Signer First Name", 
+    "Authorized Person Signer Last Name", 
+    "Authorized Person Type", 
+    "Last Filing Date", 
+    "Business Keywords"
+    */
 
 
     const report = {

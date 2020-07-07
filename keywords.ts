@@ -1,18 +1,3 @@
-// TODO: move to json to a file argument which can accept a folder
-/*
-
-ex. yurchak_law.json: 
-	{
-		"keywords": [
-			"construction",
-			"chiro",
-			"chiropractor"
-			"massage",
-			"lmt"
-		]
-	}
-*/
-
 const keywords: string[] = [
 	"back",
 	"massage",
