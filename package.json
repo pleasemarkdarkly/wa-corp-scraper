@@ -9,7 +9,7 @@
     "start": "tsc && yarn run serve",
     "serve": "node dist/index.js",
     "stopall": "forever stopall",
-    "clean": "rm -rf ./searches/* && rm -rf ./logs/*",
+    "clean": "rm -rf ./csv-output/* && rm -rf ./logs/*",
     "count": "cat ./csv-output/* | wc -l",
     "save": "git add . && git commit -m 'update' && git push origin develop"
   },
