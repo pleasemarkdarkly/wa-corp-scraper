@@ -67,7 +67,7 @@ const keywords: string[] = [
 	"film",
 	"theater",
 	"stage",
-	"all non-profits",
+	"non profit",
 ];
 
 export default keywords;

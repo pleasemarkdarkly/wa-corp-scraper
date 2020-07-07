@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var { postHttp } = require("./httpService");
 const winston_1 = __importDefault(require("./common/winston"));
 var fetchAnnualReportCriteriaEndpoint = "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList";
-// is filing number a class? or ID a class
+// TODO: is filing number a class? or ID a class
 function fetchAnnualReportCriteria(fillingNumber, id) {
     return __awaiter(this, void 0, void 0, function* () {
         var fetchAnnualReportCriteriaData = {

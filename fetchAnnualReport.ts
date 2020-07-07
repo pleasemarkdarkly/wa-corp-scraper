@@ -43,10 +43,9 @@ let options = {
   pagerender: render_page,
 };
 
-
 async function fetchAnnualReport(annualSearchCriteria: {FileLocationCorrespondence: string, CorrespondenceFileName: string, DocumentTypeID: string}) {
   // console.time("Time-taken-to-fetch-annual-report");
-  console.log(notice("Fetch the annual report of designated business type"));
+  console.log(warn("Fetch the annual report of designated business type"));
 
   const FileLocationCorrespondence =
     annualSearchCriteria.FileLocationCorrespondence;

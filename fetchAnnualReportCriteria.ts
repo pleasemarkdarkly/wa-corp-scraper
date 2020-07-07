@@ -3,7 +3,7 @@ import  logger  from './common/winston';
 
 var fetchAnnualReportCriteriaEndpoint =
   "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList";
-  // is filing number a class? or ID a class
+  // TODO: is filing number a class? or ID a class
 async function fetchAnnualReportCriteria(fillingNumber: string, id: string) {
   var fetchAnnualReportCriteriaData = {
     FilingNumber: fillingNumber,
