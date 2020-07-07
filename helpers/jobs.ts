@@ -3,7 +3,7 @@ const { run_all_business, run_200_business} = require('../index')
 
 
 cron.schedule('* * * * *', () => {
-  right_now = Date.now();
+  let right_now = Date.now();
   console.log('(' + right_now + ') running a task every minute');
 //   run_all_business()
   if ( right_now % 2 == 0 ){

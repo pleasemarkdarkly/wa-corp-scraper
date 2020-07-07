@@ -3,7 +3,7 @@ var { postHttp } = require("./httpService");
 var fetchAnnualReportCriteriaEndpoint =
   "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList";
   // is filing number a class? or ID a class
-async function fetchAnnualReportCriteria(FilingNumber, ID) {
+async function fetchAnnualReportCriteria(FilingNumber: string, ID: string) {
   var fetchAnnualReportCriteriaData = {
     FilingNumber,
     ID,
@@ -18,4 +18,4 @@ async function fetchAnnualReportCriteria(FilingNumber, ID) {
   return data;
 }
 
-module.exports = fetchAnnualReportCriteria;
+export default fetchAnnualReportCriteria;

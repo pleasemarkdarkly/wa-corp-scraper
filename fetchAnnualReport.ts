@@ -1,28 +1,27 @@
-var { annualPost } = require("./httpService");
-const pdf = require("pdf-parse");
+import  { annualPost } from "./httpService";
+import pdf  from "pdf-parse";
+import clc from "cli-color";
 
-var clc = require("cli-color");
+const info = clc.white.bold;
+const error = clc.red.bold;
+const warn = clc.yellow;
+const notice = clc.blue;
 
-var info = clc.white.bold;
-var error = clc.red.bold;
-var warn = clc.yellow;
-var notice = clc.blue;
-
-var annualReportEndpoint =
+const annualReportEndpoint =
   "https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=Certificates\\2020\\04\\0013415175_OnlineReport.pdf&CorrespondenceFileName=0013415175_OnlineReport.pdf&DocumentTypeId=4";
 
-function render_page(pageData) {
+function render_page(pageData: any) {
   let render_options = {
     normalizeWhitespace: false,
     disableCombineTextItems: false,
   };
-  return pageData.getTextContent(render_options).then(function (textContent) {
-    var obj = {},
-      txt = "",
+  return pageData.getTextContent(render_options).then(function (textContent: {items: []}) {
+    let obj: any,
+      txt: any,
       txtArr = [],
       mtx,
       obj2 = {};
-    textContent.items.forEach(function (property, i) {
+    textContent.items.forEach(function (property:{str: string}, i) {
       txt += property.str;
       // obj[i]= property.str
     });
@@ -32,7 +31,7 @@ function render_page(pageData) {
     // txt = txt.replace(/  /g, "")
     txt = txt.split(" ");
 
-    txt.forEach(function (t, i) {
+    txt.forEach(function (t: string, i: any) {
       obj[i] = t;
     });
     // console.log(obj2);
@@ -50,7 +49,7 @@ let options = {
         each "contact has to have a unique email" so for CSV create contact for each email/individual (governor or signer)
 */
 
-async function fetchAnnualReport(annualSearchCriteria) {
+async function fetchAnnualReport(annualSearchCriteria: {FileLocationCorrespondence: string, CorrespondenceFileName: string, DocumentTypeID: string}) {
   // console.time("Time-taken-to-fetch-annual-report");
   console.log(notice("Fetch the annual report of designated business type"));
 
@@ -61,7 +60,7 @@ async function fetchAnnualReport(annualSearchCriteria) {
 
   console.log(FileLocationCorrespondence, CorrespondenceFileName);
 
-  var annualReportEndpoint = `https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=${FileLocationCorrespondence}&CorrespondenceFileName=${CorrespondenceFileName}&DocumentTypeId=${DocumentTypeID}`;
+  const annualReportEndpoint = `https://cfda.sos.wa.gov/api/Common/DownloadOnlineFilesByNumber?fileName=${FileLocationCorrespondence}&CorrespondenceFileName=${CorrespondenceFileName}&DocumentTypeId=${DocumentTypeID}`;
 
   console.log(notice("Attempting to get %j", annualReportEndpoint));
   console.time("Annual-Report");

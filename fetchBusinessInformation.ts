@@ -1,13 +1,13 @@
-var { getHttp } = require("./httpService");
-var addressValidator = require("address-validator");
-var Address = addressValidator.Address;
+import { getHttp } from "./httpService";
+import sw from "stopword";
 
-function removeFromString(arr, str) {
+
+function removeFromString(arr: [], str: string) {
   let regex = new RegExp("\\b" + arr.join("|") + "\\b", "gi");
   return str.replace(regex, "");
 }
 
-function toSentenceCase(theString) {
+function toSentenceCase(theString: string) {
   var newString = theString
     .toLowerCase()
     .replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function (c) {
@@ -16,12 +16,12 @@ function toSentenceCase(theString) {
   return newString;
 }
 
-function formatInut(str) {
+function formatInut(str: string) {
   if (str === undefined || str === null || typeof str !== "string") return " ";
   return str.replace(/,/g, " ");
 }
 
-async function fetchBusinessInformation(businessId) {
+async function fetchBusinessInformation(businessId: string) {
   var BusinessInfoEndpoint = `https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=${businessId}`;
 
   /*
@@ -44,7 +44,7 @@ async function fetchBusinessInformation(businessId) {
   const oldKeyword = keyword.split(" ");
   const newKeyword = sw.removeStopwords(oldKeyword);
 
-  const special_extraction_words = [
+  const special_extraction_words: any = [
     "any",
     "company",
     "corporation",
@@ -224,4 +224,4 @@ async function fetchBusinessInformation(businessId) {
   };
 }
 
-module.exports = fetchBusinessInformation;
+export default fetchBusinessInformation;

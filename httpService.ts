@@ -1,14 +1,13 @@
-var SocksProxyAgent = require("socks-proxy-agent");
-var clc = require("cli-color");
+import SocksProxyAgent from "socks-proxy-agent";
+import clc from "cli-color";
+import fetch from "node-fetch";
+import querystring  from "querystring";
+import dotenv from "dotenv";
 
-const fetch = require("node-fetch");
-const querystring = require("querystring");
-const dotenv = require("dotenv");
-
-var info = clc.white.bold;
-var error = clc.red.bold;
-var warn = clc.yellow;
-var notice = clc.blue;
+const info = clc.white.bold;
+const error = clc.red.bold;
+const warn = clc.yellow;
+const notice = clc.blue;
 
 dotenv.config();
 
@@ -22,9 +21,9 @@ const user = SOCKS_USER,
   host = SOCKS_HOST,
   port = SOCKS_PORT;
 
-const agent = new SocksProxyAgent(`socks5://${user}:${pass}@${host}:${port}/`);
+// const agent: any = new SocksProxyAgent(`socks5://${user}:${pass}@${host}:${port}/`);
 
-const postHttp = async (postEndpoint, postData) => {
+const postHttp = async (postEndpoint: string, postData: any) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -38,7 +37,7 @@ const postHttp = async (postEndpoint, postData) => {
   return handleResponse(response);
 };
 
-const getHttp = async (getEndpoint) => {
+const getHttp = async (getEndpoint: string) => {
   const requestOptions = {
     method: "GET",
     headers: {
@@ -51,8 +50,8 @@ const getHttp = async (getEndpoint) => {
   return handleResponse(response);
 };
 
-const handleResponse = (response) => {
-  return response.text().then((text) => {
+const handleResponse = (response: any) => {
+  return response.text().then((text: string) => {
     // console.timeEnd("Time-taken")
     const data = text && JSON.parse(text);
     if (!response.ok) {
@@ -63,7 +62,7 @@ const handleResponse = (response) => {
   });
 };
 
-const annualPost = async (postEndpoint, postData) => {
+const annualPost = async (postEndpoint: string, postData: any) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -71,25 +70,24 @@ const annualPost = async (postEndpoint, postData) => {
     },
 //    agent,
     body: querystring.stringify(postData),
-    encoding: null,
   };
 
   const response = await fetch(postEndpoint, requestOptions);
   return handleAnnualPDF(response);
 };
 
-const handleAnnualPDF = (response) => {
+const handleAnnualPDF = (response: any) => {
   // console.log(response.headers);
 
-  return response.arrayBuffer().then((text) => {
+  return response.arrayBuffer().then((text: {error: string}) => {
     console.timeEnd("Time-taken-to-fetch-annual-report");
     const data = text;
     if (!response.ok) {
-      const error = data && data.error;
+      const error: string = data && data.error;
       return Promise.reject(error);
     }
     return data;
   });
 };
 
-module.exports = { getHttp, postHttp, annualPost };
+export {getHttp, postHttp, annualPost };

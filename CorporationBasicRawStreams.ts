@@ -1,6 +1,7 @@
-const stream = require("stream");
-const fetchTable = require("./fetchTable");
-var clc = require("cli-color");
+import stream from "stream";
+import fetchTable from "./fetchTable";
+import clc  from "cli-color";
+import keywords from './keywords';
 
 var info = clc.white.bold;
 var error = clc.red.bold;
@@ -14,44 +15,45 @@ var notice = clc.blue;
 */
 
 class CorporationBasicRawStream extends stream.Readable {
-  isFetching = false;
-  isFinished = false;
+  isFetching: Boolean = false;
+  isFinished: Boolean = false;
  
  // change to pageId 
-  PageID = 1;
+  pageId: any = 1;
 
   // pageCount unless this is a class 
-  PageCount;
+  pageCount: any;
 
-  BusinessTypeID;
+  businessTypeId: any;
+  args: {};
+  searchEntityName: string = '';
+  searchType: string = '';
 
-  constructor(PageCount, PageID, BusinessTypeID, SearchEntityName, args) {
+  constructor(pageCount: any, pageId: any, businessTypeId: any, args: {}) {
     super({ objectMode: true, highWaterMark: 128 });
 
     
-    this.PageCount = PageCount;
-    this.PageID = PageID;
+    this.pageCount = pageCount;
+    this.pageId = pageId;
     this.args = args;
-    
-    this.SearchEntityName = SearchEntityName;
-    this.BusinessTypeID = BusinessTypeID;
+    this.businessTypeId = businessTypeId;
 
-    if (!this.PageCount)
+    if (!this.pageCount)
       throw new Error(
         "The number of businesses on each page must be included."
       );
-    if (!this.PageID) throw new Error("The page number must be specified.");
-    if (!this.BusinessTypeID)
+    if (!this.pageId) throw new Error("The page number must be specified.");
+    if (!this.businessTypeId)
       throw new Error("The business type must be specified.");
   }
 
   async fetchOne() {
     const fetchArgs = {
-      PageID: this.PageID,
-      PageCount: this.PageCount,
-      BusinessTypeID: this.BusinessTypeID,
-      SearchEntityName: this.SearchEntityName,
-      SearchType: `${this.SearchEntityName === "" ? " " : `Contains`}`,
+      PageID: this.pageId,
+      PageCount: this.pageCount,
+      BusinessTypeID: this.businessTypeId,
+      SearchEntityName: this.searchEntityName,
+      SearchType: this.searchType,
     };
 
     const computedArgs = { ...this.args, ...fetchArgs };
@@ -60,38 +62,40 @@ class CorporationBasicRawStream extends stream.Readable {
     console.log(fetchArgs);
 
     try {
-      if (this.PageCount === -1) {
-        this.PageCount = Math.abs(this.PageCount);
+      if (this.pageCount === -1) {
+        this.pageCount = Math.abs(this.pageCount);
         const allArgs = {
-          PageID: this.PageCount,
-          PageCount: this.PageCount,
-          BusinessTypeID: this.BusinessTypeID,
-          SearchEntityName: this.SearchEntityName,
-          SearchType: `${this.SearchEntityName === "" ? "" : `Contains`}`,
+          PageID: 1,
+          PageCount: this.pageCount,
+          BusinessTypeID: this.businessTypeId,
+          SearchEntityName: this.searchEntityName,
+          SearchType: this.searchType,
         };
         const computedArgs = { ...this.args, ...allArgs };
         // console.log(allArgs);
-        const table = await fetchTable(computedArgs);
-        const { TOTAL_AVAILABLE_BUSINESS } = table;
+        const table = await fetchTable(computedArgs); 
+       const  { TOTAL_AVAILABLE_BUSINESS } = table;
         let totalTable,
           Tables = [];
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 10; i++) {
           const newArgs = {
-            PageID: this.PageCount,
-            PageCount: `${
-              TOTAL_AVAILABLE_BUSINESS > 100
-                ? parseInt(TOTAL_AVAILABLE_BUSINESS / 100)
-                : TOTAL_AVAILABLE_BUSINESS
-            }`,
-            BusinessTypeID: this.BusinessTypeID,
+            PageID: this.pageId,
+            PageCount: 
+              `${TOTAL_AVAILABLE_BUSINESS > 100
+                ? Math.floor(TOTAL_AVAILABLE_BUSINESS / 100)
+                : TOTAL_AVAILABLE_BUSINESS}`
+            ,
+            BusinessTypeID: this.businessTypeId,
+            SearchEntityName: this.searchEntityName,
+            SearchType: this.searchType,
           };
-          const newComputedArgs = { ...this.args, ...newArgs };
+          const newComputedArgs: any = { ...this.args, ...newArgs };
 
           console.log(warn("CorporationBasicRawStream: newComputedArgs:"));
           console.log(newArgs);
 
           totalTable = await fetchTable(newComputedArgs);
-          this.PageCount++;
+          this.pageCount++;
 
           console.log(warn("CorporationBasicRawStream (totalTable):"));
           console.log(totalTable);
@@ -112,13 +116,13 @@ class CorporationBasicRawStream extends stream.Readable {
         this.isFinished = true;
         return;
       } else if (TOTAL_AVAILABLE_BUSINESS) {
-        this.PageID = Math.floor(TOTAL_AVAILABLE_BUSINESS / 10);
+        this.pageId = Math.floor(TOTAL_AVAILABLE_BUSINESS / 5);
         const newArgs = {
-          PageID: this.PageID,
-          PageCount: 100, //to change back to 100
-          BusinessTypeID: this.BusinessTypeID,
-          SearchEntityName: this.SearchEntityName,
-          SearchType: `${this.SearchEntityName === "" ? "" : `Contains`}`,
+          PageID: this.pageId,
+          PageCount: 5, //to change back to 100
+          BusinessTypeID: this.businessTypeId,
+          SearchEntityName: this.searchEntityName,
+          SearchType: this.searchType,
         };
         const newComputedArgs = { ...this.args, ...newArgs };
         console.log(newArgs);
@@ -144,7 +148,13 @@ class CorporationBasicRawStream extends stream.Readable {
 
   async startFetching() {
     this.isFetching = true;
+      // for(let i = 0; i < keywords.length; i++) {
+      //   this.searchEntityName = keywords[i];
+      //   this.searchType = `${this.searchEntityName === "" ? "" : `Contains`}`;
+      //   return this.fetchWorker();
+      // }
     return this.fetchWorker();
+
   }
 
   stopFetching = () => (this.isFetching = false);
@@ -155,4 +165,4 @@ class CorporationBasicRawStream extends stream.Readable {
   }
 }
 
-module.exports = CorporationBasicRawStream;
+export default CorporationBasicRawStream;

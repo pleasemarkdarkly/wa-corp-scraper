@@ -1,4 +1,4 @@
-var businessSearchCriteria = {
+var businessSearchCriteria: any = {
   Type: "Agent",
   BusinessStatusID: "1",
   AgentName: "",
@@ -62,4 +62,4 @@ var businessSearchCriteria = {
   "PrincipalAddress[Country]": "USA",
 };
 
-module.exports = businessSearchCriteria;
+export default businessSearchCriteria;
