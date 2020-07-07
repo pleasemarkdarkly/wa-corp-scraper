@@ -21,6 +21,7 @@ const info = cli_color_1.default.white.bold;
 const error = cli_color_1.default.red.bold;
 const warn = cli_color_1.default.yellow;
 const notice = cli_color_1.default.blue;
+// TODO: Move to yargs parsing
 dotenv_1.default.config();
 const SOCKS_USER = process.env.SOCKS_USER || "None";
 const SOCKS_PASSWORD = process.env.SOCKS_PASSWORD || "None";
@@ -54,7 +55,6 @@ const getHttp = (getEndpoint) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getHttp = getHttp;
 const handleResponse = (response) => {
     return response.text().then((text) => {
-        // console.timeEnd("Time-taken")
         const data = text && JSON.parse(text);
         if (!response.ok) {
             const error = data && data.error;
@@ -79,7 +79,7 @@ exports.annualPost = annualPost;
 const handleAnnualPDF = (response) => {
     // console.log(response.headers);
     return response.arrayBuffer().then((text) => {
-        console.timeEnd("Time-taken-to-fetch-annual-report");
+        console.timeEnd("Annual-Report");
         const data = text;
         if (!response.ok) {
             const error = data && data.error;

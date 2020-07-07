@@ -15,17 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const httpService_1 = require("./httpService");
 const cli_color_1 = __importDefault(require("cli-color"));
 const stopword_1 = __importDefault(require("stopword"));
-const winston_1 = __importDefault(require("./config/winston"));
+// import special_extraction_words from "./entityExtractionWords";
+const winston_1 = __importDefault(require("./common/winston"));
+const fetchFilingInformation_1 = __importDefault(require("./fetchFilingInformation"));
+const fetchAnnualReportCriteria_1 = __importDefault(require("./fetchAnnualReportCriteria"));
+const fetchBusinessInformation_1 = __importDefault(require("./fetchBusinessInformation"));
+const convert_csv_1 = __importDefault(require("./common/convert_csv"));
+const keywords_1 = __importDefault(require("./keywords"));
 const info = cli_color_1.default.white.bold;
 const error = cli_color_1.default.red.bold;
 const warn = cli_color_1.default.yellow;
 const notice = cli_color_1.default.blue;
-const fetchFilingInformation_1 = __importDefault(require("./fetchFilingInformation"));
-const fetchAnnualReportCriteria_1 = __importDefault(require("./fetchAnnualReportCriteria"));
-const fetchBusinessInformation_1 = __importDefault(require("./fetchBusinessInformation"));
-const convertCSV_1 = __importDefault(require("./helpers/convertCSV"));
-const keywords_1 = __importDefault(require("./keywords"));
-var AdvancedSearchEndpoint = "https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList";
 const special_extraction_words = [
     "any",
     "company",
@@ -39,8 +39,9 @@ const special_extraction_words = [
     "llc",
     "l.l.c.",
     "lawful",
-    "retail"
+    "retail",
 ];
+var AdvancedSearchEndpoint = "https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList";
 function removeFromString(arr, str) {
     let regex = new RegExp("\\b" + arr.join('|') + "\\b", "gi");
     return str.replace(regex, '');
@@ -61,13 +62,13 @@ function fetchTable(businessSearchCriteria) {
         let totalRowCount;
         let businessInformation;
         let fillingInformation;
+        // TODO: TypeID needs to change to TypeId
         let businessTypeID = businessSearchCriteria.BusinessTypeID;
         let searchEntityName;
         for (let i = 0; i < keywords_1.default.length; i++) {
             searchEntityName = keywords_1.default[i];
             businessSearchCriteria.SearchEntityName = searchEntityName;
             businessSearchCriteria.SearchType = `${this.searchEntityName === "" ? "" : `Contains`}`;
-            // START SCRAPPING
             const data = yield httpService_1.postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
             if (data) {
                 fetchTableTime = Date.now();
@@ -77,6 +78,7 @@ function fetchTable(businessSearchCriteria) {
                     totalRowCount =
                         firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
                     let businessInfo = data[i];
+                    // TODO: BusinessID needs to change to BusinessId
                     businessId = data[i].BusinessID;
                     businessInformation = yield fetchBusinessInformation_1.default(businessId);
                     if (businessInformation) {
@@ -89,7 +91,10 @@ function fetchTable(businessSearchCriteria) {
                         fetchBillingTime = Date.now();
                         averageBL_time = fetchBillingTime - startTime;
                     }
-                    let FilingNumber, ID, annualReport, annualReportCriteria = [], FilingDateTime, annualDueNotice;
+                    // TODO: FilingNumber and ID are not classes, change to filingNumber and id
+                    let FilingNumber, ID, annualReport, annualReportCriteria = [], 
+                    // TODO: naming conventions!
+                    FilingDateTime, annualDueNotice;
                     for (let i = 0; i < fillingInformation.length; i++) {
                         if (fillingInformation[i].FilingTypeName === "ANNUAL REPORT" ||
                             fillingInformation[i].FilingTypeName === "INITIAL REPORT") {
@@ -101,7 +106,7 @@ function fetchTable(businessSearchCriteria) {
                             break;
                         }
                         winston_1.default.log({
-                            level: 'info',
+                            level: 'debug',
                             message: `Neither Annual or Initial Report detected for ${businessId}`
                         });
                     }
@@ -117,7 +122,7 @@ function fetchTable(businessSearchCriteria) {
                         }
                         else {
                             winston_1.default.log({
-                                level: 'info',
+                                level: 'debug',
                                 message: "No Annual or Initial Report Found to download for " + businessId
                             });
                         }
@@ -133,8 +138,8 @@ function fetchTable(businessSearchCriteria) {
                     BUSINESS_INFORMATION_REPORT.push(Object.assign(Object.assign(Object.assign({}, info), businessInformation), { date_filed: FilingDateTime }));
                     if (BUSINESS_INFORMATION_REPORT.length === totalCount) {
                         winston_1.default.log({
-                            level: 'info',
-                            message: `${totalCount} bussinesses processed`
+                            level: 'debug',
+                            message: `${totalCount} businesses processed`
                         });
                         totalCount += 1000;
                     }
@@ -145,23 +150,10 @@ function fetchTable(businessSearchCriteria) {
                     const keyword = `${businessInformation.name} ${businessInformation.nature_of_business}`;
                     const oldKeyword = keyword.split(" ");
                     const newKeyword = stopword_1.default.removeStopwords(oldKeyword);
-                    /*
-                    keywords: "#WETHEPLANET PROMOTING AWARENESS NEED DISRUPTIVE INNOVATION DEVELOPMENT CREATION INITIATIVES DEFY TRADITIONAL MODEL ACCELERATING RATE ONE MASTERS SKILLS INVOLVING..."
-              
-                    TODO: General rules for handling output.
-                    1. quotes around the value, separated by commas - hence csv or comma separated values
-                    2. any values which state "No value found" or "undefined" can be blank
-                    3. keywords are to have all stop words removed, all punctuation removed, and lower case, but all contained in a single quotes. "cats dogs horse apples cheese"
-                    4. lawful purpose, llc, corporation, company and other business descriptions maybe removed. keep an array of special extraction words
-                    5. addresses are stored as both de-structured and without commas and combined for "Principal Office" and "Principal Office Mailing", this validator generally works well (https://www.npmjs.com/package/address-validator)
-                    6. Business purpose to be converted to sentence case.
-              
-                    */
                     let keywords = `${newKeyword}`.toString().replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]/g, " ").toLowerCase().trim();
                     keywords = removeFromString(special_extraction_words, keywords);
                     keywords = keywords.replace(/(^\s*)|(\s*$)/gi, "");
                     keywords = keywords.replace(/[ ]{2,}/gi, " ");
-                    // any single character remove
                     keywords = keywords.replace(/\n/, "");
                     winston_1.default.log({
                         level: 'info',
@@ -215,7 +207,7 @@ function fetchTable(businessSearchCriteria) {
                 }
             }
             totalTimeTaken = averageAL_time + averageBL_time + averageFT_time + averageBT_time;
-            const CSV = convertCSV_1.default(BUSINESS_INFO, businessTypeID, searchEntityName);
+            const CSV = convert_csv_1.default(BUSINESS_INFO, businessTypeID, searchEntityName);
             BUSINESS_INFO = [];
         }
         return {

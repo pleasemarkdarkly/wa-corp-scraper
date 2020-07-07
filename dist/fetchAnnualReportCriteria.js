@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var { postHttp } = require("./httpService");
-const winston_1 = __importDefault(require("./config/winston"));
+const winston_1 = __importDefault(require("./common/winston"));
 var fetchAnnualReportCriteriaEndpoint = "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList";
 // is filing number a class? or ID a class
 function fetchAnnualReportCriteria(fillingNumber, id) {
@@ -23,7 +23,7 @@ function fetchAnnualReportCriteria(fillingNumber, id) {
             ID: id,
         };
         winston_1.default.log({
-            level: 'info',
+            level: 'debug',
             message: `Annual report: ${fetchAnnualReportCriteriaEndpoint}`
         });
         const data = yield postHttp(fetchAnnualReportCriteriaEndpoint, fetchAnnualReportCriteriaData);

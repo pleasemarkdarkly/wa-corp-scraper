@@ -1,6 +1,6 @@
 import { getHttp } from "./httpService";
 import sw from "stopword";
-import  logger  from './config/winston';
+import  logger  from './common/winston';
 
 function removeFromString(arr: [], str: string) {
   let regex = new RegExp("\\b" + arr.join("|") + "\\b", "gi");
@@ -73,7 +73,7 @@ async function fetchBusinessInformation(businessId: string) {
   keywords = keywords.replace(/\n/, "");
 
   logger.log({
-    level: 'info',
+    level: 'debug',
     message: `keywords: ${keywords}`
   });
 

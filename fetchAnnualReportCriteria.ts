@@ -1,5 +1,5 @@
 var { postHttp } = require("./httpService");
-import  logger  from './config/winston';
+import  logger  from './common/winston';
 
 var fetchAnnualReportCriteriaEndpoint =
   "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList";
@@ -11,7 +11,7 @@ async function fetchAnnualReportCriteria(fillingNumber: string, id: string) {
   };
   
   logger.log({
-    level: 'info',
+    level: 'debug',
     message: `Annual report: ${fetchAnnualReportCriteriaEndpoint}`
   });
 

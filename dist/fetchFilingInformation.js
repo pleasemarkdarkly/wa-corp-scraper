@@ -13,12 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var { getHttp } = require('./httpService');
-const winston_1 = __importDefault(require("./config/winston"));
+const winston_1 = __importDefault(require("./common/winston"));
+/// TODO: BusinessID => BusinessId NAMING CONVENTIONS!!!
 function fetchFilingInformation(BusinessID) {
     return __awaiter(this, void 0, void 0, function* () {
         var fillingInfoEndpoint = `https://cfda.sos.wa.gov/api/BusinessSearch/GetBusinessFilingList?IsOnline=true&businessId=${BusinessID}`;
         winston_1.default.log({
-            level: 'info',
+            level: 'debug',
             message: `Filing information (${BusinessID}) : , ${fillingInfoEndpoint}`
         });
         const data = yield getHttp(fillingInfoEndpoint);

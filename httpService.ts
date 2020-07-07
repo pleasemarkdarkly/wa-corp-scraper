@@ -9,6 +9,7 @@ const error = clc.red.bold;
 const warn = clc.yellow;
 const notice = clc.blue;
 
+// TODO: Move to yargs parsing
 dotenv.config();
 
 const SOCKS_USER = process.env.SOCKS_USER || "None";
@@ -43,6 +44,7 @@ const getHttp = async (getEndpoint: string) => {
     headers: {
       "content-type": "text/html",
     },
+    // TODO: check to see if proxy is defined if not or if it fails getEndpoint without proxy return warning
 //    agent,
   };
 
@@ -52,7 +54,6 @@ const getHttp = async (getEndpoint: string) => {
 
 const handleResponse = (response: any) => {
   return response.text().then((text: string) => {
-    // console.timeEnd("Time-taken")
     const data = text && JSON.parse(text);
     if (!response.ok) {
       const error = data && data.error;
@@ -80,7 +81,7 @@ const handleAnnualPDF = (response: any) => {
   // console.log(response.headers);
 
   return response.arrayBuffer().then((text: {error: string}) => {
-    console.timeEnd("Time-taken-to-fetch-annual-report");
+    console.timeEnd("Annual-Report");
     const data = text;
     if (!response.ok) {
       const error: string = data && data.error;

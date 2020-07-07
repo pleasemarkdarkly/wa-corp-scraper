@@ -1,23 +1,19 @@
 import { postHttp } from "./httpService";
 import clc from "cli-color";
 import sw from "stopword";
-import  logger  from './config/winston';
+// import special_extraction_words from "./entityExtractionWords";
+import  logger  from './common/winston';
 
+import fetchFillingInformation from "./fetchFilingInformation";
+import fetchAnnualReportCriteria from "./fetchAnnualReportCriteria";
+import fetchBusinessInformation from "./fetchBusinessInformation";
+import convertToCSV from "./common/convert_csv";
+import keywords from "./keywords";
 
 const info = clc.white.bold;
 const error = clc.red.bold;
 const warn = clc.yellow;
 const notice = clc.blue;
-
-import fetchFillingInformation from "./fetchFilingInformation";
-import fetchAnnualReportCriteria from "./fetchAnnualReportCriteria";
-import fetchBusinessInformation from "./fetchBusinessInformation";
-import convertToCSV from "./helpers/convertCSV";
-import keywords from "./keywords";
-import { level } from "winston";
-
-var AdvancedSearchEndpoint =
-  "https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList";
 
 const special_extraction_words: any = [
   "any",
@@ -32,13 +28,18 @@ const special_extraction_words: any = [
   "llc",
   "l.l.c.",
   "lawful",
-  "retail"
+  "retail",
 ];
+
+var AdvancedSearchEndpoint =
+  "https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList";
 
 function removeFromString(arr: [], str: string){
   let regex = new RegExp("\\b"+arr.join('|')+"\\b","gi")
   return str.replace(regex, '')
 }
+
+
 let startTime,
     fetchTableTime, 
     fetchBusinessTime, 
@@ -50,7 +51,8 @@ let startTime,
     averageBL_time: any,
     averageAL_time: any,
     totalTimeTaken: any
-async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchEntityName: string, SearchType: string, PageCount: any}) {  
+
+    async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchEntityName: string, SearchType: string, PageCount: any}) {  
   startTime = Date.now();
   logger.log({
     level: 'info',
@@ -66,18 +68,16 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
   let totalRowCount;
   let businessInformation;
   let fillingInformation;
+  // TODO: TypeID needs to change to TypeId
   let businessTypeID = businessSearchCriteria.BusinessTypeID
   let searchEntityName 
 
+  for(let i = 0; i < keywords.length; i++) {
+    searchEntityName = keywords[i];
+    businessSearchCriteria.SearchEntityName = searchEntityName;
+    businessSearchCriteria.SearchType = `${this.searchEntityName === "" ? "" : `Contains`}`;
 
-    for(let i = 0; i < keywords.length; i++) {
-      searchEntityName = keywords[i];
-      businessSearchCriteria.SearchEntityName = searchEntityName;
-      businessSearchCriteria.SearchType = `${this.searchEntityName === "" ? "" : `Contains`}`;
-
-      // START SCRAPPING
-  const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
- 
+  const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria); 
       if (data) {
         fetchTableTime = Date.now();
         averageFT_time = fetchTableTime - startTime;
@@ -86,9 +86,9 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
           totalRowCount =
             firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
           let businessInfo = data[i];
+          // TODO: BusinessID needs to change to BusinessId
           businessId = data[i].BusinessID;
-    
-    
+      
           businessInformation = await fetchBusinessInformation(businessId);
           if(businessInformation) {
             fetchBusinessTime = Date.now();
@@ -100,10 +100,12 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
             averageBL_time = fetchBillingTime - startTime;
           }
     
+          // TODO: FilingNumber and ID are not classes, change to filingNumber and id
           let FilingNumber,
             ID,
             annualReport,
             annualReportCriteria = [],
+            // TODO: naming conventions!
             FilingDateTime,
             annualDueNotice;
           for (let i = 0; i < fillingInformation.length; i++) {
@@ -122,7 +124,7 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
               break;
             }
             logger.log({
-              level: 'info',
+              level: 'debug',
               message: `Neither Annual or Initial Report detected for ${businessId}`
             });
           }
@@ -137,7 +139,7 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
               break;
             } else {
               logger.log({
-                level: 'info',
+                level: 'debug',
                 message: "No Annual or Initial Report Found to download for " + businessId
               });
             }
@@ -161,8 +163,8 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
     
           if (BUSINESS_INFORMATION_REPORT.length === totalCount) {
             logger.log({
-              level: 'info',
-              message: `${totalCount} bussinesses processed`
+              level: 'debug',
+              message: `${totalCount} businesses processed`
             });
             totalCount +=1000;
     
@@ -174,24 +176,10 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
           const oldKeyword = keyword.split(" ");
           const newKeyword = sw.removeStopwords(oldKeyword);
     
-          /*
-          keywords: "#WETHEPLANET PROMOTING AWARENESS NEED DISRUPTIVE INNOVATION DEVELOPMENT CREATION INITIATIVES DEFY TRADITIONAL MODEL ACCELERATING RATE ONE MASTERS SKILLS INVOLVING..."
-    
-          TODO: General rules for handling output. 
-          1. quotes around the value, separated by commas - hence csv or comma separated values
-          2. any values which state "No value found" or "undefined" can be blank
-          3. keywords are to have all stop words removed, all punctuation removed, and lower case, but all contained in a single quotes. "cats dogs horse apples cheese" 
-          4. lawful purpose, llc, corporation, company and other business descriptions maybe removed. keep an array of special extraction words
-          5. addresses are stored as both de-structured and without commas and combined for "Principal Office" and "Principal Office Mailing", this validator generally works well (https://www.npmjs.com/package/address-validator)
-          6. Business purpose to be converted to sentence case.
-    
-          */
-    
           let keywords = `${newKeyword}`.toString().replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]/g, " ").toLowerCase().trim();
           keywords = removeFromString(special_extraction_words, keywords);
           keywords = keywords.replace(/(^\s*)|(\s*$)/gi,"");
           keywords = keywords.replace(/[ ]{2,}/gi," ");
-          // any single character remove
           keywords = keywords.replace(/\n/,"");
     
           logger.log({

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const httpService_1 = require("./httpService");
 const stopword_1 = __importDefault(require("stopword"));
-const winston_1 = __importDefault(require("./config/winston"));
+const winston_1 = __importDefault(require("./common/winston"));
 function removeFromString(arr, str) {
     let regex = new RegExp("\\b" + arr.join("|") + "\\b", "gi");
     return str.replace(regex, "");
@@ -77,7 +77,7 @@ function fetchBusinessInformation(businessId) {
         keywords = keywords.replace(/[ ]{2,}/gi, " ");
         keywords = keywords.replace(/\n/, "");
         winston_1.default.log({
-            level: 'info',
+            level: 'debug',
             message: `keywords: ${keywords}`
         });
         return {

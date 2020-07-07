@@ -1,38 +1,29 @@
 import stream from "stream";
 import fetchTable from "./fetchTable";
-import clc  from "cli-color";
-import logger from './config/winston'
+import clc from "cli-color";
+import logger from "./common/winston";
 
 var info = clc.white.bold;
 var error = clc.red.bold;
 var warn = clc.yellow;
 var notice = clc.blue;
 
-
-/*
-  camel case and ID is Id or id but no ID
-
-*/
-
 class CorporationBasicRawStream extends stream.Readable {
   isFetching: Boolean = false;
   isFinished: Boolean = false;
- 
- // change to pageId 
+
   pageId: any = 1;
 
-  // pageCount unless this is a class 
   pageCount: any;
 
   businessTypeId: any;
   args: {};
-  searchEntityName: string = '';
-  searchType: string = '';
+  searchEntityName: string = "";
+  searchType: string = "";
 
   constructor(pageCount: any, pageId: any, businessTypeId: any, args: {}) {
     super({ objectMode: true, highWaterMark: 128 });
 
-    
     this.pageCount = pageCount;
     this.pageId = pageId;
     this.args = args;
@@ -58,7 +49,15 @@ class CorporationBasicRawStream extends stream.Readable {
 
     const computedArgs = { ...this.args, ...fetchArgs };
 
-    // logger.log(info("CorporationBasicRawStream fetch arguments:"));
+    logger.log({
+      level: "debug",
+      message: "CorporationBasicRawStream fetch arguments",
+    });
+
+    logger.log({
+      level: "debug",
+      message: info(),
+    });
 
     try {
       if (this.pageCount === -1) {
@@ -71,19 +70,24 @@ class CorporationBasicRawStream extends stream.Readable {
           SearchType: this.searchType,
         };
         const computedArgs = { ...this.args, ...allArgs };
-        // logger.log(allArgs);
-        const table = await fetchTable(computedArgs); 
-       const  { TOTAL_AVAILABLE_BUSINESS } = table;
+        /*
+        logger.log({
+          level: 'debug',
+          message: allArgs
+        });
+        */
+        const table = await fetchTable(computedArgs);
+        const { TOTAL_AVAILABLE_BUSINESS } = table;
         let totalTable,
           Tables = [];
         for (let i = 0; i < 10; i++) {
           const newArgs = {
             PageID: this.pageId,
-            PageCount: 
-              `${TOTAL_AVAILABLE_BUSINESS > 100
+            PageCount: `${
+              TOTAL_AVAILABLE_BUSINESS > 100
                 ? Math.floor(TOTAL_AVAILABLE_BUSINESS / 100)
-                : TOTAL_AVAILABLE_BUSINESS}`
-            ,
+                : TOTAL_AVAILABLE_BUSINESS
+            }`,
             BusinessTypeID: this.businessTypeId,
             SearchEntityName: this.searchEntityName,
             SearchType: this.searchType,
@@ -91,15 +95,15 @@ class CorporationBasicRawStream extends stream.Readable {
           const newComputedArgs: any = { ...this.args, ...newArgs };
 
           logger.log({
-            level: 'verbose',
-            message: `CorporationBasicRawStream (newComputedArgs): ${newComputedArgs}`
+            level: "verbose",
+            message: `CorporationBasicRawStream (newComputedArgs): ${newComputedArgs}`,
           });
           totalTable = await fetchTable(newComputedArgs);
           this.pageCount++;
 
           logger.log({
-            level: 'verbose',
-            message: `CorporationBasicRawStream (totalTable): ${totalTable}`
+            level: "verbose",
+            message: `CorporationBasicRawStream (totalTable): ${totalTable}`,
           });
 
           if (TOTAL_AVAILABLE_BUSINESS < 100) return totalTable;
@@ -111,9 +115,13 @@ class CorporationBasicRawStream extends stream.Readable {
       }
       const table = await fetchTable(computedArgs);
       const { TOTAL_AVAILABLE_BUSINESS } = table;
-      console.log({table});
-
-      if (!table) {
+    
+      logger.log({
+        level: 'debug',
+        message: JSON.stringify(table)
+      });
+  
+    if (!table) {
         this.isFetching = false;
         this.isFinished = true;
         return;
@@ -127,9 +135,22 @@ class CorporationBasicRawStream extends stream.Readable {
           SearchType: this.searchType,
         };
         const newComputedArgs = { ...this.args, ...newArgs };
-        console.log(newComputedArgs);
+
+        /*
+        logger.log({
+          level: 'debug',
+          message: JSON.stringify(newComputedArgs)
+        });
+        */
         const newTable = await fetchTable(newComputedArgs);
+  
         console.log(newTable);
+  /*
+        logger.log({
+          level: 'debug',
+          message: JSON.stringify(newTable)
+        });
+  */
         this.isFetching = false;
         this.isFinished = true;
         return newTable;
@@ -150,13 +171,12 @@ class CorporationBasicRawStream extends stream.Readable {
 
   async startFetching() {
     this.isFetching = true;
-      // for(let i = 0; i < keywords.length; i++) {
-      //   this.searchEntityName = keywords[i];
-      //   this.searchType = `${this.searchEntityName === "" ? "" : `Contains`}`;
-      //   return this.fetchWorker();
-      // }
+    // for(let i = 0; i < keywords.length; i++) {
+    //   this.searchEntityName = keywords[i];
+    //   this.searchType = `${this.searchEntityName === "" ? "" : `Contains`}`;
+    //   return this.fetchWorker();
+    // }
     return this.fetchWorker();
-
   }
 
   stopFetching = () => (this.isFetching = false);
