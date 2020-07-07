@@ -143,8 +143,7 @@ async function fetchAnnualReport(annualSearchCriteria: {FileLocationCorresponden
     "Last Filing Date", 
     "Business Keywords"
     */
-
-
+   
     const report = {
       name: `${newstr_one["8"]} ${newstr_one["9"]}`,
       type: `${newstr_one["21"]} ${newstr_one["22"]} ${newstr_one["23"]}`,

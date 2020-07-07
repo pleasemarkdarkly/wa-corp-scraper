@@ -1,101 +1,29 @@
 
-[] search contains (active)
-    [] keywords:
-        [] back
-        [] massage
-        [] chiro
-        [] medical
-        [] auto
-        [] vehicle
-        [] attorney
-        [] law
-        [] bar
-        [] resturant
-        [] bicycle
-        [] camp
-        [] online
-        [] investigation
-        [] detective
-        [] bakery
-        [] nail salon
-        [] salon
-        [] bbq
-        [] collision
-        [] auto repair
-        [] cruise
-        [] media
-        [] dogs
-        [] animals
-        [] pet
-        [] magic
-        [] dating
-        [] wine
-        [] winery
-        [] marketing
-        [] casino
-        [] party
-        [] bread
-        [] catering
-        [] wedding
-        [] cbd
-        [] marij
-        [] construction
-        [] drywall
-        [] contractor
-        [] flooring
-        [] tiling
-        [] tile
-        [] health
-        [] hobby
-        [] science
-        [] chem
-        [] nature
-        [] environment
-        [] home
-        [] plumb
-        [] laund
-        [] garden
-        [] cloth
-        [] hand
-        [] clean
-        [] house
-        [] recycl
-        [] instruments
-        [] pet care
-        [] handmade
-        [] music
-        [] film
-        [] theater
-        [] stage
-    [] all non-profits
+[] cli arguments
+    [] search contains (active)
+    [] search format in keywords
+    [] output keywords-filename with aggregate entities in csv
+    [] append date for each run
+[] proxy credentials to .env file and proxy.json file
+[] summary of each keyword/file and estimate in fetches
+[] concurrency, no of concurrent http threads
 
-[] proxy credentials to .env file
-[] Timing of the fetch, PDF parsing CLI visual output for duration estimation
-[X] Logger by each business type, save to file, duration - stability
-[X] concurrency, no of concurrent http threads
+[] template logging, threads, forever and cron parameters
+[] template lawyer scraper cli
+[] template corporation scraper cli
+[] template logging
+
+[] serialize content into mongodb
 [] mongodb, folder serialize objects
 [] express routes for search, statstics, Rest API
 [] express front-end, number of companies per type, top 25 keywords in business purpose
 [] search box for first, last name, business purpose, results grid
 [] highlight company detail expands from right drawer
-[] template scraper files for lawyer site
-[] search names
-[X] remove stopwords
-[] flag for similar string in names/business name
-[X] export search results csv
-[] Rest API search, CRUD company
-[] Dockerfile, docker-compose file 
-[X] Fuzzy search
-[] foreverd module
-[] cli yargs per readme, first and last 100 business console.log
-[X] https://www.npmjs.com/package/simple-color-logger
 
-* PDF processing
 * mongo/mongoose schema
 * corporate collection schema
 * index names and business purpose
 * test for running against entire db, return timing
-* yargs
 * schedule to update records, scheme to update records
 * express front-end
 * ant design style / css
@@ -106,15 +34,10 @@
 * save contact / company csv
 
 [] express routes
-* /search
-* /statistics
-* /wacorp?id=
-* /keyword?search=
+    * /search
+    * /statistics
+    * /wacorp?id=
+    * /keyword?search=
 
-
-        DONE SO FAR
-*CHANGE THE CODE TO TYPESCRIPT
-*REPLACE P-LIMIT WITH P-QUEUE
-*IMPLEMENT SEARCH BY KEYWORDS
-*REMOVE UNUSED DEPENDENCIES
+convert code to typescript completely
 
