@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const stream_1 = __importDefault(require("stream"));
 const fetchTable_1 = __importDefault(require("./fetchTable"));
 const cli_color_1 = __importDefault(require("cli-color"));
+const winston_1 = __importDefault(require("./config/winston"));
 var info = cli_color_1.default.white.bold;
 var error = cli_color_1.default.red.bold;
 var warn = cli_color_1.default.yellow;
@@ -54,8 +55,7 @@ class CorporationBasicRawStream extends stream_1.default.Readable {
                 SearchType: this.searchType,
             };
             const computedArgs = Object.assign(Object.assign({}, this.args), fetchArgs);
-            // console.log(info("CorporationBasicRawStream fetch arguments:"));
-            console.log(fetchArgs);
+            // logger.log(info("CorporationBasicRawStream fetch arguments:"));
             try {
                 if (this.pageCount === -1) {
                     this.pageCount = Math.abs(this.pageCount);
@@ -67,7 +67,7 @@ class CorporationBasicRawStream extends stream_1.default.Readable {
                         SearchType: this.searchType,
                     };
                     const computedArgs = Object.assign(Object.assign({}, this.args), allArgs);
-                    // console.log(allArgs);
+                    // logger.log(allArgs);
                     const table = yield fetchTable_1.default(computedArgs);
                     const { TOTAL_AVAILABLE_BUSINESS } = table;
                     let totalTable, Tables = [];
@@ -82,12 +82,16 @@ class CorporationBasicRawStream extends stream_1.default.Readable {
                             SearchType: this.searchType,
                         };
                         const newComputedArgs = Object.assign(Object.assign({}, this.args), newArgs);
-                        console.log(warn("CorporationBasicRawStream: newComputedArgs:"));
-                        console.log(newArgs);
+                        winston_1.default.log({
+                            level: 'verbose',
+                            message: `CorporationBasicRawStream (newComputedArgs): ${newComputedArgs}`
+                        });
                         totalTable = yield fetchTable_1.default(newComputedArgs);
                         this.pageCount++;
-                        console.log(warn("CorporationBasicRawStream (totalTable):"));
-                        console.log(totalTable);
+                        winston_1.default.log({
+                            level: 'verbose',
+                            message: `CorporationBasicRawStream (totalTable): ${totalTable}`
+                        });
                         if (TOTAL_AVAILABLE_BUSINESS < 100)
                             return totalTable;
                         Tables.push(totalTable);
@@ -98,7 +102,7 @@ class CorporationBasicRawStream extends stream_1.default.Readable {
                 }
                 const table = yield fetchTable_1.default(computedArgs);
                 const { TOTAL_AVAILABLE_BUSINESS } = table;
-                console.log(table);
+                console.log({ table });
                 if (!table) {
                     this.isFetching = false;
                     this.isFinished = true;
@@ -114,7 +118,7 @@ class CorporationBasicRawStream extends stream_1.default.Readable {
                         SearchType: this.searchType,
                     };
                     const newComputedArgs = Object.assign(Object.assign({}, this.args), newArgs);
-                    console.log(newArgs);
+                    console.log(newComputedArgs);
                     const newTable = yield fetchTable_1.default(newComputedArgs);
                     console.log(newTable);
                     this.isFetching = false;

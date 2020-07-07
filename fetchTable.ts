@@ -1,6 +1,8 @@
 import { postHttp } from "./httpService";
 import clc from "cli-color";
 import sw from "stopword";
+import  logger  from './config/winston';
+
 
 const info = clc.white.bold;
 const error = clc.red.bold;
@@ -12,6 +14,7 @@ import fetchAnnualReportCriteria from "./fetchAnnualReportCriteria";
 import fetchBusinessInformation from "./fetchBusinessInformation";
 import convertToCSV from "./helpers/convertCSV";
 import keywords from "./keywords";
+import { level } from "winston";
 
 var AdvancedSearchEndpoint =
   "https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList";
@@ -49,7 +52,10 @@ let startTime,
     totalTimeTaken: any
 async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchEntityName: string, SearchType: string, PageCount: any}) {  
   startTime = Date.now();
-  console.log(notice("Fetching search criteria", AdvancedSearchEndpoint));
+  logger.log({
+    level: 'info',
+    message: `Fetching search criteria ${AdvancedSearchEndpoint}`
+  });
   let totalCount = 1000;
 
   let BUSINESS_INFORMATION_REPORT = [];
@@ -115,25 +121,25 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
               );
               break;
             }
-            console.log(
-              warn("Neither Annual or Initial Report detected for " + businessId)
-            );
+            logger.log({
+              level: 'info',
+              message: `Neither Annual or Initial Report detected for ${businessId}`
+            });
           }
           for (let i = 0; i < annualReportCriteria.length; i++) {
             if (annualReportCriteria[i].DocumentTypeID === 4) {
               annualDueNotice = annualReportCriteria[0];
               fetchAnnualTime = Date.now();
               averageAL_time = fetchAnnualTime - startTime;
-              //  console.log(annualDueNotice, "Annual Report criteria");
+              //  logger.log(annualDueNotice, "Annual Report criteria");
               // TODO: handle parsing and errors
               //  await fetchAnnualReport(annualDueNotice);
               break;
             } else {
-              console.log(
-                warn(
-                  "No Annual or Initial Report Found to download for " + businessId
-                )
-              );
+              logger.log({
+                level: 'info',
+                message: "No Annual or Initial Report Found to download for " + businessId
+              });
             }
           }
     
@@ -154,9 +160,10 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
           });
     
           if (BUSINESS_INFORMATION_REPORT.length === totalCount) {
-            console.log(
-              warn(`${totalCount} bussinesses processed`)
-            );
+            logger.log({
+              level: 'info',
+              message: `${totalCount} bussinesses processed`
+            });
             totalCount +=1000;
     
           };
@@ -187,13 +194,14 @@ async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchE
           // any single character remove
           keywords = keywords.replace(/\n/,"");
     
-          console.log(
-            warn(businessInformation.name + "(" + businessInformation.ubi + ") " + "keywords: " + keywords)
-          );
+          logger.log({
+            level: 'info',
+            message: businessInformation.name + "(" + businessInformation.ubi + ") " + "keywords: " + keywords
+          });
           
     
           BUSINESS_INFO.push({
-            "Business Name":`"#${businessInformation.name}"`,
+            "Business Name":`"${businessInformation.name}"`,
             "UBI": `"${businessInformation.ubi}"`,
             "Search Term": `"${searchEntityName}"`,
             "Business Status": `"${businessInformation.status}"`,

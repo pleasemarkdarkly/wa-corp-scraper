@@ -1,6 +1,6 @@
 import { getHttp } from "./httpService";
 import sw from "stopword";
-
+import  logger  from './config/winston';
 
 function removeFromString(arr: [], str: string) {
   let regex = new RegExp("\\b" + arr.join("|") + "\\b", "gi");
@@ -18,7 +18,8 @@ function toSentenceCase(theString: string) {
 
 function formatInut(str: string) {
   if (str === undefined || str === null || typeof str !== "string") return " ";
-  return str.replace(/,/g, " ");
+  return str.replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]\n/g, " ")
+
 }
 
 async function fetchBusinessInformation(businessId: string) {
@@ -32,13 +33,14 @@ async function fetchBusinessInformation(businessId: string) {
   const BusinessInformation = await getHttp(BusinessInfoEndpoint);
 
   // TODO: Business Name sometimes has extra characters, apply trim() at the appropriate stage
-  console.log(
-    BusinessInformation.BusinessName +
-      " (" +
-      BusinessInformation.UBINumber +
-      "): " +
-      BusinessInfoEndpoint
-  );
+  logger.log({
+    level: 'info',
+    message: BusinessInformation.BusinessName +
+            " (" +
+            BusinessInformation.UBINumber +
+            "): " +
+            BusinessInfoEndpoint
+  });
 
   const keyword = `${BusinessInformation.BusinessName} ${BusinessInformation.BINAICSCodeDesc}`;
   const oldKeyword = keyword.split(" ");
@@ -70,7 +72,10 @@ async function fetchBusinessInformation(businessId: string) {
   keywords = keywords.replace(/[ ]{2,}/gi, " ");
   keywords = keywords.replace(/\n/, "");
 
-  console.log(keywords);
+  logger.log({
+    level: 'info',
+    message: `keywords: ${keywords}`
+  });
 
   return {
     name: `${formatInut(BusinessInformation.BusinessName)}`.trim(),

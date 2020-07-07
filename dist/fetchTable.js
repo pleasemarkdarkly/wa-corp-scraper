@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const httpService_1 = require("./httpService");
 const cli_color_1 = __importDefault(require("cli-color"));
 const stopword_1 = __importDefault(require("stopword"));
+const winston_1 = __importDefault(require("./config/winston"));
 const info = cli_color_1.default.white.bold;
 const error = cli_color_1.default.red.bold;
 const warn = cli_color_1.default.yellow;
@@ -48,7 +49,10 @@ let startTime, fetchTableTime, fetchBusinessTime, fetchBillingTime, fetchAnnualT
 function fetchTable(businessSearchCriteria) {
     return __awaiter(this, void 0, void 0, function* () {
         startTime = Date.now();
-        console.log(notice("Fetching search criteria", AdvancedSearchEndpoint));
+        winston_1.default.log({
+            level: 'info',
+            message: `Fetching search criteria ${AdvancedSearchEndpoint}`
+        });
         let totalCount = 1000;
         let BUSINESS_INFORMATION_REPORT = [];
         let BUSINESS_INFO = [];
@@ -96,20 +100,26 @@ function fetchTable(businessSearchCriteria) {
                             annualReportCriteria = yield fetchAnnualReportCriteria_1.default(FilingNumber, ID);
                             break;
                         }
-                        console.log(warn("Neither Annual or Initial Report detected for " + businessId));
+                        winston_1.default.log({
+                            level: 'info',
+                            message: `Neither Annual or Initial Report detected for ${businessId}`
+                        });
                     }
                     for (let i = 0; i < annualReportCriteria.length; i++) {
                         if (annualReportCriteria[i].DocumentTypeID === 4) {
                             annualDueNotice = annualReportCriteria[0];
                             fetchAnnualTime = Date.now();
                             averageAL_time = fetchAnnualTime - startTime;
-                            //  console.log(annualDueNotice, "Annual Report criteria");
+                            //  logger.log(annualDueNotice, "Annual Report criteria");
                             // TODO: handle parsing and errors
                             //  await fetchAnnualReport(annualDueNotice);
                             break;
                         }
                         else {
-                            console.log(warn("No Annual or Initial Report Found to download for " + businessId));
+                            winston_1.default.log({
+                                level: 'info',
+                                message: "No Annual or Initial Report Found to download for " + businessId
+                            });
                         }
                     }
                     const info = {
@@ -122,7 +132,10 @@ function fetchTable(businessSearchCriteria) {
                     };
                     BUSINESS_INFORMATION_REPORT.push(Object.assign(Object.assign(Object.assign({}, info), businessInformation), { date_filed: FilingDateTime }));
                     if (BUSINESS_INFORMATION_REPORT.length === totalCount) {
-                        console.log(warn(`${totalCount} bussinesses processed`));
+                        winston_1.default.log({
+                            level: 'info',
+                            message: `${totalCount} bussinesses processed`
+                        });
                         totalCount += 1000;
                     }
                     ;
@@ -150,9 +163,12 @@ function fetchTable(businessSearchCriteria) {
                     keywords = keywords.replace(/[ ]{2,}/gi, " ");
                     // any single character remove
                     keywords = keywords.replace(/\n/, "");
-                    console.log(warn(businessInformation.name + "(" + businessInformation.ubi + ") " + "keywords: " + keywords));
+                    winston_1.default.log({
+                        level: 'info',
+                        message: businessInformation.name + "(" + businessInformation.ubi + ") " + "keywords: " + keywords
+                    });
                     BUSINESS_INFO.push({
-                        "Business Name": `"#${businessInformation.name}"`,
+                        "Business Name": `"${businessInformation.name}"`,
                         "UBI": `"${businessInformation.ubi}"`,
                         "Search Term": `"${searchEntityName}"`,
                         "Business Status": `"${businessInformation.status}"`,

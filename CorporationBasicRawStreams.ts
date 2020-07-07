@@ -1,7 +1,7 @@
 import stream from "stream";
 import fetchTable from "./fetchTable";
 import clc  from "cli-color";
-import keywords from './keywords';
+import logger from './config/winston'
 
 var info = clc.white.bold;
 var error = clc.red.bold;
@@ -58,8 +58,7 @@ class CorporationBasicRawStream extends stream.Readable {
 
     const computedArgs = { ...this.args, ...fetchArgs };
 
-    // console.log(info("CorporationBasicRawStream fetch arguments:"));
-    console.log(fetchArgs);
+    // logger.log(info("CorporationBasicRawStream fetch arguments:"));
 
     try {
       if (this.pageCount === -1) {
@@ -72,7 +71,7 @@ class CorporationBasicRawStream extends stream.Readable {
           SearchType: this.searchType,
         };
         const computedArgs = { ...this.args, ...allArgs };
-        // console.log(allArgs);
+        // logger.log(allArgs);
         const table = await fetchTable(computedArgs); 
        const  { TOTAL_AVAILABLE_BUSINESS } = table;
         let totalTable,
@@ -91,14 +90,17 @@ class CorporationBasicRawStream extends stream.Readable {
           };
           const newComputedArgs: any = { ...this.args, ...newArgs };
 
-          console.log(warn("CorporationBasicRawStream: newComputedArgs:"));
-          console.log(newArgs);
-
+          logger.log({
+            level: 'verbose',
+            message: `CorporationBasicRawStream (newComputedArgs): ${newComputedArgs}`
+          });
           totalTable = await fetchTable(newComputedArgs);
           this.pageCount++;
 
-          console.log(warn("CorporationBasicRawStream (totalTable):"));
-          console.log(totalTable);
+          logger.log({
+            level: 'verbose',
+            message: `CorporationBasicRawStream (totalTable): ${totalTable}`
+          });
 
           if (TOTAL_AVAILABLE_BUSINESS < 100) return totalTable;
           Tables.push(totalTable);
@@ -109,7 +111,7 @@ class CorporationBasicRawStream extends stream.Readable {
       }
       const table = await fetchTable(computedArgs);
       const { TOTAL_AVAILABLE_BUSINESS } = table;
-      console.log(table);
+      console.log({table});
 
       if (!table) {
         this.isFetching = false;
@@ -125,7 +127,7 @@ class CorporationBasicRawStream extends stream.Readable {
           SearchType: this.searchType,
         };
         const newComputedArgs = { ...this.args, ...newArgs };
-        console.log(newArgs);
+        console.log(newComputedArgs);
         const newTable = await fetchTable(newComputedArgs);
         console.log(newTable);
         this.isFetching = false;

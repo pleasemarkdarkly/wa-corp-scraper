@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const httpService_1 = require("./httpService");
 const stopword_1 = __importDefault(require("stopword"));
+const winston_1 = __importDefault(require("./config/winston"));
 function removeFromString(arr, str) {
     let regex = new RegExp("\\b" + arr.join("|") + "\\b", "gi");
     return str.replace(regex, "");
@@ -29,7 +30,7 @@ function toSentenceCase(theString) {
 function formatInut(str) {
     if (str === undefined || str === null || typeof str !== "string")
         return " ";
-    return str.replace(/,/g, " ");
+    return str.replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]\n/g, " ");
 }
 function fetchBusinessInformation(businessId) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -40,11 +41,14 @@ function fetchBusinessInformation(businessId) {
          */
         const BusinessInformation = yield httpService_1.getHttp(BusinessInfoEndpoint);
         // TODO: Business Name sometimes has extra characters, apply trim() at the appropriate stage
-        console.log(BusinessInformation.BusinessName +
-            " (" +
-            BusinessInformation.UBINumber +
-            "): " +
-            BusinessInfoEndpoint);
+        winston_1.default.log({
+            level: 'info',
+            message: BusinessInformation.BusinessName +
+                " (" +
+                BusinessInformation.UBINumber +
+                "): " +
+                BusinessInfoEndpoint
+        });
         const keyword = `${BusinessInformation.BusinessName} ${BusinessInformation.BINAICSCodeDesc}`;
         const oldKeyword = keyword.split(" ");
         const newKeyword = stopword_1.default.removeStopwords(oldKeyword);
@@ -72,7 +76,10 @@ function fetchBusinessInformation(businessId) {
         keywords = keywords.replace(/(^\s*)|(\s*$)/gi, "");
         keywords = keywords.replace(/[ ]{2,}/gi, " ");
         keywords = keywords.replace(/\n/, "");
-        console.log(keywords);
+        winston_1.default.log({
+            level: 'info',
+            message: `keywords: ${keywords}`
+        });
         return {
             name: `${formatInut(BusinessInformation.BusinessName)}`.trim(),
             type: `${formatInut(BusinessInformation.BusinessType)}`,

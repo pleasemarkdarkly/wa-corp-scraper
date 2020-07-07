@@ -1,15 +1,19 @@
 var { postHttp } = require("./httpService");
+import  logger  from './config/winston';
 
 var fetchAnnualReportCriteriaEndpoint =
   "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList";
   // is filing number a class? or ID a class
-async function fetchAnnualReportCriteria(FilingNumber: string, ID: string) {
+async function fetchAnnualReportCriteria(fillingNumber: string, id: string) {
   var fetchAnnualReportCriteriaData = {
-    FilingNumber,
-    ID,
+    FilingNumber: fillingNumber,
+    ID: id,
   };
   
-  console.log("Annual report ", fetchAnnualReportCriteriaEndpoint);
+  logger.log({
+    level: 'info',
+    message: `Annual report: ${fetchAnnualReportCriteriaEndpoint}`
+  });
 
   const data = await postHttp(
     fetchAnnualReportCriteriaEndpoint,

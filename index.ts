@@ -3,10 +3,11 @@
 import clc from "cli-color";
 import businessSearchCriteria from "./businessSearchcriteria";
 import CorporationBasicRawStream from "./CorporationBasicRawStreams";
-// import pLimit from "p-limit";
-const { default: PQueue } = require("p-queue");
-const got = require("got");
+import  logger  from './config/winston';
+import delay  from 'delay';
 
+
+const { default: PQueue } = require("p-queue");
 require("dotenv").config();
 
 var info = clc.white.bold;
@@ -15,8 +16,8 @@ var warn = clc.yellow;
 var notice = clc.blue;
 
 const ALL_RECORDS = -1;
-const _RECORDS = 5;
-const SEARCH_ENTITY = "ATTORNEY";
+const _RECORDS = 100;
+
 
 const BusinessType = {
 	WA_LIMITED_LIABILITY_CORPORATION: 65,
@@ -42,7 +43,7 @@ const BusinessType = {
     const WA_CORPORATION_ALL = new CorporationBasicRawStream(-1, 1, "court", BusinessType, businessSearchCriteria);
     WA_CORPORATION_ALL._read();
 
-    The following block is the preferred output for each company from the PDF parse and the console.log.
+    The following block is the preferred output for each company from the PDF parse and the logger.log.
 
     (bold, green)
     BusinessType.WA_LIMITED_LIABILITY_CORPORATION: total 32,000
@@ -204,169 +205,217 @@ const CWA_NONPROFIT_CORPORATION_ALL = new CorporationBasicRawStream(
 	businessSearchCriteria
 );
 
+
 function run() {
   const queue = new PQueue({ concurrency: 1 });
 
   (async () => {
+    await delay(200);
     const firstTask = await CWA_LIMITED_LIABILITY_CORPORATION._read();
     await queue.add(firstTask);
-    console.log("Done: CWA_LIMITED_LIABILITY_CORPORATION");
+    logger.log({
+      level: 'info',
+      message: 'COMPLETED: CWA_LIMITED_LIABILITY_CORPORATION'
+    });
   })();
 
   (async () => {
+    await delay(200);
     const secondTask = await CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP._read();
     await queue.add(secondTask);
-    console.log("Done: CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP"});
   })();
 
   (async () => {
+    await delay(200);
     const thirdTask = await CWA_LIMITED_LIABILITY_PARTNERSHIP._read();
     await queue.add(thirdTask);
-    console.log("Done: CWA_LIMITED_LIABILITY_PARTNERSHIP");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_LIMITED_LIABILITY_PARTNERSHIP"
+    });
   })();
 
   (async () => {
+    await delay(200);
     const fourthTask = await CWA_LIMITED_PARTNERSHIP._read();
     await queue.add(fourthTask);
-    console.log("Done: CWA_LIMITED_PARTNERSHIP");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_LIMITED_PARTNERSHIP"
+    });
   })();
 
   (async () => {
+    await delay(200);
     const fifthTask = await CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY._read();
     await queue.add(fifthTask);
-    console.log("Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY"});
   })();
 
   (async () => {
+    await delay(200);
     const sixthTask = await CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP._read();
     await queue.add(sixthTask);
-    console.log("Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP"});
   })();
 
   (async () => {
+    await delay(200);
     const seventhTask = await CWA_PROFESSIONAL_SERVICE_CORPORATION._read();
     await queue.add(seventhTask);
-    console.log("Done: CWA_PROFESSIONAL_SERVICE_CORPORATION");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PROFESSIONAL_SERVICE_CORPORATION"
+    });
   })();
 
   (async () => {
+    await delay(200);
     const eighhtTask = await CWA_PROFIT_CORPORATION._read();
     await queue.add(eighhtTask);
-    console.log("Done: CWA_PROFIT_CORPORATION");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PROFIT_CORPORATION"});
   })();
 
   (async () => {
+    await delay(200);
     const ninthTask = await CWA_NONPROFIT_CORPORATION._read();
     await queue.add(ninthTask);
-    console.log("Done: CWA_NONPROFIT_CORPORATION");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_NONPROFIT_CORPORATION"});
   })();
 
   (async () => {
+    await delay(200);
     const tenthTask = await CWA_PUBLIC_BENEFIT_CORPORATION._read();
     await queue.add(tenthTask);
-    console.log("Done: CWA_PUBLIC_BENEFIT_CORPORATION");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PUBLIC_BENEFIT_CORPORATION"});
   })();
 
+  logger.log({
+    level: 'info',
+    message:"Starting to fetch 200 businesses by keywords"});
 }
 
 
-function runALL () {
-  const queue = new PQueue({ concurrency: 1 });
+
+function runALL() {
+  const queue = new PQueue({ concurrency: 3 });
 
   (async () => {
+    await delay(200);
     const firstTask = await CWA_LIMITED_LIABILITY_CORPORATION_ALL._read();
     await queue.add(firstTask);
-    console.log("Done: CWA_LIMITED_LIABILITY_CORPORATION");
+    logger.log({
+      level: 'info',
+      message: 'COMPLETED: CWA_LIMITED_LIABILITY_CORPORATION'
+    });
   })();
-  
+
   (async () => {
+    await delay(300);
     const secondTask = await CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL._read();
     await queue.add(secondTask);
-    console.log("Done: CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP"});
   })();
-  
+
   (async () => {
+    await delay(400);
     const thirdTask = await CWA_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
     await queue.add(thirdTask);
-    console.log("Done: CWA_LIMITED_LIABILITY_PARTNERSHIP");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_LIMITED_LIABILITY_PARTNERSHIP"
+    });
   })();
-  
+
   (async () => {
+    await delay(500);
     const fourthTask = await CWA_LIMITED_PARTNERSHIP_ALL._read();
     await queue.add(fourthTask);
-    console.log("Done: CWA_LIMITED_PARTNERSHIP");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_LIMITED_PARTNERSHIP"
+    });
   })();
-  
+
   (async () => {
+    await delay(600);
     const fifthTask = await CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL._read();
     await queue.add(fifthTask);
-    console.log("Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY"});
   })();
-  
+
   (async () => {
+    await delay(700);
     const sixthTask = await CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
     await queue.add(sixthTask);
-    console.log("Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP"});
   })();
-  
+
   (async () => {
+    await delay(800);
     const seventhTask = await CWA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read();
     await queue.add(seventhTask);
-    console.log("Done: CWA_PROFESSIONAL_SERVICE_CORPORATION");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PROFESSIONAL_SERVICE_CORPORATION"
+    });
   })();
-  
+
   (async () => {
+    await delay(900);
     const eighhtTask = await CWA_PROFIT_CORPORATION_ALL._read();
     await queue.add(eighhtTask);
-    console.log("Done: CWA_PROFIT_CORPORATION");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PROFIT_CORPORATION"});
   })();
-  
+
   (async () => {
+    await delay(1000);
     const ninthTask = await CWA_NONPROFIT_CORPORATION_ALL._read();
     await queue.add(ninthTask);
-    console.log("Done: CWA_NONPROFIT_CORPORATION");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_NONPROFIT_CORPORATION"});
   })();
-  
+
   (async () => {
+    await delay(200);
     const tenthTask = await CWA_PUBLIC_BENEFIT_CORPORATION_ALL._read();
     await queue.add(tenthTask);
-    console.log("Done: CWA_PUBLIC_BENEFIT_CORPORATION");
+    logger.log({
+      level: 'info',
+      message:"Done: CWA_PUBLIC_BENEFIT_CORPORATION"});
   })();
+
+  logger.log({
+    level: 'info',
+    message:"Starting to fetch all business by keywords"});
 }
 
-/* 
-  TODO: Move to testing module, and add switch to yargs
-*/
 
-// const run_200_business = async () => {
-//   let promises = [],
-//     promise;
-//   try {
-//     const limit = pLimit(1);
-//     promise = [
-//       limit(() => CWA_LIMITED_LIABILITY_CORPORATION._read()),
-//       limit(() => CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP._read()),
-//       limit(() => CWA_LIMITED_LIABILITY_PARTNERSHIP._read()),
-//       limit(() => CWA_LIMITED_PARTNERSHIP._read()),
-//       limit(() => CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY._read()),
-//       limit(() => CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP._read()),
-//       limit(() => CWA_PROFESSIONAL_SERVICE_CORPORATION._read()),
-//       limit(() => CWA_PROFIT_CORPORATION._read()),
-//       limit(() => CWA_NONPROFIT_CORPORATION._read()),
-//       limit(() => CWA_PUBLIC_BENEFIT_CORPORATION._read()),
-//     ];
-//     for (let i = 0; i < promise.length; i++) {
-//       promises.push(promise[i]);
-//     }
-//     (async () => {
-//       // Only one promise is run at once
-//       const result = await Promise.all(promises);
-//     })();
-//   } catch (error) {
-//     console.log(error);
-//     return error;
-//   }
-// };
+  // TODO: Move to testing module, and add switch to yargs
+
+
 
 // /*
 //   TODO: yargs
@@ -374,44 +423,13 @@ function runALL () {
 
 //   */
 
-// const num_threads = 1;
-
-// const run_all_business = async () => {
-//   let promises = [],
-//     promise;
-//   try {
-//     const limit = pLimit(num_threads);
-//     promise = [
-//       limit(() => CWA_LIMITED_LIABILITY_CORPORATION_ALL._read()),
-//       limit(() => CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL._read()),
-//       limit(() => CWA_LIMITED_LIABILITY_PARTNERSHIP_ALL._read()),
-//       limit(() => CWA_LIMITED_PARTNERSHIP_ALL._read()),
-//       limit(() => CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL._read()),
-//       limit(() => CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read()),
-//       limit(() => CWA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read()),
-//       limit(() => CWA_PROFIT_CORPORATION_ALL._read()),
-//       limit(() => CWA_NONPROFIT_CORPORATION_ALL._read()),
-//       limit(() => CWA_PUBLIC_BENEFIT_CORPORATION_ALL._read()),
-//     ];
-//     for (let i = 0; i < promise.length; i++) {
-//       promises.push(promise[i]);
-//     }
-//     (async () => {
-//       // Only one promise is run at once
-//       const result = await Promise.all(promises);
-//     })();
-//   } catch (error) {
-//     console.log(error);
-//     return error;
-//   }
-// };
 
 // TODO: On Ctrl-C Save location of company fetches to resume on restart
 /*
   https://nodejs.org/api/process.html
 
   process.on('SIGINT', function() {
-    console.log("Caught interrupt signal");
+    logger.log("Caught interrupt signal");
 
     if (i_should_exit)
         process.exit();
@@ -421,6 +439,4 @@ function runALL () {
 //  run_200_business();
 // run_all_business();
 
-// module.exports = { run_all_business, run_200_business}
-// CWA_LIMITED_LIABILITY_CORPORATION._read()
-runALL()
+run()

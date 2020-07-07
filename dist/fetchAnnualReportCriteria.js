@@ -8,17 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var { postHttp } = require("./httpService");
+const winston_1 = __importDefault(require("./config/winston"));
 var fetchAnnualReportCriteriaEndpoint = "https://cfda.sos.wa.gov/api/Common/GetTransactionDocumentsList";
 // is filing number a class? or ID a class
-function fetchAnnualReportCriteria(FilingNumber, ID) {
+function fetchAnnualReportCriteria(fillingNumber, id) {
     return __awaiter(this, void 0, void 0, function* () {
         var fetchAnnualReportCriteriaData = {
-            FilingNumber,
-            ID,
+            FilingNumber: fillingNumber,
+            ID: id,
         };
-        console.log("Annual report ", fetchAnnualReportCriteriaEndpoint);
+        winston_1.default.log({
+            level: 'info',
+            message: `Annual report: ${fetchAnnualReportCriteriaEndpoint}`
+        });
         const data = yield postHttp(fetchAnnualReportCriteriaEndpoint, fetchAnnualReportCriteriaData);
         return data;
     });
