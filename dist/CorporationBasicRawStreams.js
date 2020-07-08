@@ -61,94 +61,96 @@ class CorporationBasicRawStream extends stream_1.default.Readable {
             try {
                 if (this.pageCount === -1) {
                     this.pageCount = Math.abs(this.pageCount);
+                    let pageNumber = 1;
                     const allArgs = {
-                        PageID: 1,
-                        PageCount: this.pageCount,
+                        PageID: pageNumber,
+                        PageCount: 1000,
                         BusinessTypeID: this.businessTypeId,
                         SearchEntityName: this.searchEntityName,
                         SearchType: this.searchType,
                     };
                     const computedArgs = Object.assign(Object.assign({}, this.args), allArgs);
-                    /*
-                    logger.log({
-                      level: 'debug',
-                      message: allArgs
+                    console.log(allArgs);
+                    winston_1.default.log({
+                        level: 'debug',
+                        message: info()
                     });
-                    */
                     const table = yield fetchTable_1.default(computedArgs);
-                    const { TOTAL_AVAILABLE_BUSINESS } = table;
-                    let totalTable, Tables = [];
-                    for (let i = 0; i < 10; i++) {
-                        const newArgs = {
-                            PageID: this.pageId,
-                            PageCount: `${TOTAL_AVAILABLE_BUSINESS > 100
-                                ? Math.floor(TOTAL_AVAILABLE_BUSINESS / 100)
-                                : TOTAL_AVAILABLE_BUSINESS}`,
-                            BusinessTypeID: this.businessTypeId,
-                            SearchEntityName: this.searchEntityName,
-                            SearchType: this.searchType,
-                        };
-                        const newComputedArgs = Object.assign(Object.assign({}, this.args), newArgs);
-                        winston_1.default.log({
-                            level: "verbose",
-                            message: `CorporationBasicRawStream (newComputedArgs): ${newComputedArgs}`,
-                        });
-                        totalTable = yield fetchTable_1.default(newComputedArgs);
-                        this.pageCount++;
-                        // logger.log({
-                        //   level: "verbose",
-                        //   message: `CorporationBasicRawStream (totalTable): ${totalTable}`,
-                        // });
-                        if (TOTAL_AVAILABLE_BUSINESS < 100)
-                            return totalTable;
-                        Tables.push(totalTable);
+                    try {
+                        if (table) {
+                            const { TOTAL_AVAILABLE_BUSINESS } = table;
+                            let calculator = Math.floor(TOTAL_AVAILABLE_BUSINESS / 1000);
+                            if (TOTAL_AVAILABLE_BUSINESS > 1000) {
+                                for (let index = 0; index < calculator; index++) {
+                                    this.isFetching = true;
+                                    pageNumber++;
+                                }
+                            }
+                            this.isFetching = false;
+                            this.isFinished = true;
+                            return table;
+                        }
                     }
-                    this.isFetching = false;
-                    this.isFinished = true;
-                    return Tables;
-                }
-                const table = yield fetchTable_1.default(computedArgs);
-                const { TOTAL_AVAILABLE_BUSINESS } = table;
-                winston_1.default.log({
-                    level: 'debug',
-                    message: JSON.stringify(table)
-                });
-                if (!table) {
-                    this.isFetching = false;
-                    this.isFinished = true;
-                    return;
-                }
-                else if (TOTAL_AVAILABLE_BUSINESS) {
-                    this.pageId = Math.floor(TOTAL_AVAILABLE_BUSINESS / 5);
-                    const newArgs = {
-                        PageID: this.pageId,
-                        PageCount: 5,
-                        BusinessTypeID: this.businessTypeId,
-                        SearchEntityName: this.searchEntityName,
-                        SearchType: this.searchType,
-                    };
-                    const newComputedArgs = Object.assign(Object.assign({}, this.args), newArgs);
-                    /*
-                    logger.log({
-                      level: 'debug',
-                      message: JSON.stringify(newComputedArgs)
-                    });
-                    */
-                    const newTable = yield fetchTable_1.default(newComputedArgs);
-                    console.log(newTable);
-                    /*
-                          logger.log({
+                    catch (error) {
+                        winston_1.default.log({
                             level: 'debug',
-                            message: JSON.stringify(newTable)
-                          });
-                    */
-                    this.isFetching = false;
-                    this.isFinished = true;
-                    return newTable;
+                            message: `Main fetch error: ${error}`
+                        });
+                    }
                 }
-                else {
-                    this.stopFetching();
-                    return table;
+                try {
+                    const table = yield fetchTable_1.default(computedArgs);
+                    if (table) {
+                        const { TOTAL_AVAILABLE_BUSINESS } = table;
+                        // logger.log({
+                        //   level: 'debug',
+                        //   message: JSON.stringify(table)
+                        // });
+                        console.log(table);
+                        if (!table) {
+                            this.isFetching = false;
+                            this.isFinished = true;
+                            return;
+                        }
+                        else if (TOTAL_AVAILABLE_BUSINESS) {
+                            this.pageId = Math.floor(TOTAL_AVAILABLE_BUSINESS / 5);
+                            const newArgs = {
+                                PageID: this.pageId,
+                                PageCount: 100,
+                                BusinessTypeID: this.businessTypeId,
+                                SearchEntityName: this.searchEntityName,
+                                SearchType: this.searchType,
+                            };
+                            const newComputedArgs = Object.assign(Object.assign({}, this.args), newArgs);
+                            /*
+                            logger.log({
+                              level: 'debug',
+                              message: JSON.stringify(newComputedArgs)
+                            });
+                            */
+                            const newTable = yield fetchTable_1.default(newComputedArgs);
+                            console.log(newTable);
+                            /*
+                                  logger.log({
+                                    level: 'debug',
+                                    message: JSON.stringify(newTable)
+                                  });
+                            */
+                            this.isFetching = false;
+                            this.isFinished = true;
+                            return newTable;
+                        }
+                        else {
+                            this.stopFetching();
+                            return table;
+                        }
+                    }
+                }
+                catch (error) {
+                    winston_1.default.log({
+                        level: 'debug',
+                        message: `Fetch table error: ${error}`
+                    });
                 }
             }
             catch (e) {
@@ -175,9 +177,11 @@ class CorporationBasicRawStream extends stream_1.default.Readable {
         });
     }
     _read() {
-        if (this.isFetching || this.isFinished)
-            return;
-        return this.startFetching();
+        return __awaiter(this, void 0, void 0, function* () {
+            if (this.isFetching || this.isFinished)
+                return;
+            return this.startFetching();
+        });
     }
 }
 exports.default = CorporationBasicRawStream;

@@ -1,5 +1,24 @@
 "use strict";
 /** @format */
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,31 +32,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cli_color_1 = __importDefault(require("cli-color"));
-const businessSearchcriteria_1 = __importDefault(require("./businessSearchcriteria"));
-const CorporationBasicRawStreams_1 = __importDefault(require("./CorporationBasicRawStreams"));
 const winston_1 = __importDefault(require("./common/winston"));
 const delay_1 = __importDefault(require("delay"));
+const mainFetch_1 = require("./mainFetch");
+const testMain_1 = __importStar(require("./testMain"));
 const { default: PQueue } = require("p-queue");
 require("dotenv").config();
-var info = cli_color_1.default.white.bold;
-var error = cli_color_1.default.red.bold;
-var warn = cli_color_1.default.yellow;
-var notice = cli_color_1.default.blue;
-const ALL_RECORDS = -1;
-const _RECORDS = 100;
-const BusinessType = {
-    WA_LIMITED_LIABILITY_CORPORATION: 65,
-    WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP: 67,
-    WA_LIMITED_LIABILITY_PARTNERSHIP: 68,
-    WA_LIMITED_PARTNERSHIP: 69,
-    WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY: 79,
-    WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP: 76,
-    WA_PROFESSIONAL_SERVICE_CORPORATION: 85,
-    WA_PROFIT_CORPORATION: 86,
-    WA_NONPROFIT_CORPORATION: 73,
-    WA_PUBLIC_BENEFIT_CORPORATION: 87,
-};
 /*
     WA_LIMITED_LIABILITY_CORPORATION: total 32,000
 
@@ -56,217 +56,93 @@ const BusinessType = {
     Business Type: Scanned 32000 out of 32000, taking 200ms per entity. 50211 total PDF scanned.
     Total entities 1,020,092 scanned taking 6h:01m:12 an average of .200ms per.
 */
-// TODO: Move to test module
-const CWA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_LIMITED_LIABILITY_CORPORATION, businessSearchcriteria_1.default);
-const CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP, businessSearchcriteria_1.default);
-const CWA_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_LIMITED_LIABILITY_PARTNERSHIP, businessSearchcriteria_1.default);
-const CWA_LIMITED_PARTNERSHIP = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_LIMITED_PARTNERSHIP, businessSearchcriteria_1.default);
-const CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY, businessSearchcriteria_1.default);
-const CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP, businessSearchcriteria_1.default);
-const CWA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_PROFESSIONAL_SERVICE_CORPORATION, businessSearchcriteria_1.default);
-const CWA_PROFIT_CORPORATION = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_PROFIT_CORPORATION, businessSearchcriteria_1.default);
-const CWA_NONPROFIT_CORPORATION = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_NONPROFIT_CORPORATION, businessSearchcriteria_1.default);
-const CWA_PUBLIC_BENEFIT_CORPORATION = new CorporationBasicRawStreams_1.default(_RECORDS, 1, BusinessType.WA_PUBLIC_BENEFIT_CORPORATION, businessSearchcriteria_1.default);
-// TODO: Move to its own module
-const CWA_LIMITED_LIABILITY_CORPORATION_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_LIMITED_LIABILITY_CORPORATION, businessSearchcriteria_1.default);
-const CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP, businessSearchcriteria_1.default);
-const CWA_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_LIMITED_LIABILITY_PARTNERSHIP, businessSearchcriteria_1.default);
-const CWA_LIMITED_PARTNERSHIP_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_LIMITED_PARTNERSHIP, businessSearchcriteria_1.default);
-const CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY, businessSearchcriteria_1.default);
-const CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP, businessSearchcriteria_1.default);
-const CWA_PROFESSIONAL_SERVICE_CORPORATION_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_PROFESSIONAL_SERVICE_CORPORATION, businessSearchcriteria_1.default);
-const CWA_PROFIT_CORPORATION_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_PROFIT_CORPORATION, businessSearchcriteria_1.default);
-const CWA_PUBLIC_BENEFIT_CORPORATION_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_PUBLIC_BENEFIT_CORPORATION, businessSearchcriteria_1.default);
-const CWA_NONPROFIT_CORPORATION_ALL = new CorporationBasicRawStreams_1.default(ALL_RECORDS, 1, BusinessType.WA_NONPROFIT_CORPORATION, businessSearchcriteria_1.default);
-// TODO: move to its own test module
-function test_main() {
-    const queue = new PQueue({ concurrency: 1 });
+function main(concurrency) {
+    const queue = new PQueue({ concurrency });
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const firstTask = yield CWA_LIMITED_LIABILITY_CORPORATION._read();
-        yield queue.add(firstTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const firstTask = yield mainFetch_1.CWA_LIMITED_LIABILITY_CORPORATION_ALL._read();
+        // await queue.add(firstTask);
         winston_1.default.log({
             level: "info",
             message: "COMPLETED: CWA_LIMITED_LIABILITY_CORPORATION",
         });
     }))();
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const secondTask = yield CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP._read();
-        yield queue.add(secondTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const secondTask = yield mainFetch_1.CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL._read();
+        // await queue.add(secondTask);
         winston_1.default.log({
             level: "info",
             message: "Done: CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP",
         });
     }))();
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const thirdTask = yield CWA_LIMITED_LIABILITY_PARTNERSHIP._read();
-        yield queue.add(thirdTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const thirdTask = yield mainFetch_1.CWA_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
+        // await queue.add(thirdTask);
         winston_1.default.log({
             level: "info",
             message: "Done: CWA_LIMITED_LIABILITY_PARTNERSHIP",
         });
     }))();
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const fourthTask = yield CWA_LIMITED_PARTNERSHIP._read();
-        yield queue.add(fourthTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const fourthTask = yield mainFetch_1.CWA_LIMITED_PARTNERSHIP_ALL._read();
+        // await queue.add(fourthTask);
         winston_1.default.log({
             level: "info",
             message: "Done: CWA_LIMITED_PARTNERSHIP",
         });
     }))();
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const fifthTask = yield CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY._read();
-        yield queue.add(fifthTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const fifthTask = yield mainFetch_1.CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL._read();
+        // await queue.add(fifthTask);
         winston_1.default.log({
             level: "info",
             message: "Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY",
         });
     }))();
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const sixthTask = yield CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP._read();
-        yield queue.add(sixthTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const sixthTask = yield mainFetch_1.CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
+        // await queue.add(sixthTask);
         winston_1.default.log({
             level: "info",
             message: "Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP",
         });
     }))();
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const seventhTask = yield CWA_PROFESSIONAL_SERVICE_CORPORATION._read();
-        yield queue.add(seventhTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const seventhTask = yield mainFetch_1.CWA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read();
+        // await queue.add(seventhTask);
         winston_1.default.log({
             level: "info",
             message: "Done: CWA_PROFESSIONAL_SERVICE_CORPORATION",
         });
     }))();
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const eighhtTask = yield CWA_PROFIT_CORPORATION._read();
-        yield queue.add(eighhtTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const eighhtTask = yield mainFetch_1.CWA_PROFIT_CORPORATION_ALL._read();
+        // await queue.add(eighhtTask);
         winston_1.default.log({
             level: "info",
             message: "Done: CWA_PROFIT_CORPORATION",
         });
     }))();
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const ninthTask = yield CWA_NONPROFIT_CORPORATION._read();
-        yield queue.add(ninthTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const ninthTask = yield mainFetch_1.CWA_NONPROFIT_CORPORATION_ALL._read();
+        // await queue.add(ninthTask);
         winston_1.default.log({
             level: "info",
             message: "Done: CWA_NONPROFIT_CORPORATION",
         });
     }))();
     (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(200);
-        const tenthTask = yield CWA_PUBLIC_BENEFIT_CORPORATION._read();
-        yield queue.add(tenthTask);
-        winston_1.default.log({
-            level: "info",
-            message: "Done: CWA_PUBLIC_BENEFIT_CORPORATION",
-        });
-    }))();
-    winston_1.default.log({
-        level: "info",
-        message: "Starting to fetch 200 businesses by keywords",
-    });
-}
-function get_random_int(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
-// TODO: this is the only thing to be in index.ts
-function main() {
-    const queue = new PQueue({ concurrency: 3 });
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const firstTask = yield CWA_LIMITED_LIABILITY_CORPORATION_ALL._read();
-        yield queue.add(firstTask);
-        winston_1.default.log({
-            level: "info",
-            message: "COMPLETED: CWA_LIMITED_LIABILITY_CORPORATION",
-        });
-    }))();
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const secondTask = yield CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL._read();
-        yield queue.add(secondTask);
-        winston_1.default.log({
-            level: "info",
-            message: "Done: CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP",
-        });
-    }))();
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const thirdTask = yield CWA_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
-        yield queue.add(thirdTask);
-        winston_1.default.log({
-            level: "info",
-            message: "Done: CWA_LIMITED_LIABILITY_PARTNERSHIP",
-        });
-    }))();
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const fourthTask = yield CWA_LIMITED_PARTNERSHIP_ALL._read();
-        yield queue.add(fourthTask);
-        winston_1.default.log({
-            level: "info",
-            message: "Done: CWA_LIMITED_PARTNERSHIP",
-        });
-    }))();
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const fifthTask = yield CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL._read();
-        yield queue.add(fifthTask);
-        winston_1.default.log({
-            level: "info",
-            message: "Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY",
-        });
-    }))();
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const sixthTask = yield CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
-        yield queue.add(sixthTask);
-        winston_1.default.log({
-            level: "info",
-            message: "Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP",
-        });
-    }))();
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const seventhTask = yield CWA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read();
-        yield queue.add(seventhTask);
-        winston_1.default.log({
-            level: "info",
-            message: "Done: CWA_PROFESSIONAL_SERVICE_CORPORATION",
-        });
-    }))();
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const eighhtTask = yield CWA_PROFIT_CORPORATION_ALL._read();
-        yield queue.add(eighhtTask);
-        winston_1.default.log({
-            level: "info",
-            message: "Done: CWA_PROFIT_CORPORATION",
-        });
-    }))();
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const ninthTask = yield CWA_NONPROFIT_CORPORATION_ALL._read();
-        yield queue.add(ninthTask);
-        winston_1.default.log({
-            level: "info",
-            message: "Done: CWA_NONPROFIT_CORPORATION",
-        });
-    }))();
-    (() => __awaiter(this, void 0, void 0, function* () {
-        yield delay_1.default(get_random_int(1000));
-        const tenthTask = yield CWA_PUBLIC_BENEFIT_CORPORATION_ALL._read();
-        yield queue.add(tenthTask);
+        yield delay_1.default(testMain_1.get_random_int(1000));
+        const tenthTask = yield mainFetch_1.CWA_PUBLIC_BENEFIT_CORPORATION_ALL._read();
+        // await queue.add(tenthTask);
         winston_1.default.log({
             level: "info",
             message: "Done: CWA_PUBLIC_BENEFIT_CORPORATION",
@@ -296,5 +172,7 @@ function main() {
   */
 //  run_200_business();
 // run_all_business();
-test_main();
+// main(1)
+testMain_1.default(1);
+exports.default = main;
 //# sourceMappingURL=index.js.map

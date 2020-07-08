@@ -17,10 +17,15 @@ const cli_color_1 = __importDefault(require("cli-color"));
 const stopword_1 = __importDefault(require("stopword"));
 // import special_extraction_words from "./entityExtractionWords";
 const winston_1 = __importDefault(require("./common/winston"));
+const ecocarcafe_json_1 = __importDefault(require("./keywords/ecocarcafe.json"));
+const illustrations_json_1 = __importDefault(require("./keywords/illustrations.json"));
+const lawfirm_json_1 = __importDefault(require("./keywords/lawfirm.json"));
+const specialized_json_1 = __importDefault(require("./keywords/specialized.json"));
 const fetchFilingInformation_1 = __importDefault(require("./fetchFilingInformation"));
 const fetchAnnualReportCriteria_1 = __importDefault(require("./fetchAnnualReportCriteria"));
 const fetchBusinessInformation_1 = __importDefault(require("./fetchBusinessInformation"));
 const convert_csv_1 = __importDefault(require("./common/convert_csv"));
+const convert_csv_2 = require("./common/convert_csv");
 const keywords_1 = __importDefault(require("./keywords"));
 const info = cli_color_1.default.white.bold;
 const error = cli_color_1.default.red.bold;
@@ -58,18 +63,136 @@ function fetchTable(businessSearchCriteria) {
         let BUSINESS_INFORMATION_REPORT = [];
         let BUSINESS_INFO = [];
         let ALL_CSV = [];
+        let jsonKeywords = [];
         let businessId;
         let totalRowCount;
         let businessInformation;
         let fillingInformation;
-        // TODO: TypeID needs to change to TypeId
-        let businessTypeID = businessSearchCriteria.BusinessTypeID;
+        let businessTypeId = businessSearchCriteria.BusinessTypeID;
         let searchEntityName;
+        jsonKeywords.push(specialized_json_1.default, ecocarcafe_json_1.default, lawfirm_json_1.default, illustrations_json_1.default);
+        //push into array
+        for (let index = 0; index < jsonKeywords.length; index++) {
+            let jsonKeys = jsonKeywords[index];
+            for (let index = 0; index < jsonKeys.keywords.length; index++) {
+                const outputFilename = jsonKeys.output_filename;
+                searchEntityName = jsonKeys.keywords[index];
+                businessSearchCriteria.SearchEntityName = searchEntityName;
+                businessSearchCriteria.SearchType = `${this.searchEntityName === "" ? "" : `Contains`}`;
+                const data = yield httpService_1.postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
+                if (data.length === 0)
+                    return;
+                if (data) {
+                    fetchTableTime = Date.now();
+                    averageFT_time = fetchTableTime - startTime;
+                    for (let i = 0; i < data.length; i++) {
+                        let firstInfo = data[0];
+                        totalRowCount =
+                            firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
+                        let businessInfo = data[i];
+                        businessId = data[i].BusinessID;
+                        businessInformation = yield fetchBusinessInformation_1.default(businessId);
+                        if (businessInformation) {
+                            fetchBusinessTime = Date.now();
+                            averageBT_time = fetchBusinessTime - startTime;
+                        }
+                        ;
+                        fillingInformation = yield fetchFilingInformation_1.default(businessId);
+                        let filingDateTime, annualReport;
+                        if (fillingInformation) {
+                            fetchBillingTime = Date.now();
+                            averageBL_time = fetchBillingTime - startTime;
+                            for (let i = 0; i < fillingInformation.length; i++) {
+                                if (fillingInformation[i].FilingTypeName === "ANNUAL REPORT" ||
+                                    fillingInformation[i].FilingTypeName === "INITIAL REPORT") {
+                                    annualReport = fillingInformation[0];
+                                    filingDateTime = annualReport.FilingDateTime;
+                                    break;
+                                }
+                                winston_1.default.log({
+                                    level: 'debug',
+                                    message: `Neither Annual or Initial Report detected for ${businessId}`
+                                });
+                            }
+                        }
+                        BUSINESS_INFORMATION_REPORT.push(Object.assign(Object.assign({}, businessInformation), { date_filed: filingDateTime }));
+                        if (BUSINESS_INFORMATION_REPORT.length === totalCount) {
+                            winston_1.default.log({
+                                level: 'debug',
+                                message: `${totalCount} businesses processed`
+                            });
+                            totalCount += 1000;
+                        }
+                        ;
+                        const keyword = `${businessInformation.name} ${businessInformation.nature_of_business}`;
+                        const oldKeyword = keyword.split(" ");
+                        const newKeyword = stopword_1.default.removeStopwords(oldKeyword);
+                        let keywords = `${newKeyword}`.toString().replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]/g, " ").toLowerCase().trim();
+                        keywords = removeFromString(special_extraction_words, keywords);
+                        keywords = keywords.replace(/(^\s*)|(\s*$)/gi, "");
+                        keywords = keywords.replace(/[ ]{2,}/gi, " ");
+                        keywords = keywords.replace(/\n/, "");
+                        winston_1.default.log({
+                            level: 'info',
+                            message: businessInformation.name + "(" + businessInformation.ubi + ") " + "keywords: " + keywords
+                        });
+                        BUSINESS_INFO.push({
+                            "Business Name": `"${businessInformation.name}"`,
+                            "UBI": `"${businessInformation.ubi}"`,
+                            "Search Term": `"${searchEntityName}"`,
+                            "Business Status": `"${businessInformation.status}"`,
+                            "Nature of Business": `"${businessInformation.nature_of_business}"`,
+                            "Principal Office Email": `"${businessInformation.principal_office_email}"`,
+                            "Principal Office Phone": `"${businessInformation.principal_office_phone}"`,
+                            "Principal Office Street Address (1)": `"${businessInformation.principal_office_street_address_1}"`,
+                            "Principal Office Street Address (2)": `"${businessInformation.principal_office_street_address_2}"`,
+                            "Principal Office City": `"${businessInformation.principal_office_city}"`,
+                            "Principal Office State": `"${businessInformation.principal_office_state}"`,
+                            "Principal Office Zip": `"${businessInformation.principal_office_zip}"`,
+                            "Principal Office Address Full": `"${businessInformation.principal_office_full_address}"`,
+                            "Principal Office Mailing Street Address (1)": `"${businessInformation.principal_office_mailing_street_address_1}"`,
+                            "Principal Office Mailing Street Address (2)": `"${businessInformation.principal_office_mailing_street_address_2}"`,
+                            "Principal Office Mailing City": `"${businessInformation.principal_office_mailing_city}"`,
+                            "Principal Office Mailing State": `"${businessInformation.principal_office_mailing_state}"`,
+                            "Principal Office Mailing Street Zip": `"${businessInformation.principal_office_mailing_zip}"`,
+                            "Principal Office Mailing Address Full": `"${businessInformation.principal_office_mailing_full_address}"`,
+                            "Business Expiration Date": `"${businessInformation.business_expiration_date}"`,
+                            "Business Formation Date": `"${businessInformation.business_formation_date}"`,
+                            "Governor First name": `"${businessInformation.governor_first_name}"`,
+                            "Governor Last Name": `"${businessInformation.governor_last_name}"`,
+                            "Governor Type": `"${businessInformation.governor_type}"`,
+                            "Registered Agent First Name": `"${businessInformation.registered_agent_first_name}"`,
+                            "Registered Agent Last Name": `"${businessInformation.registered_agent_last_name}"`,
+                            "Registered Agent Mailing Address": `"${businessInformation.registered_agent_mailing_address}"`,
+                            "Registered Agent Email": `"${businessInformation.registered_agent_email}"`,
+                            "Return Address for Filing Attention First Name": `"${businessInformation.return_address_for_filing_attention_first_name}"`,
+                            "Return Address for Filing Attention Last Name": `"${businessInformation.return_address_for_filing_attention_last_name}"`,
+                            "Return Address for Filing Attention Email": `"${businessInformation.return_address_for_filing_attention_email}"`,
+                            "Return Address Filing Mailing Street Address (1)": `"${businessInformation.return_address_filing_mailing_street_address_1}"`,
+                            "Return Address Filing Mailing Street Address (2)": `"${businessInformation.return_address_filing_mailing_street_address_2}"`,
+                            "Return Address Filing Mailing City": `"${businessInformation.return_address_filing_mailing_city}"`,
+                            "Return Address Filing Mailing State": `"${businessInformation.return_address_filing_mailing_state}"`,
+                            "Return Address Filing Mailing Zip": `"${businessInformation.return_address_filing_mailing_zip}"`,
+                            "Authorized Person Signer Title": `"${businessInformation.authorized_signer_title}"`,
+                            "Authorized Person Signer First Name": `"${businessInformation.authorized_signer_first_name}"`,
+                            "Authorized Person Signer Last Name": `"${businessInformation.authorized_signer_last_name}"`,
+                            "Authorized Person Type": `"${businessInformation.authorized_person_type}"`,
+                            "Last Filing Date": `"${businessInformation.last_filing_date}"`,
+                            "Business Keywords": `"${businessInformation.keywords}"`,
+                        });
+                    }
+                    convert_csv_2.convertJsonToCSV(BUSINESS_INFO, outputFilename);
+                    BUSINESS_INFO = [];
+                }
+            }
+        }
         for (let i = 0; i < keywords_1.default.length; i++) {
             searchEntityName = keywords_1.default[i];
             businessSearchCriteria.SearchEntityName = searchEntityName;
             businessSearchCriteria.SearchType = `${this.searchEntityName === "" ? "" : `Contains`}`;
             const data = yield httpService_1.postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
+            if (data.length === 0)
+                return;
             if (data) {
                 fetchTableTime = Date.now();
                 averageFT_time = fetchTableTime - startTime;
@@ -94,14 +217,14 @@ function fetchTable(businessSearchCriteria) {
                     // TODO: FilingNumber and ID are not classes, change to filingNumber and id
                     let FilingNumber, ID, annualReport, annualReportCriteria = [], 
                     // TODO: naming conventions!
-                    FilingDateTime, annualDueNotice;
+                    filingDateTime, annualDueNotice;
                     for (let i = 0; i < fillingInformation.length; i++) {
                         if (fillingInformation[i].FilingTypeName === "ANNUAL REPORT" ||
                             fillingInformation[i].FilingTypeName === "INITIAL REPORT") {
                             annualReport = fillingInformation[0];
                             FilingNumber = annualReport.FilingNumber;
                             ID = annualReport.TransactionId;
-                            FilingDateTime = annualReport.FilingDateTime;
+                            filingDateTime = annualReport.FilingDateTime;
                             annualReportCriteria = yield fetchAnnualReportCriteria_1.default(FilingNumber, ID);
                             break;
                         }
@@ -135,7 +258,7 @@ function fetchTable(businessSearchCriteria) {
                         FullAddress: businessInfo.PrincipalOffice.PrincipalStreetAddress.FullAddress,
                         CorrespondenceEmailAddress: businessInfo.CorrespondenceEmailAddress,
                     };
-                    BUSINESS_INFORMATION_REPORT.push(Object.assign(Object.assign(Object.assign({}, info), businessInformation), { date_filed: FilingDateTime }));
+                    BUSINESS_INFORMATION_REPORT.push(Object.assign(Object.assign(Object.assign({}, info), businessInformation), { date_filed: filingDateTime }));
                     if (BUSINESS_INFORMATION_REPORT.length === totalCount) {
                         winston_1.default.log({
                             level: 'debug',
@@ -207,7 +330,7 @@ function fetchTable(businessSearchCriteria) {
                 }
             }
             totalTimeTaken = averageAL_time + averageBL_time + averageFT_time + averageBT_time;
-            const CSV = convert_csv_1.default(BUSINESS_INFO, businessTypeID, searchEntityName);
+            const CSV = convert_csv_1.default(BUSINESS_INFO, businessTypeId, searchEntityName);
             BUSINESS_INFO = [];
         }
         return {

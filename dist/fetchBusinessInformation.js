@@ -30,7 +30,8 @@ function toSentenceCase(theString) {
 function formatInput(str) {
     if (str === undefined || str === null || typeof str !== "string")
         return " ";
-    return str.replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]\n\r/g, " ").trim();
+    let str2 = str.replace(/[~`!#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]\n\r/g, " ").trim();
+    return str2;
 }
 function fetchBusinessInformation(businessId) {
     return __awaiter(this, void 0, void 0, function* () {
