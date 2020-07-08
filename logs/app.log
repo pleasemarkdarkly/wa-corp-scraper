@@ -1,6 +1,7 @@
 {
   level: 'info',
   message: 'Starting to fetch all business by keywords',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:34:54.175Z'
 }
 {
@@ -17,40 +18,83 @@
   level: 'info',
   message: 'Starting to fetch 200 businesses by keywords',
   timestamp: '2020-07-07T23:43:09.371Z'
+=======
+  timestamp: '2020-07-07T23:24:58.739Z'
 }
 {
   level: 'info',
   message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+  timestamp: '2020-07-07T23:24:58.866Z'
+}
+{
+  level: 'info',
+  message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+  timestamp: '2020-07-07T23:24:58.937Z'
+}
+{
+  level: 'info',
+  message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+  timestamp: '2020-07-07T23:24:59.061Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
+}
+{
+  level: 'info',
+  message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:43:09.572Z'
+=======
+  timestamp: '2020-07-07T23:24:59.118Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
 }
 {
   level: 'info',
   message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:43:09.601Z'
+=======
+  timestamp: '2020-07-07T23:24:59.371Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
 }
 {
   level: 'info',
   message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:43:09.605Z'
+=======
+  timestamp: '2020-07-07T23:24:59.467Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
 }
 {
   level: 'info',
   message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:43:09.609Z'
+=======
+  timestamp: '2020-07-07T23:24:59.483Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
 }
 {
   level: 'info',
   message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:43:09.612Z'
+=======
+  timestamp: '2020-07-07T23:24:59.501Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
 }
 {
   level: 'info',
   message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:43:09.616Z'
+=======
+  timestamp: '2020-07-07T23:24:59.527Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
 }
 {
   level: 'info',
   message: 'Fetching search criteria https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:43:09.619Z'
 }
 {
@@ -82,10 +126,59 @@
   level: 'info',
   message: 'ARNE BACKSTROM MEMORIAL FUND (603 056 095): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=56557',
   timestamp: '2020-07-07T23:43:17.813Z'
+=======
+  timestamp: '2020-07-07T23:24:59.669Z'
+}
+{
+  level: 'info',
+  message: 'BACK 2 LIFE CHIROPRACTIC P.L.L.C. (604 542 851): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1328554',
+  timestamp: '2020-07-07T23:25:02.744Z'
+}
+{
+  level: 'info',
+  message: 'A+ BACKFLOW INC (604 077 660): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=12921',
+  timestamp: '2020-07-07T23:25:02.747Z'
+}
+{
+  level: 'info',
+  message: 'BACK 2 LIFE CHIROPRACTIC P.L.L.C.(604 542 851) keywords: back 2 life chiropractic p l l c',
+  timestamp: '2020-07-07T23:25:02.840Z'
+}
+{
+  level: 'info',
+  message: 'BACK IN BALANCE REDMOND, PS (603 066 944): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=559017',
+  timestamp: '2020-07-07T23:25:02.967Z'
+}
+{
+  level: 'info',
+  message: 'KELLER ROHRBACK L.L.P. (601 676 868): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=282100',
+  timestamp: '2020-07-07T23:25:03.107Z'
+}
+{
+  level: 'info',
+  message: 'BACKYARD BAKERY, LLP (604 609 869): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1359284',
+  timestamp: '2020-07-07T23:25:03.108Z'
+}
+{
+  level: 'info',
+  message: 'BACKYARD BAKERY, LLP(604 609 869) keywords: backyard bakery llp',
+  timestamp: '2020-07-07T23:25:03.204Z'
+}
+{
+  level: 'info',
+  message: 'A+ BACKFLOW INC(604 077 660) keywords: a backflow inc services back flow testing',
+  timestamp: '2020-07-07T23:25:03.645Z'
+}
+{
+  level: 'info',
+  message: 'BACK IN BALANCE REDMOND, PS(603 066 944) keywords: back balance redmond ps health care social assistance & service organization',
+  timestamp: '2020-07-07T23:25:03.857Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
 }
 {
   level: 'info',
   message: 'KELLER ROHRBACK L.L.P.(601 676 868) keywords: keller rohrback l l p professional scientific & technical services',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:43:17.818Z'
 }
 {
@@ -147,10 +240,79 @@
   level: 'info',
   message: 'BACKYARD BAKERY, LLP(604 609 869) keywords: backyard bakery llp',
   timestamp: '2020-07-07T23:43:21.347Z'
+=======
+  timestamp: '2020-07-07T23:25:04.255Z'
+}
+{
+  level: 'info',
+  message: 'LOOK BACK HILL RANCH, L.L.L.P. (604 310 951): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1219466',
+  timestamp: '2020-07-07T23:25:07.128Z'
+}
+{
+  level: 'info',
+  message: '360 MASSAGE, PLLC (604 121 361): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=95189',
+  timestamp: '2020-07-07T23:25:07.184Z'
+}
+{
+  level: 'info',
+  message: 'LOOK BACK HILL RANCH, L.L.L.P.(604 310 951) keywords: look back hill ranch l l l p agriculture forestry fishing hunting & trapping',
+  timestamp: '2020-07-07T23:25:07.214Z'
+}
+{
+  level: 'info',
+  message: '3-CITIES ON-SITE MASSAGE, INC. (601 755 627): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1092168',
+  timestamp: '2020-07-07T23:25:07.711Z'
+}
+{
+  level: 'info',
+  message: 'A HEALING TOUCH MASSAGE CLINIC, PS (602 072 683): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=83361',
+  timestamp: '2020-07-07T23:25:07.766Z'
+}
+{
+  level: 'info',
+  message: '360 MASSAGE, PLLC(604 121 361) keywords: 360 massage p services massage therapy',
+  timestamp: '2020-07-07T23:25:07.881Z'
+}
+{
+  level: 'info',
+  message: '3-CITIES ON-SITE MASSAGE, INC.(601 755 627) keywords: 3 cities on site massage inc',
+  timestamp: '2020-07-07T23:25:08.596Z'
+}
+{
+  level: 'info',
+  message: 'A HEALING TOUCH MASSAGE CLINIC, PS(602 072 683) keywords: healing touch massage clinic ps health care social assistance & service organization',
+  timestamp: '2020-07-07T23:25:08.671Z'
+}
+{
+  level: 'info',
+  message: 'ARNE BACKSTROM MEMORIAL FUND (603 056 095): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=56557',
+  timestamp: '2020-07-07T23:25:10.619Z'
+}
+{
+  level: 'info',
+  message: 'DECAMP-TOFTNESS CHIROPRACTIC CLINIC, LLP (602 351 864): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=639738',
+  timestamp: '2020-07-07T23:25:11.186Z'
+}
+{
+  level: 'info',
+  message: 'ARNE BACKSTROM MEMORIAL FUND(603 056 095) keywords: arne backstrom memorial fund charitable',
+  timestamp: '2020-07-07T23:25:11.253Z'
+}
+{
+  level: 'info',
+  message: '360 THROWBACK AUCTIONS AND SALES, LLC (604 617 422): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1363147',
+  timestamp: '2020-07-07T23:25:11.846Z'
+}
+{
+  level: 'info',
+  message: 'DECAMP-TOFTNESS CHIROPRACTIC CLINIC, LLP(602 351 864) keywords: decamp toftness chiropractic clinic llp health care social assistance & service organization',
+  timestamp: '2020-07-07T23:25:11.986Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
 }
 {
   level: 'info',
   message: '360 THROWBACK AUCTIONS AND SALES, LLC(604 617 422) keywords: 360 throwback auctions sales',
+<<<<<<< HEAD
   timestamp: '2020-07-07T23:43:21.371Z'
 }
 {
@@ -2522,4 +2684,247 @@
   level: 'info',
   message: 'AFFORDABLE WASHINGTON BACKFLOW, LLC (603 562 601): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=490345',
   timestamp: '2020-07-08T00:05:29.334Z'
+=======
+  timestamp: '2020-07-07T23:25:12.517Z'
+}
+{
+  level: 'info',
+  message: "'A' STREET CLINIC OF CHIROPRACTIC, PLLC (602 681 514): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1001",
+  timestamp: '2020-07-07T23:25:12.636Z'
+}
+{
+  level: 'info',
+  message: 'ABSOLUTE CHIROPRACTIC AND WELLNESS CENTER, INC. (602 916 891): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=18866',
+  timestamp: '2020-07-07T23:25:13.203Z'
+}
+{
+  level: 'info',
+  message: "'A' STREET CLINIC OF CHIROPRACTIC, PLLC(602 681 514) keywords: a street clinic chiropractic p health care social assistance & service organization",
+  timestamp: '2020-07-07T23:25:13.334Z'
+}
+{
+  level: 'info',
+  message: 'ABSOLUTE CHIROPRACTIC AND WELLNESS CENTER, INC.(602 916 891) keywords: absolute chiropractic wellness center inc health care social assistance & service organization',
+  timestamp: '2020-07-07T23:25:13.850Z'
+}
+{
+  level: 'info',
+  message: 'AURORA VILLAGE MEDICAL CREST, L.P. (604 016 311): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=562953',
+  timestamp: '2020-07-07T23:25:14.301Z'
+}
+{
+  level: 'info',
+  message: 'AURORA VILLAGE MEDICAL CREST, L.P.(604 016 311) keywords: aurora village medical crest l p real estate',
+  timestamp: '2020-07-07T23:25:14.917Z'
+}
+{
+  level: 'info',
+  message: 'ALLENMORE MEDICAL FOUNDATION (601 622 979): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=534979',
+  timestamp: '2020-07-07T23:25:15.056Z'
+}
+{
+  level: 'info',
+  message: 'ALLENMORE MEDICAL FOUNDATION(601 622 979) keywords: allenmore medical foundation charitable',
+  timestamp: '2020-07-07T23:25:15.785Z'
+}
+{
+  level: 'info',
+  message: 'MASSAGE NETWORK SOLUTIONS (604 354 150): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1244446',
+  timestamp: '2020-07-07T23:25:16.063Z'
+}
+{
+  level: 'info',
+  message: 'MASSAGE NETWORK SOLUTIONS(604 354 150) keywords: massage network solutions trade association',
+  timestamp: '2020-07-07T23:25:16.736Z'
+}
+{
+  level: 'info',
+  message: '1ST CHOICE CHIROPRACTIC, PS (602 171 043): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1078389',
+  timestamp: '2020-07-07T23:25:17.362Z'
+}
+{
+  level: 'info',
+  message: 'ADULT INPATIENT MEDICAL SERVICES, PLLC (602 888 667): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=15606',
+  timestamp: '2020-07-07T23:25:17.716Z'
+}
+{
+  level: 'info',
+  message: '1ST CHOICE CHIROPRACTIC, PS(602 171 043) keywords: 1st choice chiropractic ps health care social assistance & service organization',
+  timestamp: '2020-07-07T23:25:18.095Z'
+}
+{
+  level: 'info',
+  message: '104TH AVENUE MEDICAL CLINIC, INCORPORATED (602 049 746): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=58528',
+  timestamp: '2020-07-07T23:25:18.359Z'
+}
+{
+  level: 'info',
+  message: '1000 FINGERS MASSAGE LLC (604 361 074): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1247588',
+  timestamp: '2020-07-07T23:25:18.442Z'
+}
+{
+  level: 'info',
+  message: 'ADULT INPATIENT MEDICAL SERVICES, PLLC(602 888 667) keywords: adult inpatient medical services p health care social assistance & service organization',
+  timestamp: '2020-07-07T23:25:18.464Z'
+}
+{
+  level: 'info',
+  message: '104TH AVENUE MEDICAL CLINIC, INCORPORATED(602 049 746) keywords: 104th avenue medical clinic incorporated professional scientific & technical services health care social assistance & service organization',
+  timestamp: '2020-07-07T23:25:19.224Z'
+}
+{
+  level: 'info',
+  message: '1000 FINGERS MASSAGE LLC(604 361 074) keywords: 1000 fingers massage health care social assistance & service organization massage therapy',
+  timestamp: '2020-07-07T23:25:19.356Z'
+}
+{
+  level: 'info',
+  message: 'HILLSBORO AUTO REAL ESTATE, LIMITED PARTNERSHIP (601 068 203): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=753594',
+  timestamp: '2020-07-07T23:25:19.584Z'
+}
+{
+  level: 'info',
+  message: 'SEATTLE MEDICAL ASSOCIATES PLLP (601 137 518): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1001281',
+  timestamp: '2020-07-07T23:25:19.616Z'
+}
+{
+  level: 'info',
+  message: 'HILLSBORO AUTO REAL ESTATE, LIMITED PARTNERSHIP(601 068 203) keywords: hillsboro auto real estate limited property management',
+  timestamp: '2020-07-07T23:25:20.333Z'
+}
+{
+  level: 'info',
+  message: 'SEATTLE MEDICAL ASSOCIATES PLLP(601 137 518) keywords: seattle medical associates pllp health care social assistance & service organization',
+  timestamp: '2020-07-07T23:25:20.417Z'
+}
+{
+  level: 'info',
+  message: 'BREMERTON AUTO CLUB (601 798 277): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=588487',
+  timestamp: '2020-07-07T23:25:20.567Z'
+}
+{
+  level: 'info',
+  message: 'EVERGREEN MEDICAL DENTAL CENTER LLP (602 083 780): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=680577',
+  timestamp: '2020-07-07T23:25:20.851Z'
+}
+{
+  level: 'info',
+  message: 'BREMERTON AUTO CLUB(601 798 277) keywords: bremerton auto club charitable monthly meetings participation car shows parades',
+  timestamp: '2020-07-07T23:25:21.524Z'
+}
+{
+  level: 'info',
+  message: 'EVERGREEN MEDICAL DENTAL CENTER LLP(602 083 780) keywords: evergreen medical dental center llp real estate',
+  timestamp: '2020-07-07T23:25:21.662Z'
+}
+{
+  level: 'info',
+  message: 'CLARK COUNTY CHIROPRACTIC SOCIETY (601 810 347): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=78481',
+  timestamp: '2020-07-07T23:25:21.699Z'
+}
+{
+  level: 'info',
+  message: 'CLARK COUNTY CHIROPRACTIC SOCIETY(601 810 347) keywords: clark county chiropractic society trade association',
+  timestamp: '2020-07-07T23:25:22.557Z'
+}
+{
+  level: 'info',
+  message: 'ACUPUNCTURE & ORIENTAL MEDICAL CENTER, P.S. (602 303 605): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=25065',
+  timestamp: '2020-07-07T23:25:23.147Z'
+}
+{
+  level: 'info',
+  message: 'ACUPUNCTURE & ORIENTAL MEDICAL CENTER, P.S.(602 303 605) keywords: acupuncture & oriental medical center p s health care social assistance & service organization acupuncture herbs',
+  timestamp: '2020-07-07T23:25:23.814Z'
+}
+{
+  level: 'info',
+  message: '1ST CLASS AUTO GLASS INC. (603 315 393): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=62400',
+  timestamp: '2020-07-07T23:25:24.161Z'
+}
+{
+  level: 'info',
+  message: '180 CHIROPRACTIC WELLNESS CENTER, LLC (602 930 240): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=33113',
+  timestamp: '2020-07-07T23:25:24.358Z'
+}
+{
+  level: 'info',
+  message: 'AUTO INJURY PAIN CLINIC, PLLC (604 533 625): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1319318',
+  timestamp: '2020-07-07T23:25:24.411Z'
+}
+{
+  level: 'info',
+  message: 'AUTO INJURY PAIN CLINIC, PLLC(604 533 625) keywords: auto injury pain clinic p',
+  timestamp: '2020-07-07T23:25:24.498Z'
+}
+{
+  level: 'info',
+  message: '1ST CLASS AUTO GLASS INC.(603 315 393) keywords: 1st class auto glass inc construction',
+  timestamp: '2020-07-07T23:25:24.950Z'
+}
+{
+  level: 'info',
+  message: '180 CHIROPRACTIC WELLNESS CENTER, LLC(602 930 240) keywords: 180 chiropractic wellness center health care social assistance & service organization chiropractic',
+  timestamp: '2020-07-07T23:25:25.136Z'
+}
+{
+  level: 'info',
+  message: 'AGAPE MEDICAL MISSIONS (602 097 390): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=485017',
+  timestamp: '2020-07-07T23:25:27.062Z'
+}
+{
+  level: 'info',
+  message: 'FLEETLINE AUTO SALES LLLP (604 596 632): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1349819',
+  timestamp: '2020-07-07T23:25:27.293Z'
+}
+{
+  level: 'info',
+  message: 'AGAPE MEDICAL MISSIONS(602 097 390) keywords: agape medical missions religious religious activities quartal religious journals monthly prayer meetings charity work',
+  timestamp: '2020-07-07T23:25:27.811Z'
+}
+{
+  level: 'info',
+  message: 'FLEETLINE AUTO SALES LLLP(604 596 632) keywords: fleetline auto sales lllp motor vehicle aerospace & transportation products',
+  timestamp: '2020-07-07T23:25:27.967Z'
+}
+{
+  level: 'info',
+  message: "AUBREY'S RECREATIONAL VEHICLE CENTER, INC. (600 219 305): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=44712",
+  timestamp: '2020-07-07T23:25:29.130Z'
+}
+{
+  level: 'info',
+  message: 'WASHINGTON ASSOCIATION OF PROSECUTING ATTORNEYS (600 390 306): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=324530',
+  timestamp: '2020-07-07T23:25:29.474Z'
+}
+{
+  level: 'info',
+  message: '1632 MEDICAL BUILDING LLC (603 430 128): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=59327',
+  timestamp: '2020-07-07T23:25:29.708Z'
+}
+{
+  level: 'info',
+  message: "AUBREY'S RECREATIONAL VEHICLE CENTER, INC.(600 219 305) keywords: aubrey s recreational vehicle center inc services sales service types recreational vehicles",
+  timestamp: '2020-07-07T23:25:29.903Z'
+}
+{
+  level: 'info',
+  message: 'WASHINGTON ASSOCIATION OF PROSECUTING ATTORNEYS(600 390 306) keywords: washington association prosecuting attorneys professional association non profit service organization dedicated training support county prosecutors wapa serves voice county prosecutors state national levels acts liaison counties levels government research training lobbying',
+  timestamp: '2020-07-07T23:25:30.230Z'
+}
+{
+  level: 'info',
+  message: 'ABSOLUTE AUTO GLASS, L.L.P. (604 362 077): https://cfda.sos.wa.gov/api/BusinessSearch/BusinessInformation?businessID=1259246',
+  timestamp: '2020-07-07T23:25:30.340Z'
+}
+{
+  level: 'info',
+  message: '1632 MEDICAL BUILDING LLC(603 430 128) keywords: 1632 medical building holding',
+  timestamp: '2020-07-07T23:25:30.380Z'
+}
+{
+  level: 'info',
+  message: 'ABSOLUTE AUTO GLASS, L.L.P.(604 362 077) keywords: absolute auto glass l l p automotive glass replacement',
+  timestamp: '2020-07-07T23:25:30.997Z'
+>>>>>>> be08d2474feb6a930c2c36bade818aae69c0bb03
 }
