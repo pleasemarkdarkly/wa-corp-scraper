@@ -441,4 +441,4 @@ function main() {
 //  run_200_business();
 // run_all_business();
 
-main();
+test_main()

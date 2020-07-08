@@ -101,10 +101,10 @@ class CorporationBasicRawStream extends stream.Readable {
           totalTable = await fetchTable(newComputedArgs);
           this.pageCount++;
 
-          logger.log({
-            level: "verbose",
-            message: `CorporationBasicRawStream (totalTable): ${totalTable}`,
-          });
+          // logger.log({
+          //   level: "verbose",
+          //   message: `CorporationBasicRawStream (totalTable): ${totalTable}`,
+          // });
 
           if (TOTAL_AVAILABLE_BUSINESS < 100) return totalTable;
           Tables.push(totalTable);

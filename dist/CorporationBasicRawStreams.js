@@ -95,10 +95,10 @@ class CorporationBasicRawStream extends stream_1.default.Readable {
                         });
                         totalTable = yield fetchTable_1.default(newComputedArgs);
                         this.pageCount++;
-                        winston_1.default.log({
-                            level: "verbose",
-                            message: `CorporationBasicRawStream (totalTable): ${totalTable}`,
-                        });
+                        // logger.log({
+                        //   level: "verbose",
+                        //   message: `CorporationBasicRawStream (totalTable): ${totalTable}`,
+                        // });
                         if (TOTAL_AVAILABLE_BUSINESS < 100)
                             return totalTable;
                         Tables.push(totalTable);

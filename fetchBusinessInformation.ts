@@ -16,9 +16,9 @@ function toSentenceCase(theString: string) {
   return newString;
 }
 
-function formatInut(str: string) {
+function formatInput(str: string) {
   if (str === undefined || str === null || typeof str !== "string") return " ";
-  return str.replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]\n/g, " ")
+  return str.replace(/[~`!@#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]\n\r/g, " ").trim()
 
 }
 
@@ -73,138 +73,138 @@ async function fetchBusinessInformation(businessId: string) {
   });
 
   return {
-    name: `${formatInut(BusinessInformation.BusinessName)}`.trim(),
-    type: `${formatInut(BusinessInformation.BusinessType)}`,
-    status: `${formatInut(BusinessInformation.BusinessStatus)}`,
-    ubi: `${formatInut(BusinessInformation.UBINumber)}`,
+    name: `${formatInput(BusinessInformation.BusinessName)}`.trim(),
+    type: `${formatInput(BusinessInformation.BusinessType)}`,
+    status: `${formatInput(BusinessInformation.BusinessStatus)}`,
+    ubi: `${formatInput(BusinessInformation.UBINumber)}`,
 
-    registered_agent_name: `${formatInut(BusinessInformation.Agent.FullName)}`,
-    registered_agent_mailing_address: `${formatInut(
+    registered_agent_name: `${formatInput(BusinessInformation.Agent.FullName)}`,
+    registered_agent_mailing_address: `${formatInput(
       BusinessInformation.Agent.MailingAddress.FullAddress
     )}`,
-    registered_agent_email: `${formatInut(
+    registered_agent_email: `${formatInput(
       BusinessInformation.Agent.EmailAddress
     )}`,
-    registered_agent_first_name: `${formatInut(
+    registered_agent_first_name: `${formatInput(
       BusinessInformation.Agent.FirstName
     )}`,
-    registered_agent_last_name: `${formatInut(
+    registered_agent_last_name: `${formatInput(
       BusinessInformation.Agent.LastName
     )}`,
 
-    principal_office_email: `${formatInut(
+    principal_office_email: `${formatInput(
       BusinessInformation.PrincipalOffice.EmailAddress
     )}`,
-    principal_office_street_address_1: `${formatInut(
+    principal_office_street_address_1: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.StreetAddress1
     )}`,
-    principal_office_street_address_2: `${formatInut(
+    principal_office_street_address_2: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.StreetAddress2
     )}`,
-    principal_office_city: `${formatInut(
+    principal_office_city: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.City
     )}`,
-    principal_office_state: `${formatInut(
+    principal_office_state: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip5
-    )} - ${formatInut(
+    )} - ${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip4
     )}`,
-    principal_office_zip: `${formatInut(
+    principal_office_zip: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.City
     )}`,
-    principal_office_full_address: `${formatInut(
+    principal_office_full_address: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.FullAddress
     )}`,
 
-    principal_office_mailing_street_address_1: `${formatInut(
+    principal_office_mailing_street_address_1: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalMailingAddress.StreetAddress1
     )}`,
-    principal_office_mailing_street_address_2: `${formatInut(
+    principal_office_mailing_street_address_2: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalMailingAddress.StreetAddress2
     )}`,
-    principal_office_mailing_city: `${formatInut(
+    principal_office_mailing_city: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalMailingAddress.City
     )}`,
     principal_office_mailing_state: `${BusinessInformation.PrincipalOffice.PrincipalMailingAddress.Zip5} - ${BusinessInformation.PrincipalOffice.PrincipalMailingAddress.Zip4}`,
-    principal_office_mailing_zip: `${formatInut(
+    principal_office_mailing_zip: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalMailingAddress.City
     )}`,
-    principal_office_mailing_full_address: `${formatInut(
+    principal_office_mailing_full_address: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalMailingAddress.FullAddress
     )}`,
-    principal_office_phone: `${formatInut(
+    principal_office_phone: `${formatInput(
       BusinessInformation.PrincipalOffice.PhoneNumber
     )}`,
 
-    return_address_for_filing_attention_first_name: `${formatInut(
+    return_address_for_filing_attention_first_name: `${formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].Title !== "GOVERNOR"
           ? BusinessInformation.PrincipalsList[0].FirstName
           : ""
         : ""
     )}`,
-    return_address_for_filing_attention_last_name: `${formatInut(
+    return_address_for_filing_attention_last_name: `${formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].Title !== "GOVERNOR"
           ? BusinessInformation.PrincipalsList[0].LastName
           : ""
         : ""
     )}`,
-    return_address_for_filing_attention_email: `${formatInut(
+    return_address_for_filing_attention_email: `${formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].Title !== "GOVERNOR"
           ? BusinessInformation.BusinessInfoPrincipalOffice.EmailAddress
           : ""
         : ""
     )}`,
-    return_address_filing_mailing_street_address_1: `${formatInut(
+    return_address_filing_mailing_street_address_1: `${formatInput(
       BusinessInformation.MeetingPlace.StreetAddress1
     )}`,
-    return_address_filing_mailing_street_address_2: `${formatInut(
+    return_address_filing_mailing_street_address_2: `${formatInput(
       BusinessInformation.MeetingPlace.StreetAddress2
     )}`,
-    return_address_filing_mailing_city: `${formatInut(
+    return_address_filing_mailing_city: `${formatInput(
       BusinessInformation.MeetingPlace.City
     )}`,
-    return_address_filing_mailing_state: `${formatInut(
+    return_address_filing_mailing_state: `${formatInput(
       BusinessInformation.MeetingPlace.State
     )}`,
-    return_address_filing_mailing_zip: `${formatInut(
+    return_address_filing_mailing_zip: `${formatInput(
       BusinessInformation.MeetingPlace.Zip5
-    )}-${formatInut(BusinessInformation.MeetingPlace.Zip4)}`,
+    )}-${formatInput(BusinessInformation.MeetingPlace.Zip4)}`,
 
-    governor_first_name: `${formatInut(
+    governor_first_name: `${formatInput(
       !BusinessInformation.PrincipalsList[0]
         ? ""
         : BusinessInformation.PrincipalsList[0].FirstName
     )}`,
-    governor_last_name: `${formatInut(
+    governor_last_name: `${formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].LastName
         : ""
     )}`,
-    governor_type: `${formatInut(
+    governor_type: `${formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].PrincipalBaseType
         : ""
     )}`,
 
-    authorized_signer_title: `${formatInut(
+    authorized_signer_title: `${formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].Title
         : ""
     )}`,
-    authorized_signer_last_name: `${formatInut(
+    authorized_signer_last_name: `${formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].LastName
         : ""
     )}`,
-    authorized_signer_first_name: `${formatInut(
+    authorized_signer_first_name: `${formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].FirstName
         : ""
     )}`,
-    authorized_person_type: `${formatInut(
+    authorized_person_type: `${formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].Title !== "GOVERNOR"
           ? "INDIVIDUAL"
@@ -212,15 +212,15 @@ async function fetchBusinessInformation(businessId: string) {
         : ""
     )}`,
 
-    business_expiration_date: `${formatInut(
+    business_expiration_date: `${formatInput(
       BusinessInformation.NextARDueDate
     )}`,
     business_formation_date: `${toSentenceCase(
-      formatInut(BusinessInformation.DateOfIncorporation)
+      formatInput(BusinessInformation.DateOfIncorporation)
     )}`,
-    nature_of_business: `${formatInut(BusinessInformation.BINAICSCodeDesc)}`,
-    last_filing_date: `${formatInut(BusinessInformation.LastARFiledDate)}`,
-    keywords,
+    nature_of_business: `${formatInput(BusinessInformation.BINAICSCodeDesc)}`,
+    last_filing_date: `${formatInput(BusinessInformation.LastARFiledDate)}`,
+    keywords: `${formatInput(keywords)}`,
   };
 }
 
