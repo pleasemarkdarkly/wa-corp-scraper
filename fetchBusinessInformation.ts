@@ -18,7 +18,7 @@ function toSentenceCase(theString: string) {
 
 function formatInput(str: string) {
   if (str === undefined || str === null || typeof str !== "string") return " ";
-  let str2 = str.replace(/[~`!#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]\n\r/g, " ").trim() 
+  let str2 = str.replace(/[~`!#$%^*(){}\[\];:"'<,.>?\/\\|_+=-]\u2029\u2028\r?\n\r/g, "").trim() 
   return str2;
 
 }

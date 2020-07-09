@@ -42,7 +42,7 @@ require("dotenv").config();
 
 
 function main(concurrency: number) {
-  const queue = new PQueue({ concurrency});
+  const queue = new PQueue({concurrency});
 
   (async () => {
     await delay(get_random_int(1000));
@@ -171,6 +171,6 @@ function main(concurrency: number) {
   });
   */
 
-main(1)
+// main(1)
 // testMain(1)
 export default main;

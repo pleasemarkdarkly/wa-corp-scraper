@@ -1,38 +1,33 @@
 #!/usr/bin/env node
+import yargs from 'yargs'
+import main from './index'
+import testMain from './testMain'
 
-const yargs = require('yargs');
-const main = require ('./index')
-const testMain = require ('./testMain')
 yargs
   .command(
     "fetchAll",
     "fetch all business with keywords",
-    (    yargs: { option: (arg0: string, arg1: { describe: string; type: string; }) => any; }) =>
+    yargs =>
       yargs.option("concurrency", {
         describe:
           "The number of concurrent fetch at a time.",
         type: "number"
       }),
-    async (argv: { concurrency: number; }) => await main(argv.concurrency)
+    async argv => await main(argv.concurrency)
   )
 
   yargs
   .command(
     "fetchTest",
     "fetch 200 businesses with keywords",
-    (    yargs: { option: (arg0: string, arg1: { describe: string; type: string; }) => any; }) =>
+    yargs =>
       yargs
       .option("concurrency", {
         describe:
           "The number of concurrent fetch at a time.",
         type: "number"
       }),
-      // .option("pageCount", {
-      //   describe:
-      //     "The number of concurrent fetch at a time.",
-      //   type: "number"
-      // }),
-    async (argv: { concurrency: number; }) => await testMain(argv.concurrency)
+    async argv => await testMain(argv.concurrency)
   )
 
   .command({
