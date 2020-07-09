@@ -9,7 +9,6 @@ const error = clc.red.bold;
 const warn = clc.yellow;
 const notice = clc.blue;
 
-// TODO: Move to yargs parsing
 dotenv.config();
 
 const SOCKS_USER = process.env.SOCKS_USER || "None";

@@ -1,7 +1,7 @@
 {
-  "name": "wacorp",
+  "name": "wa-corp-scraper",
   "version": "1.0.0",
-  "description": "",
+  "description": "Washington Corporation Scraper",
   "main": "index.js",
   "scripts": {
     "stop": "forever stop",
