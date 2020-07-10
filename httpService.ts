@@ -44,7 +44,7 @@ const getHttp = async (getEndpoint: string) => {
       "content-type": "text/html",
     },
     // TODO: check to see if proxy is defined if not or if it fails getEndpoint without proxy return warning
-//    agent,
+  //  agent,
   };
 
   const response = await fetch(getEndpoint, requestOptions);
@@ -68,7 +68,7 @@ const annualPost = async (postEndpoint: string, postData: any) => {
     headers: {
       "Content-Type": "application/pdf",
     },
-//    agent,
+  //  agent,
     body: querystring.stringify(postData),
   };
 

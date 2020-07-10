@@ -15,18 +15,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const yargs_1 = __importDefault(require("yargs"));
 const index_1 = __importDefault(require("./index"));
-const testMain_1 = __importDefault(require("./testMain"));
+const keywordsFetch_1 = __importDefault(require("./keywordsFetch"));
 yargs_1.default
     .command("fetchAll", "fetch all business with keywords", yargs => yargs.option("concurrency", {
     describe: "The number of concurrent fetch at a time.",
     type: "number"
 }), (argv) => __awaiter(void 0, void 0, void 0, function* () { return yield index_1.default(argv.concurrency); }));
 yargs_1.default
-    .command("fetchTest", "fetch 200 businesses with keywords", yargs => yargs
-    .option("concurrency", {
+    .command("fetchAll", "fetch business by certain keywords", yargs => yargs.option("concurrency", {
     describe: "The number of concurrent fetch at a time.",
     type: "number"
-}), (argv) => __awaiter(void 0, void 0, void 0, function* () { return yield testMain_1.default(argv.concurrency); }))
+}), (argv) => __awaiter(void 0, void 0, void 0, function* () { return yield index_1.default(argv.concurrency); }));
+yargs_1.default
+    .command("company_keyword_scraper", "fetch 200 businesses with keywords", yargs => yargs
+    .option("c", {
+    describe: "The number of concurrent fetch at a time.",
+    type: "number",
+    default: 1,
+})
+    .option("pageId", {
+    describe: "The page number",
+    type: "number",
+    default: 1,
+})
+    .option("count", {
+    describe: "The number on each page.",
+    type: "number",
+    default: 100,
+})
+    .option("keywords", {
+    describe: "The keywords json to search ",
+    type: "string"
+}), (argv) => __awaiter(void 0, void 0, void 0, function* () { return yield keywordsFetch_1.default(argv.c, argv.count, argv.pageId, argv.keywords); }))
     .command({
     command: "$0",
     describe: "--help for help, <command> --help for command-specific help",
