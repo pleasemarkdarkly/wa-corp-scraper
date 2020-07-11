@@ -92,7 +92,7 @@ const fechTableKeywords = async (businessSearchCriteria: {
                    computeInfo.push({ ...biz })
                   increament++
                 }
-                console.log(computeInfo);
+                // console.log(computeInfo);
                 convertJsonToCSV(computeInfo, file_name);
               }
               const argsZ = {
