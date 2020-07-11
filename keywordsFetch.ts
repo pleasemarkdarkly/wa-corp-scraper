@@ -20,7 +20,7 @@ const BusinessType = {
   };
 
 
-export const getBusinessByKeywords = (
+export const getBusinessByKeywords = async (
     businessTypeId: number, 
     pageId: number, 
     pageCount: number, 
@@ -31,9 +31,8 @@ export const getBusinessByKeywords = (
         BusinessTypeID : businessTypeId,
         PageID: pageId,
         PageCount: pageCount
-    }
-
-    fetchTableKeywords(args, keywords)
+    }    
+    await fetchTableKeywords(args, keywords)
 }
 
 
@@ -142,7 +141,7 @@ function test_with_keywords(concurrency: number, pageId: number, pageCount: numb
   
     logger.log({
       level: "info",
-      message: "Starting to fetch 200 businesses by keywords",
+      message: "Starting to fetch  businesses by keywords",
     });
   }
   

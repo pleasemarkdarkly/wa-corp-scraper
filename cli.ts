@@ -41,7 +41,7 @@ yargs
         type: "number",
         default: 1,
       })
-      .option("pageId", {
+      .option("id", {
         describe:
           "The page number",
         type: "number",
@@ -49,16 +49,16 @@ yargs
       })
       .option("count", {
         describe:
-          "The number on each page.",
+          "The number of business on each page.",
         type: "number",
-        default: 100,
+        default: 1,
       })
-      .option("keywords", {
+      .option("output", {
         describe:
-          "The keywords json to search ",
+          "The output directory ",
         type: "string"
       }),
-    async argv => await keywordsSearch(argv.c, argv.count, argv.pageId, argv.keywords,)
+    async argv => await keywordsSearch(argv.c, argv.id, argv.count, argv.output)
   )
 
   .command({

@@ -5,7 +5,7 @@
   "main": "dist/cli.js",
   "scripts": {
     "forever-stop": "forever stop",
-    "start": "nodemon --watch '**/*.ts' --exec 'ts-node' index.ts",
+    "start": "nodemon --watch '**/*.ts' --exec ts-node index.ts",
     "start-app": "tsc && yarn run serve",
     "serve": "node dist/index.js",
     "corps": "tsc && dist/cli.js",

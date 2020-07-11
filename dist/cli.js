@@ -33,20 +33,20 @@ yargs_1.default
     type: "number",
     default: 1,
 })
-    .option("pageId", {
+    .option("id", {
     describe: "The page number",
     type: "number",
     default: 1,
 })
     .option("count", {
-    describe: "The number on each page.",
+    describe: "The number of business on each page.",
     type: "number",
-    default: 100,
+    default: 1,
 })
-    .option("keywords", {
-    describe: "The keywords json to search ",
+    .option("output", {
+    describe: "The output directory ",
     type: "string"
-}), (argv) => __awaiter(void 0, void 0, void 0, function* () { return yield keywordsFetch_1.default(argv.c, argv.count, argv.pageId, argv.keywords); }))
+}), (argv) => __awaiter(void 0, void 0, void 0, function* () { return yield keywordsFetch_1.default(argv.c, argv.id, argv.count, argv.output); }))
     .command({
     command: "$0",
     describe: "--help for help, <command> --help for command-specific help",

@@ -6,7 +6,8 @@ import lawfirm from './keywords/lawfirm.json'
 import specialized from './keywords/specialized.json'
 import fetchFillingInformation from "./fetchFilingInformation";
 import fetchBusinessInformation from "./fetchBusinessInformation";
-import { convertJsonToCSV } from "./common/convert_csv";
+import { convertJsonToCSV, convertFewJsonToCSV } from "./common/convert_csv";
+import generateBusinessInfo from './generateBusinessInfo'
 import sw from "stopword";
 
 
@@ -38,36 +39,93 @@ const AdvancedSearchEndpoint =
 const fechTableKeywords = async (businessSearchCriteria: {
   BusinessTypeID: any, 
    SearchEntityName: string, 
-   SearchType: string, 
-   PageCount: any}, 
-   Jkeywords: string) => {
+   SearchType: string,
+   PageCount: number, 
+   PageID: number}, 
+   Jkeywords: string) : Promise<{totalRowCount: number}> => {
 
   let BUSINESS_INFO = [];
   let jsonKeywords: {}[] = []
   let businessId;
-  let totalRowCount;
+  let totalRowCount: number;
+  let AlltotalRowCount: number;
+  let pageId = businessSearchCriteria.PageID;
   let businessInformation;
   let fillingInformation;
   let businessTypeId = businessSearchCriteria.BusinessTypeID
   let searchEntityName,
-  outputFilename
+  outputFilename;
   
+  // To get all business of a paticular business type
+  if (pageId === -1) {
+    let computeInfo = [], file_name;
+    businessSearchCriteria.SearchEntityName = "";
+    businessSearchCriteria.SearchType = ""; 
+    businessSearchCriteria.PageID = 1
+    businessSearchCriteria.PageCount = 1
+    const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria); 
+    if(data.length === 0) return
+    if (data) {      
+      for (let i = 0; i < data.length; i++) {
+        let firstInfo = data[0];
+        AlltotalRowCount =
+        firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
+        try {
+          if(AlltotalRowCount) {
+            logger.log({
+              level: 'info',
+              message: `The total number of this active business type${AlltotalRowCount}`
+            })
+              let calculator = Math.floor(AlltotalRowCount / 1000)
+              let biz;
+              if (AlltotalRowCount > 1000) {
+                for (let index = 0; index < 1000; index++) {
+                  let increament = 1
+                    const thArgs = {
+                      ...businessSearchCriteria,
+                      PageID: increament,
+                      PageCount: 1000
+                  }                  
+                  const {bInfo, filename} = await generateBusinessInfo(Jkeywords, thArgs)
+                  file_name = filename
+                   biz = bInfo[index]
+                   computeInfo.push({ ...biz })
+                  increament++
+                }
+                // console.log(computeInfo);
+                convertJsonToCSV(computeInfo, file_name);
+              }
+              const argsZ = {
+                ...businessSearchCriteria,
+                PageID: 1,
+                PageCount: totalRowCount
+            }
+            const {bInfo, filename} = await generateBusinessInfo(Jkeywords, argsZ)
+            convertJsonToCSV(bInfo, filename);
+          }
+        } catch(error) {
+          logger.log({
+            level: 'debug',
+            message: `keyword fetch error: ${error}`
+          })
+        }
+    }
+   }
+  }
   jsonKeywords.push(
     specialized,
     ecocarcafe,
     lawfirm,
     illustrations
   )  
-  //push into array
   for (let index = 0; index < jsonKeywords.length; index++) {
     let jsonKeys: any = jsonKeywords[index];
-    if(jsonKeys === Jkeywords) {
+    if(jsonKeys.output_filename === Jkeywords) {
         for (let index = 0; index < jsonKeys.keywords.length; index++) { 
          outputFilename = jsonKeys.output_filename;
         searchEntityName = jsonKeys.keywords[index];
         businessSearchCriteria.SearchEntityName = searchEntityName;
-        businessSearchCriteria.SearchType = `${searchEntityName === "" ? "" : `Contains`}`;
-
+        businessSearchCriteria.SearchType = `${searchEntityName === "" ? "" : `Contains`}`;          
       const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria); 
           if(data.length === 0) return
           if (data) {
@@ -157,10 +215,12 @@ const fechTableKeywords = async (businessSearchCriteria: {
             }
            } 
         }
-        convertJsonToCSV(BUSINESS_INFO, outputFilename);
-        BUSINESS_INFO = []
+        convertFewJsonToCSV(BUSINESS_INFO, outputFilename);
       }
     }
+    return {
+      totalRowCount
+    } 
    }
 
    export default fechTableKeywords;
