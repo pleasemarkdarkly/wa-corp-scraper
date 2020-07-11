@@ -1,7 +1,9 @@
 *.tar.gz
 .env
 .log
+logs/*
 sos
 node_modules
 csv-output/*
 dist/*
+

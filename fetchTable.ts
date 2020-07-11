@@ -57,8 +57,6 @@ let startTime,
     averageAL_time: any,
     totalTimeTaken: any
 
- 
-
     async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchEntityName: string, SearchType: string, PageCount: any}) {  
   startTime = Date.now();
   logger.log({
