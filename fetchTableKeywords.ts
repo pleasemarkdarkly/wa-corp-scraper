@@ -79,7 +79,7 @@ const fechTableKeywords = async (businessSearchCriteria: {
               let calculator = Math.floor(AlltotalRowCount / 1000)
               let biz;
               if (AlltotalRowCount > 1000) {
-                for (let index = 0; index < 1000; index++) {
+                for (let index = 0; index < calculator; index++) {
                   let increament = 1
                     const thArgs = {
                       ...businessSearchCriteria,
@@ -92,7 +92,7 @@ const fechTableKeywords = async (businessSearchCriteria: {
                    computeInfo.push({ ...biz })
                   increament++
                 }
-                // console.log(computeInfo);
+                console.log(computeInfo);
                 convertJsonToCSV(computeInfo, file_name);
               }
               const argsZ = {
