@@ -153,7 +153,7 @@ const generateBusinessInfo = async (Jkeywords: string, businessSearchCriteria: {
                   });
                 }
                }
-               jsonCSV(BUSINESS_INFO, businessType, outputFilename);
+               jsonCSV(BUSINESS_INFO, outputFilename);
             }
           }
         }

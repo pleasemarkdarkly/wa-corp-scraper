@@ -232,7 +232,7 @@ const fechTableKeywords = async (businessSearchCriteria: {
                   "Business Keywords": `"${businessInformation.keywords}"`,
                 });
               }
-              await testJsonCSV(BUSINESS_INFO, businessType, outputFilename, pageCount);
+              await testJsonCSV(BUSINESS_INFO, outputFilename);
              } 
           }
         }

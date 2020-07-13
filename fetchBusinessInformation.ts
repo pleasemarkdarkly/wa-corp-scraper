@@ -199,13 +199,13 @@ async function fetchBusinessInformation(businessId: any) {
         ? BusinessInformation.PrincipalsList[0].LastName
         : ""
     ))}`,
-    governor_type: `${formatInput(
+    governor_type: `${titleCase(formatInput(
       BusinessInformation.PrincipalsList[0]
         ? BusinessInformation.PrincipalsList[0].PrincipalBaseType === "GOVERNINGPERSON"
         || BusinessInformation.PrincipalsList[0].PrincipalBaseType ==="GoverningPerson"
         ? 'Governing person': BusinessInformation.PrincipalsList[0].PrincipalBaseType
         : ""
-    )}`,
+    ))}`,
 
     authorized_signer_title: `${formatInput(
       BusinessInformation.PrincipalsList[0]
@@ -234,7 +234,7 @@ async function fetchBusinessInformation(businessId: any) {
       BusinessInformation.NextARDueDate
     )}`,
     business_formation_date: `${formatInput(BusinessInformation.DateOfIncorporation)}`,
-    nature_of_business: `${formatNInput(BusinessInformation.BINAICSCodeDesc)}`,
+    nature_of_business: `${titleCase(formatNInput(BusinessInformation.BINAICSCodeDesc))}`,
     last_filing_date: `${formatInput(BusinessInformation.LastARFiledDate)}`,
     keywords: `${formatNInput(keywords)}`,
   };

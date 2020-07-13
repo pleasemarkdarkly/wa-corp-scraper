@@ -88,12 +88,12 @@ function ConvertCSV(objArray: any) {
     return str
 }
 
-export const testJsonCSV = (result: any, name: any, keyword: any, count: number) =>
+export const testJsonCSV = (result: any, keyword: any) =>
   new Promise(async (resolve, reject) => {
     try {
       let testKeywordsPath = path.resolve(
         './csv-output',
-        `${moment().format("MM-DD-YYYY")}-${count}-${name}-${keyword}`
+        `${keyword}-${moment().format("YYYY-MM-DD")}.csv`
       );
       logger.log({
         level: 'debug',
@@ -122,12 +122,12 @@ export const testJsonCSV = (result: any, name: any, keyword: any, count: number)
        }
   });
 
-export const jsonCSV = (result: any, name: any, keyword: any) =>
+export const jsonCSV = (result: any, keyword: any) =>
   new Promise(async (resolve, reject) => {
     try {
    let keywordsPath = path.resolve(
      './csv-output',
-     `${moment().format("MM-DD-YYYY")}-${name}-${keyword}`
+     `${keyword}-${moment().format("YYYY-MM-DD")}.csv`
    );
    logger.log({
      level: 'debug',
