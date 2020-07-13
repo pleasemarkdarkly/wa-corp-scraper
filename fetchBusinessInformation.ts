@@ -121,13 +121,15 @@ async function fetchBusinessInformation(businessId: any) {
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.City
     )}`,
     principal_office_state: `${formatInput(
-      BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip5
-    )} ${formatInput(
-      BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip4
+      BusinessInformation.PrincipalOffice.PrincipalStreetAddress.State
     )}`,
     principal_office_zip: `${formatInput(
-      BusinessInformation.PrincipalOffice.PrincipalStreetAddress.City
-    )}`,
+      BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip5
+    )} ${
+      BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip4 ? 
+      `-${formatInput(BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip4)}`
+      : ''
+    }`,
     principal_office_full_address: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.FullAddress
     )}`,
@@ -141,10 +143,14 @@ async function fetchBusinessInformation(businessId: any) {
     principal_office_mailing_city: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalMailingAddress.City
     )}`,
-    principal_office_mailing_state: `${BusinessInformation.PrincipalOffice.PrincipalMailingAddress.Zip5} ${BusinessInformation.PrincipalOffice.PrincipalMailingAddress.Zip4}`,
-    principal_office_mailing_zip: `${formatInput(
-      BusinessInformation.PrincipalOffice.PrincipalMailingAddress.City
+    principal_office_mailing_state: `${formatInput(
+      BusinessInformation.PrincipalOffice.PrincipalMailingAddress.State
     )}`,
+    principal_office_mailing_zip: `${formatInput(BusinessInformation.PrincipalOffice.PrincipalMailingAddress.Zip5)} ${
+      BusinessInformation.PrincipalOffice.PrincipalMailingAddress.Zip4 ? 
+      `-${formatInput(BusinessInformation.PrincipalOffice.PrincipalMailingAddress.Zip4)}`
+      :''
+    }`,
     principal_office_mailing_full_address: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalMailingAddress.FullAddress
     )}`,
@@ -187,7 +193,11 @@ async function fetchBusinessInformation(businessId: any) {
     )}`,
     return_address_filing_mailing_zip: `${formatInput(
       BusinessInformation.MeetingPlace.Zip5
-    )} ${formatInput(BusinessInformation.MeetingPlace.Zip4)}`,
+    )} ${
+      BusinessInformation.MeetingPlace.Zip4 ? 
+      `-${formatInput(BusinessInformation.MeetingPlace.Zip4)}`
+      : ''
+      }`,
 
     governor_first_name: `${titleCase(formatInput(
       !BusinessInformation.PrincipalsList[0]

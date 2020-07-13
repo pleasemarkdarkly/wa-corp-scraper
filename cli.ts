@@ -53,12 +53,12 @@ yargs
         type: "number",
         default: 1,
       })
-      .option("output", {
+      .option("keyword", {
         describe:
           "The output directory ",
         type: "string"
       }),
-    async argv => await keywordsSearch(argv.c, argv.id, argv.count, argv.output)
+    async argv => await keywordsSearch(argv.c, argv.id, argv.count, argv.keyword)
   )
 
   .command({

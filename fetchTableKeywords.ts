@@ -6,7 +6,7 @@ import lawfirm from './keywords/lawfirm.json'
 import specialized from './keywords/specialized.json'
 import fetchFillingInformation from "./fetchFilingInformation";
 import fetchBusinessInformation from "./fetchBusinessInformation";
-import {  jsonCSV, testJsonCSV } from "./common/convert_csv";
+import {  jsonCSV, testJsonCSV, testJsonCSVNq } from "./common/convert_csv";
 import generateBusinessInfo from './generateBusinessInfo'
 import sw from "stopword";
 
@@ -233,6 +233,7 @@ const fechTableKeywords = async (businessSearchCriteria: {
                 });
               }
               await testJsonCSV(BUSINESS_INFO, outputFilename);
+              await testJsonCSVNq(BUSINESS_INFO, outputFilename);
              } 
           }
         }

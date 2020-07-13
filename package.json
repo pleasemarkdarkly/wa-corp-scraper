@@ -10,7 +10,7 @@
     "serve": "node dist/index.js",
     "corps": "tsc && dist/cli.js",
     "stopall": "forever stopall",
-    "clean": "rm -rf ./csv-output/* && rm -rf ./logs/* && rm -rf ./dist/*",
+    "clean": "rm -rf ./test-csv-output/* && rm -rf ./test-wq-csv-output/* && rm -rf ./logs/* && rm -rf ./dist/*",
     "count": "cat ./csv-output/* | wc -l",
     "save": "git add . && git commit -m 'update' && git push origin develop",
     "create": "npm run build && npm run test",

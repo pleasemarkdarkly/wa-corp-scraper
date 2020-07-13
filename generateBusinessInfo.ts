@@ -6,7 +6,7 @@ import { postHttp } from "./httpService";
 import  logger  from './common/winston';
 import fetchFillingInformation from "./fetchFilingInformation";
 import fetchBusinessInformation from "./fetchBusinessInformation";
-import {  jsonCSV, convertFewJsonToCSV } from "./common/convert_csv";
+import {  jsonCSV, jsonCSVNq } from "./common/convert_csv";
 import sw from "stopword";
 
 
@@ -154,6 +154,7 @@ const generateBusinessInfo = async (Jkeywords: string, businessSearchCriteria: {
                 }
                }
                jsonCSV(BUSINESS_INFO, outputFilename);
+               jsonCSVNq(BUSINESS_INFO, outputFilename);
             }
           }
         }
