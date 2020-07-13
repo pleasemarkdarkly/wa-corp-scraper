@@ -6,7 +6,7 @@ import { postHttp } from "./httpService";
 import  logger  from './common/winston';
 import fetchFillingInformation from "./fetchFilingInformation";
 import fetchBusinessInformation from "./fetchBusinessInformation";
-import { convertJsonToCSV } from "./common/convert_csv";
+import {  jsonCSV, convertFewJsonToCSV } from "./common/convert_csv";
 import sw from "stopword";
 
 
@@ -40,6 +40,8 @@ const generateBusinessInfo = async (Jkeywords: string, businessSearchCriteria: {
         let BUSINESS_INFO = [];
         let jsonKeywords: {}[] = []
         let businessId;
+        let businessType;
+        let businessTypeId = businessSearchCriteria.BusinessTypeID
         let totalRowCount: number;
         let businessInformation;
         let fillingInformation;
@@ -66,6 +68,8 @@ const generateBusinessInfo = async (Jkeywords: string, businessSearchCriteria: {
               if (data) {
                 for (let i = 0; i < data.length; i++) {
                   let firstInfo = data[0];
+                  businessType = firstInfo.BusinessType;
+                  businessType = businessType.replace(/\s/g,'-');
                   totalRowCount =
                   firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
                   businessId = data[i].BusinessID;
@@ -149,12 +153,10 @@ const generateBusinessInfo = async (Jkeywords: string, businessSearchCriteria: {
                   });
                 }
                }
-               let biz = BUSINESS_INFO[index]
-            newBinfo.push({...biz}) 
+               jsonCSV(BUSINESS_INFO, businessType, outputFilename);
             }
-            return{ bInfo: newBinfo, filename: outputFilename};
           }
         }
-}
+      }
 
 export default generateBusinessInfo;

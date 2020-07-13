@@ -1,12 +1,11 @@
 var { getHttp } = require('./httpService');
 import  logger  from './common/winston';
 
-/// TODO: BusinessID => BusinessId NAMING CONVENTIONS!!!
-async function  fetchFilingInformation(BusinessID: string) {
-    var fillingInfoEndpoint = `https://cfda.sos.wa.gov/api/BusinessSearch/GetBusinessFilingList?IsOnline=true&businessId=${BusinessID}`;
+async function  fetchFilingInformation(businessId: any) {
+    var fillingInfoEndpoint = `https://cfda.sos.wa.gov/api/BusinessSearch/GetBusinessFilingList?IsOnline=true&businessId=${businessId}`;
     logger.log({
         level: 'debug',
-        message: `Filing information (${BusinessID}) : , ${fillingInfoEndpoint}`
+        message: `Filing information (${businessId}) : , ${fillingInfoEndpoint}`
     });
     const data = await getHttp(fillingInfoEndpoint);
     return data
