@@ -16,6 +16,7 @@
     added a new name in the keywords.json file, fetch - which provides the keywords file from a remote location, you need to ignore this for now
 
 
+
 cli arguments:
     [] search contains (active)
     [] search format in keywords.json
@@ -25,9 +26,19 @@ cli arguments:
 
     to use a directory with keyword_group.json files:
     yarn start ./dist/scraper --concurrency 25 --keywords ./keywords --output ./csv-output --verbosity DEBUG --proxy
+    ALL BUSINESS FETCH
+    yarn run corps company_keyword_scraper --c=1 --id=-1 --keyword=illustrations  
+    TEST WITH COUNT --COUNT =200
+    yarn run corps company_keyword_scraper --c=1 --id=1 --count=200 --keyword=illustrations  
+
 
     to use business types:
     yarn start ./dist/scraper --concurrency 25 --business_type ALL --output ./csv-output --verbosity DEBUG --proxy
+    ALL BUSINESS FETCH
+    yarn run corps company_info_scraper --c=1 --count=-1
+    
+    TEST WITH COUNT-- TO RUN FIRST 100 AND LAST 100--- count=100
+    yarn run corps company_info_scraper_test --c=1 --count=100
 
 commands to convert keywords.json to alpha sort list:
 - cat keywords.json | sed "s/[\",]//g" > naked_keywords     
@@ -67,4 +78,6 @@ commands to convert keywords.json to alpha sort list:
     * /keyword?search=
 
 convert code to typescript completely
+
+
 
