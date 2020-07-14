@@ -17,6 +17,7 @@
     "build": "tsc -p .",
     "specialized": "yarn run corps company_keyword_scraper --c=1 --id=-1 --output=specialized.csv",
     "test": "sudo yarn -g && corps",
+    "runall": "tsc && dist/cli.js company_keyword_scraper --c=1 --id=-1 --keyword=illustrations && tsc && dist/cli.js company_info_scraper --c=1 --count=-1",
     "refresh": "rm -rf ./node_modules ./yarn.lock && yarn install"
   },
   "bin": {

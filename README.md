@@ -131,3 +131,20 @@ Define command line parameters to be consistent, monorepo for setting proxy, out
     ...
 
 ```
+
+ALL BUSINESS FETCH
+    yarn run corps company_keyword_scraper --c=1 --id=-1 --keyword=illustrations  
+TEST WITH COUNT --COUNT =200
+    yarn run corps company_keyword_scraper --c=1 --id=1 --count=200 --keyword=illustrations  
+
+
+ 
+ALL BUSINESS FETCH
+    yarn run corps company_info_scraper --c=1 --count=-1
+    
+TEST WITH COUNT-- TO RUN FIRST 100 AND LAST 100--- count=100
+    yarn run corps company_info_scraper_test --c=1 --count=100
+
+
+RUN ALL 
+yarn run runall
