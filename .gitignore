@@ -4,6 +4,5 @@
 logs/*
 sos
 node_modules
-csv-output/*
 dist/*
-
+csv-output/*

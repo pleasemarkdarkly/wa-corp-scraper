@@ -125,7 +125,7 @@ async function fetchBusinessInformation(businessId: any) {
     )}`,
     principal_office_zip: `${formatInput(
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip5
-    )} ${
+    )}${
       BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip4 ? 
       `-${formatInput(BusinessInformation.PrincipalOffice.PrincipalStreetAddress.Zip4)}`
       : ''
@@ -193,8 +193,8 @@ async function fetchBusinessInformation(businessId: any) {
     )}`,
     return_address_filing_mailing_zip: `${formatInput(
       BusinessInformation.MeetingPlace.Zip5
-    )} ${
-      BusinessInformation.MeetingPlace.Zip4 ? 
+    )}${
+      BusinessInformation.MeetingPlace.Zip4 ?
       `-${formatInput(BusinessInformation.MeetingPlace.Zip4)}`
       : ''
       }`,
