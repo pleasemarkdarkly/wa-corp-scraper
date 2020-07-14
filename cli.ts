@@ -6,33 +6,45 @@ import keywordsSearch from './keywordsFetch'
 
 yargs
   .command(
-    "fetchAll",
-    "fetch all business with keywords",
+    "company_info_scraper",
+    "fetch all business with all single keywords",
     yargs =>
-      yargs.option("concurrency", {
+      yargs
+      .option("c", {
         describe:
           "The number of concurrent fetch at a time.",
         type: "number"
+      })
+      .option("count", {
+        describe:"The number of business to fetch",
+        default: -1,
+        type: "number"
       }),
-    async argv => await main(argv.concurrency)
+    async argv => await main(argv.c, argv.count)
   )
   
   yargs
   .command(
-    "fetchAll",
-    "fetch business by certain keywords",
+    "company_info_scraper_test",
+    "fetch some business with all single keywords",
     yargs =>
-      yargs.option("concurrency", {
+      yargs
+      .option("c", {
         describe:
           "The number of concurrent fetch at a time.",
         type: "number"
+      })
+      .option("count", {
+        describe:"The number of business to fetch",
+        default: 100,
+        type: "number"
       }),
-    async argv => await main(argv.concurrency)
+    async argv => await testMain(argv.c, argv.count)
   )
   yargs
   .command(
     "company_keyword_scraper",
-    "fetch 200 businesses with keywords",
+    "fetch businesses with keywords",
     yargs =>
       yargs
       .option("c", {

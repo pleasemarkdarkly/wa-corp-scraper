@@ -41,13 +41,13 @@ require("dotenv").config();
 */
 
 
-function main(concurrency: number) {
+function main(concurrency: number, pageCount: number) {
   const queue = new PQueue({concurrency});
 
   (async () => {
     await delay(get_random_int(1000));
-    const firstTask = await CWA_LIMITED_LIABILITY_CORPORATION_ALL._read();
-    // await queue.add(firstTask);
+    const firstTask = await CWA_LIMITED_LIABILITY_CORPORATION_ALL._read(pageCount);
+    await queue.add(() => firstTask);
     logger.log({
       level: "info",
       message: "COMPLETED: CWA_LIMITED_LIABILITY_CORPORATION",
@@ -56,8 +56,8 @@ function main(concurrency: number) {
 
   (async () => {
     await delay(get_random_int(1000));
-    const secondTask = await CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL._read();
-    // await queue.add(secondTask);
+    const secondTask = await CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP_ALL._read(pageCount);
+    await queue.add(() => secondTask);
     logger.log({
       level: "info",
       message: "Done: CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP",
@@ -66,8 +66,8 @@ function main(concurrency: number) {
 
   (async () => {
     await delay(get_random_int(1000));
-    const thirdTask = await CWA_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
-    // await queue.add(thirdTask);
+    const thirdTask = await CWA_LIMITED_LIABILITY_PARTNERSHIP_ALL._read(pageCount);
+    await queue.add(() => thirdTask);
     logger.log({
       level: "info",
       message: "Done: CWA_LIMITED_LIABILITY_PARTNERSHIP",
@@ -76,8 +76,8 @@ function main(concurrency: number) {
 
   (async () => {
     await delay(get_random_int(1000));
-    const fourthTask = await CWA_LIMITED_PARTNERSHIP_ALL._read();
-    // await queue.add(fourthTask);
+    const fourthTask = await CWA_LIMITED_PARTNERSHIP_ALL._read(pageCount);
+    await queue.add(() => fourthTask);
     logger.log({
       level: "info",
       message: "Done: CWA_LIMITED_PARTNERSHIP",
@@ -86,8 +86,8 @@ function main(concurrency: number) {
 
   (async () => {
     await delay(get_random_int(1000));
-    const fifthTask = await CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL._read();
-    // await queue.add(fifthTask);
+    const fifthTask = await CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY_ALL._read(pageCount);
+    await queue.add(() => fifthTask);
     logger.log({
       level: "info",
       message: "Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY",
@@ -96,8 +96,8 @@ function main(concurrency: number) {
 
   (async () => {
     await delay(get_random_int(1000));
-    const sixthTask = await CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read();
-    // await queue.add(sixthTask);
+    const sixthTask = await CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP_ALL._read(pageCount);
+    await queue.add(() => sixthTask);
     logger.log({
       level: "info",
       message: "Done: CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP",
@@ -106,8 +106,8 @@ function main(concurrency: number) {
 
   (async () => {
     await delay(get_random_int(1000));
-    const seventhTask = await CWA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read();
-    // await queue.add(seventhTask);
+    const seventhTask = await CWA_PROFESSIONAL_SERVICE_CORPORATION_ALL._read(pageCount);
+    await queue.add(() => seventhTask);
     logger.log({
       level: "info",
       message: "Done: CWA_PROFESSIONAL_SERVICE_CORPORATION",
@@ -116,8 +116,8 @@ function main(concurrency: number) {
 
   (async () => {
     await delay(get_random_int(1000));
-    const eighhtTask = await CWA_PROFIT_CORPORATION_ALL._read();
-    // await queue.add(eighhtTask);
+    const eighhtTask = await CWA_PROFIT_CORPORATION_ALL._read(pageCount);
+    await queue.add(() => eighhtTask);
     logger.log({
       level: "info",
       message: "Done: CWA_PROFIT_CORPORATION",
@@ -126,8 +126,8 @@ function main(concurrency: number) {
 
   (async () => {
     await delay(get_random_int(1000));
-    const ninthTask = await CWA_NONPROFIT_CORPORATION_ALL._read();
-    // await queue.add(ninthTask);
+    const ninthTask = await CWA_NONPROFIT_CORPORATION_ALL._read(pageCount);
+    await queue.add(() => ninthTask);
     logger.log({
       level: "info",
       message: "Done: CWA_NONPROFIT_CORPORATION",
@@ -136,8 +136,8 @@ function main(concurrency: number) {
 
   (async () => {
     await delay(get_random_int(1000));
-    const tenthTask = await CWA_PUBLIC_BENEFIT_CORPORATION_ALL._read();
-    // await queue.add(tenthTask);
+    const tenthTask = await CWA_PUBLIC_BENEFIT_CORPORATION_ALL._read(pageCount);
+    await queue.add(() => tenthTask);
     logger.log({
       level: "info",
       message: "Done: CWA_PUBLIC_BENEFIT_CORPORATION",
@@ -150,13 +150,6 @@ function main(concurrency: number) {
   });
 }
 
-// TODO: create parseArguments module with the files I provided earlier
-
-// /*
-//   TODO: yargs
-//   --concurrency
-
-//   */
 
 // TODO: On Ctrl-C Save location of company fetches to resume on restart
 // TODO: save state on any interrupts
@@ -171,6 +164,4 @@ function main(concurrency: number) {
   });
   */
 
-// main(1)
-// testMain(1)
 export default main;

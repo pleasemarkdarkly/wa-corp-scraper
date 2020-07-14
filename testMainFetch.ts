@@ -19,70 +19,70 @@ const BusinessType = {
 };
 
 export const CWA_LIMITED_LIABILITY_CORPORATION = new CorporationBasicRawStream(
-    _RECORDS,
+    
     1,
     BusinessType.WA_LIMITED_LIABILITY_CORPORATION,
     businessSearchCriteria
   );
   
 export const CWA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = new CorporationBasicRawStream(
-    _RECORDS,
+    
     1,
     BusinessType.WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP,
     businessSearchCriteria
   );
   
 export const CWA_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(
-    _RECORDS,
+    
     1,
     BusinessType.WA_LIMITED_LIABILITY_PARTNERSHIP,
     businessSearchCriteria
   );
   
 export const CWA_LIMITED_PARTNERSHIP = new CorporationBasicRawStream(
-    _RECORDS,
+    
     1,
     BusinessType.WA_LIMITED_PARTNERSHIP,
     businessSearchCriteria
   );
   
 export const CWA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY = new CorporationBasicRawStream(
-    _RECORDS,
+    
     1,
     BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY,
     businessSearchCriteria
   );
   
 export const CWA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = new CorporationBasicRawStream(
-    _RECORDS,
+    
     1,
     BusinessType.WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP,
     businessSearchCriteria
   );
   
 export const CWA_PROFESSIONAL_SERVICE_CORPORATION = new CorporationBasicRawStream(
-    _RECORDS,
+    
     1,
     BusinessType.WA_PROFESSIONAL_SERVICE_CORPORATION,
     businessSearchCriteria
   );
   
 export const CWA_PROFIT_CORPORATION = new CorporationBasicRawStream(
-    _RECORDS,
+    
     1,
     BusinessType.WA_PROFIT_CORPORATION,
     businessSearchCriteria
   );
   
 export const CWA_NONPROFIT_CORPORATION = new CorporationBasicRawStream(
-    _RECORDS,
+    
     1,
     BusinessType.WA_NONPROFIT_CORPORATION,
     businessSearchCriteria
   );
   
 export const CWA_PUBLIC_BENEFIT_CORPORATION = new CorporationBasicRawStream(
-    _RECORDS,
+
     1,
     BusinessType.WA_PUBLIC_BENEFIT_CORPORATION,
     businessSearchCriteria
