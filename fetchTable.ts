@@ -56,7 +56,7 @@ let startTime,
     averageAL_time: any,
     totalTimeTaken: any
 
-    async function fetchTable(businessSearchCriteria: {BusinessTypeID: any,  SearchEntityName: string, SearchType: string, PageCount: any}) {  
+    async function fetchTable(businessSearchCriteria: {BusinessTypeID: any, PageCount: any}) {  
   startTime = Date.now();
   logger.log({
     level: 'info',
@@ -72,32 +72,26 @@ let startTime,
   let totalRowCount;
   let businessInformation;
   let fillingInformation;
+  let business_Type: string;
   let businessTypeId = businessSearchCriteria.BusinessTypeID
+  let pageCount = businessSearchCriteria.PageCount;
   let searchEntityName;
   let businessIdContainer: any[] = []
 
-  
-  for(let i = 0; i < keywords.length; i++) {
-    searchEntityName = keywords[i];
-    businessSearchCriteria.SearchEntityName = searchEntityName;
-    businessSearchCriteria.SearchType = `${searchEntityName === "" ? "" : `Contains`}`;
-  logger.log({ 
-    level: 'debug',
-    message: `Total amount of business processed is ${businessIdContainer.length}`
-  })
   const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria); 
-  
       if(data.length === 0) return
       if (data) {
         fetchTableTime = Date.now();
         averageFT_time = fetchTableTime - startTime;
         for (let i = 0; i < data.length; i++) {
           let firstInfo = data[0];
+          business_Type = firstInfo.BusinessType;
+          business_Type = business_Type.replace(/\s/g,'-');
           totalRowCount =
             firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
           let businessInfo = data[i];
           businessId = data[i].BusinessID;
-         if(businessIdContainer.includes(businessId)) return;
+         if(businessIdContainer.includes(businessId)) continue;
              logger.log({
                 level: 'debug',
                 message: `This ${businessId} has been processed`
@@ -250,10 +244,8 @@ let startTime,
            totalTimeTaken = averageBL_time + averageFT_time + averageBT_time;
         }
       }
-    }
-    const CSV = convertToCSV(BUSINESS_INFO, searchEntityName);
+    const CSV = convertToCSV(BUSINESS_INFO, business_Type);
     BUSINESS_INFO = []
-
   }
     return {
       BUSINESSTYPE: BusinessType,

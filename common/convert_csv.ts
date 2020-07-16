@@ -4,12 +4,12 @@ const moment = require('moment')
 import path from 'path';
 
 
- const ConvertToCSV = (result: any, searchEntity: any) =>
+ const ConvertToCSV = (result: any, businessType: string) =>
   new Promise(async (resolve, reject) => {
     try {
    let keywordsPath = path.resolve(
      './csv-output',
-     `${searchEntity}-${moment().format("YYYY-MM-DD")}.csv`
+     `${businessType}-${moment().format("YYYY-MM-DD")}.csv`
    );
    logger.log({
      level: 'debug',

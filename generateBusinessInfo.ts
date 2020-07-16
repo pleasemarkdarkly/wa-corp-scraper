@@ -80,7 +80,7 @@ const generateBusinessInfo = async (Jkeywords: string, businessSearchCriteria: {
                   firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
                   businessId = data[i].BusinessID;
                   ubi = data[i].UBINumber
-                  if(businessIdContainer.includes(businessId)) return;
+                  if(businessIdContainer.includes(businessId)) continue;
                     logger.log({
                       level: 'debug',
                       message: `This ${businessId} has been processed`

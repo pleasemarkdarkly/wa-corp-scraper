@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 import yargs from 'yargs'
 import main from './index'
-import testMain from './testMain'
+// import testMain from './testMain'
 import keywordsSearch from './keywordsFetch'
+import { businesTypeString } from './CorporationBasicRawStreams'
+
 
 yargs
   .command(
@@ -10,37 +12,41 @@ yargs
     "fetch all business with all single keywords",
     yargs =>
       yargs
-      .option("c", {
+      .option("concurency", {
         describe:
           "The number of concurrent fetch at a time.",
         type: "number"
       })
       .option("count", {
         describe:"The number of business to fetch",
-        default: -1,
-        type: "number"
+        default: 'ALL',
+      }) 
+      .option("business_type", {
+        describe:
+          "The number of concurrent fetch at a time.",
+          type: 'string'
       }),
-    async argv => await main(argv.c, argv.count)
+    async argv => main(argv.concurency, argv.count, argv.business_type)
   )
   
-  yargs
-  .command(
-    "company_info_scraper_test",
-    "fetch some business with all single keywords",
-    yargs =>
-      yargs
-      .option("c", {
-        describe:
-          "The number of concurrent fetch at a time.",
-        type: "number"
-      })
-      .option("count", {
-        describe:"The number of business to fetch",
-        default: 100,
-        type: "number"
-      }),
-    async argv => await testMain(argv.c, argv.count)
-  )
+  // yargs
+  // .command(
+  //   "company_info_scraper_test",
+  //   "fetch some business with all single keywords",
+  //   yargs =>
+  //     yargs
+  //     .option("c", {
+  //       describe:
+  //         "The number of concurrent fetch at a time.",
+  //       type: "number"
+  //     })
+  //     .option("count", {
+  //       describe:"The number of business to fetch",
+  //       default: 100,
+  //       type: "number"
+  //     }),
+  //   async argv => await testMain(argv.c, argv.count)
+  // )
   yargs
   .command(
     "company_keyword_scraper",

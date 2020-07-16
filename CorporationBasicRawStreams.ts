@@ -8,58 +8,66 @@ var error = clc.red.bold;
 var warn = clc.yellow;
 var notice = clc.blue;
 
-class CorporationBasicRawStream extends stream.Readable {
+enum BusinessType {
+  WA_LIMITED_LIABILITY_CORPORATION = 65,
+  WA_LIMITED_LIABILITY_CORPORATION_PARTNERSHIP = 67,
+  WA_LIMITED_LIABILITY_PARTNERSHIP = 68,
+  WA_LIMITED_PARTNERSHIP = 69,
+  WA_PROFESSIONAL_LIMITED_LIABILITY_COMPANY = 79,
+  WA_PROFESSIONAL_LIMITED_LIABILITY_PARTNERSHIP = 76,
+  WA_PROFESSIONAL_SERVICE_CORPORATION = 85,
+  WA_PROFIT_CORPORATION = 86,
+  WA_NONPROFIT_CORPORATION = 73,
+  WA_PUBLIC_BENEFIT_CORPORATION = 87,
+};
+export type businesTypeString = keyof typeof BusinessType;
+class CorporationBasicRawStream {
   isFetching: Boolean = false;
   isFinished: Boolean = false;
-
   pageId: any = 1;
-
   pageCount: number;
-
   businessTypeId: any;
   args: {};
-  searchEntityName: string = "";
-  searchType: string = "";
-
-  constructor(pageId: any, businessTypeId: any, args: {}) {
-    super({ objectMode: true, highWaterMark: 128 });
-
+ 
+  constructor(pageId: any, args: {}) {
     this.pageId = pageId;
     this.args = args;
-    this.businessTypeId = businessTypeId;
-
     if (!this.pageId) throw new Error("The page number must be specified.");
-    if (!this.businessTypeId)
-      throw new Error("The business type must be specified.");
+
   }
 
-  async fetchOne(pageCount: number) {
-    const fetchArgs = {
-      PageID: this.pageId,
-      PageCount: pageCount,
-      BusinessTypeID: this.businessTypeId,
-      SearchEntityName: this.searchEntityName,
-      SearchType: this.searchType,
-    };
-    const computedArgs = { ...this.args, ...fetchArgs };
+  async fetchOne(pageCount: any, businesType: businesTypeString) {
+    const id = BusinessType[businesType]
+    if(!id) {
+      logger.log({
+        level: 'info',
+        message: 'Enter corrrect company name'
+      })
+      return;
+    }
+    logger.log({
+      level: 'info',
+      message: `The business type id is ${id}`
+    })
+    if(typeof pageCount === 'string') pageCount = pageCount.toUpperCase().trim();
+    console.log(pageCount);
+    
     logger.log({
       level: "debug",
       message: "CorporationBasicRawStream fetch arguments",
+      pageCount: `The total business to be processed is ${pageCount}`
     });
     logger.log({
       level: "debug",
       message: info(),
     });
     try {
-      if (pageCount === -1) {
-        pageCount = Math.abs(pageCount);
+      if (pageCount === 'ALL') {
         let pageNumber = 1
         const allArgs = {
           PageID: pageNumber,
           PageCount: 5,
-          BusinessTypeID: this.businessTypeId,
-          SearchEntityName: this.searchEntityName,
-          SearchType: this.searchType,
+          BusinessTypeID: id
         };
         const computedArgs = { ...this.args, ...allArgs };
         logger.log({
@@ -72,26 +80,36 @@ class CorporationBasicRawStream extends stream.Readable {
             let calculator;
             const { TOTAL_AVAILABLE_BUSINESS } = table;
               if (TOTAL_AVAILABLE_BUSINESS > 1000) {
-                 calculator = Math.floor((TOTAL_AVAILABLE_BUSINESS / 1000) - 1);
-                for (let index = 0; index < calculator; index++) {
-                  this.isFetching = true;
-                  pageNumber++;
+                  calculator = Math.floor((TOTAL_AVAILABLE_BUSINESS / 1000) - 1);
+                  for (let index = 0; index < 2; index++) {
+                    let pageNumber = 1
+                    const allArgs = {
+                      PageID: pageNumber,
+                      PageCount: 5,
+                      BusinessTypeID: id
+                    };
+                    const computedArgs = { ...this.args, ...allArgs };
+                    logger.log({
+                      level: 'debug',
+                      message: info()
+                    });
+                    const table = await fetchTable(computedArgs);
                 }
+                logger.log({
+                  level: 'info',
+                  message: `Then number of total business is ${TOTAL_AVAILABLE_BUSINESS}`,
+                  count: `The total loop is ${calculator}`,
+                  pageNumber: `The page number is ${pageNumber}`,
+                })
+                console.log(table);
+                return table;
               }
-              logger.log({
-                level: 'info',
-                message: `Then number of total business is ${TOTAL_AVAILABLE_BUSINESS}`,
-                count: `The total loop is ${calculator}`,
-                pageNumber: `The page number is ${pageNumber}`,
-              })
-              this.isFetching = false;
-              this.isFinished = true;
-              console.log(table);
-              return table;
+              // this.isFetching = false;
+              // this.isFinished = true;
           } else {
             this.isFetching = false;
               this.isFinished = true;
-              console.log(table);
+              // console.log(table);
               return table;
           }
         } catch(error) {
@@ -102,6 +120,12 @@ class CorporationBasicRawStream extends stream.Readable {
         }
       } else {
         try {
+          const fetchArgs = {
+            PageID: this.pageId,
+            PageCount: pageCount,
+            BusinessTypeID: id,
+          };
+          const computedArgs = { ...this.args, ...fetchArgs };
           const table = await fetchTable(computedArgs);
           if (table) {
             const { TOTAL_AVAILABLE_BUSINESS } = table;
@@ -114,10 +138,8 @@ class CorporationBasicRawStream extends stream.Readable {
               this.pageId = Math.floor(TOTAL_AVAILABLE_BUSINESS - pageCount);
               const newArgs = {
                 PageID: this.pageId,
-                PageCount: pageCount, //to change back to 100
-                BusinessTypeID: this.businessTypeId,
-                SearchEntityName: this.searchEntityName,
-                SearchType: this.searchType,
+                PageCount: pageCount, 
+                BusinessTypeID: id
               };
               const newComputedArgs = { ...this.args, ...newArgs };
               const newTable = await fetchTable(newComputedArgs);
@@ -142,22 +164,22 @@ class CorporationBasicRawStream extends stream.Readable {
     }
   }
 
-  async fetchWorker(pageCount: number) {
+  async fetchWorker(pageCount: any, businesType: businesTypeString) {
     while (this.isFetching) {
-      return await this.fetchOne(pageCount);
+      return await this.fetchOne(pageCount, businesType);
     }
   }
 
-  async startFetching(pageCount: number) {
+  async startFetching(pageCount: any, businesType: businesTypeString) {
     this.isFetching = true;
-    return this.fetchWorker(pageCount);
+    return this.fetchWorker(pageCount, businesType);
   }
 
   stopFetching = () => (this.isFetching = false);
 
- async _read(pageCount: number) {    
+ async _read(pageCount: any, businesType: businesTypeString) {    
     if (this.isFetching || this.isFinished) return;
-    return this.startFetching(pageCount);
+    return this.startFetching(pageCount, businesType);
   }
 }
 
