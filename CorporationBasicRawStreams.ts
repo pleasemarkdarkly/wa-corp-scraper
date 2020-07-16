@@ -56,7 +56,7 @@ class CorporationBasicRawStream extends stream.Readable {
         let pageNumber = 1
         const allArgs = {
           PageID: pageNumber,
-          PageCount: 1000,
+          PageCount: 5,
           BusinessTypeID: this.businessTypeId,
           SearchEntityName: this.searchEntityName,
           SearchType: this.searchType,
@@ -69,14 +69,21 @@ class CorporationBasicRawStream extends stream.Readable {
         const table = await fetchTable(computedArgs);
         try {
           if(table) {
+            let calculator;
             const { TOTAL_AVAILABLE_BUSINESS } = table;
               if (TOTAL_AVAILABLE_BUSINESS > 1000) {
-                let calculator = Math.floor((TOTAL_AVAILABLE_BUSINESS / 1000) - 1);
+                 calculator = Math.floor((TOTAL_AVAILABLE_BUSINESS / 1000) - 1);
                 for (let index = 0; index < calculator; index++) {
                   this.isFetching = true;
                   pageNumber++;
                 }
               }
+              logger.log({
+                level: 'info',
+                message: `Then number of total business is ${TOTAL_AVAILABLE_BUSINESS}`,
+                count: `The total loop is ${calculator}`,
+                pageNumber: `The page number is ${pageNumber}`,
+              })
               this.isFetching = false;
               this.isFinished = true;
               console.log(table);

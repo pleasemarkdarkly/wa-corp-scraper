@@ -73,14 +73,20 @@ let startTime,
   let businessInformation;
   let fillingInformation;
   let businessTypeId = businessSearchCriteria.BusinessTypeID
-  let searchEntityName 
+  let searchEntityName;
+  let businessIdContainer: any[] = []
+
   
   for(let i = 0; i < keywords.length; i++) {
     searchEntityName = keywords[i];
     businessSearchCriteria.SearchEntityName = searchEntityName;
     businessSearchCriteria.SearchType = `${searchEntityName === "" ? "" : `Contains`}`;
-
+  logger.log({ 
+    level: 'debug',
+    message: `Total amount of business processed is ${businessIdContainer.length}`
+  })
   const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria); 
+  
       if(data.length === 0) return
       if (data) {
         fetchTableTime = Date.now();
@@ -91,13 +97,24 @@ let startTime,
             firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
           let businessInfo = data[i];
           businessId = data[i].BusinessID;
-      
-          businessInformation = await fetchBusinessInformation(businessId);
+         if(businessIdContainer.includes(businessId)) return;
+             logger.log({
+                level: 'debug',
+                message: `This ${businessId} has been processed`
+              })                  
+            businessIdContainer.push(businessId)
+              logger.log({
+                level: 'info',
+                message: `Total business process is ${businessIdContainer.length}`
+             })
+          for (let index = 0; index < businessIdContainer.length; index++) {
+          const uniqueId = businessIdContainer[index];
+          businessInformation = await fetchBusinessInformation(uniqueId);
           if(businessInformation) {
             fetchBusinessTime = Date.now();
             averageBT_time = fetchBusinessTime - startTime;
           };
-          fillingInformation = await fetchFillingInformation(businessId);
+          fillingInformation = await fetchFillingInformation(uniqueId);
           if(fillingInformation) {
             fetchBillingTime = Date.now();
             averageBL_time = fetchBillingTime - startTime;
@@ -228,12 +245,15 @@ let startTime,
             "Last Filing Date": `${businessInformation.last_filing_date}`,
             "Business Keywords": `${businessInformation.keywords}`,
           });
+          businessIdContainer = []
            BusinessType = businessInfo.BusinessType;
            totalTimeTaken = averageBL_time + averageFT_time + averageBT_time;
-           const CSV = convertToCSV(BUSINESS_INFO, searchEntityName);
-          //  BUSINESS_INFO = []
         }
+      }
     }
+    const CSV = convertToCSV(BUSINESS_INFO, searchEntityName);
+    BUSINESS_INFO = []
+
   }
     return {
       BUSINESSTYPE: BusinessType,
