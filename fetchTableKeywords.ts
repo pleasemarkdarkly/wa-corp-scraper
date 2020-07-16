@@ -11,7 +11,7 @@ import generateBusinessInfo from './generateBusinessInfo'
 import sw from "stopword";
 
 
-const AdvancedSearchEndpoint =
+export const AdvancedSearchEndpoint =
   "https://cfda.sos.wa.gov/api/BusinessSearch/GetAdvanceBusinessSearchList";
 
   function removeFromString(arr: [], str: string){
@@ -96,7 +96,7 @@ const fechTableKeywords = async (businessSearchCriteria: {
                     const thArgs = {
                       ...businessSearchCriteria,
                       PageID: pageNumber,
-                      PageCount: 1000
+                      PageCount: 1000,
                   }                  
                   await generateBusinessInfo(Jkeywords, thArgs)
                   logger.log({

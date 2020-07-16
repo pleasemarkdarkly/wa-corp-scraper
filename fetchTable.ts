@@ -198,7 +198,6 @@ let startTime,
           BUSINESS_INFO.push({
             "Business Name":`${businessInformation.name}`,
             "UBI": `${businessInformation.ubi}`,
-            "Search Term": `${searchEntityName}`,
             "Business Status": `${businessInformation.status}`,
             "Nature of Business": `${businessInformation.nature_of_business}`,
             "Principal Office Email": `${businessInformation.principal_office_email}`,

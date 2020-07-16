@@ -2,6 +2,8 @@ import stream from "stream";
 import fetchTable from "./fetchTable";
 import clc from "cli-color";
 import logger from "./common/winston";
+import { postHttp } from "./httpService";
+import {AdvancedSearchEndpoint } from './fetchTableKeywords'
 
 var info = clc.white.bold;
 var error = clc.red.bold;
@@ -49,9 +51,7 @@ class CorporationBasicRawStream {
       level: 'info',
       message: `The business type id is ${id}`
     })
-    if(typeof pageCount === 'string') pageCount = pageCount.toUpperCase().trim();
-    console.log(pageCount);
-    
+    if(typeof pageCount === 'string') pageCount = pageCount.toUpperCase().trim();    
     logger.log({
       level: "debug",
       message: "CorporationBasicRawStream fetch arguments",
@@ -66,7 +66,7 @@ class CorporationBasicRawStream {
         let pageNumber = 1
         const allArgs = {
           PageID: pageNumber,
-          PageCount: 5,
+          PageCount: 1,
           BusinessTypeID: id
         };
         const computedArgs = { ...this.args, ...allArgs };
@@ -74,35 +74,35 @@ class CorporationBasicRawStream {
           level: 'debug',
           message: info()
         });
-        const table = await fetchTable(computedArgs);
+        const data = await postHttp(AdvancedSearchEndpoint, computedArgs); 
         try {
-          if(table) {
+          if(data) {
+            let firstInfo = data[0];
+            const  totalRowCount =
+            firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
             let calculator;
-            const { TOTAL_AVAILABLE_BUSINESS } = table;
-              if (TOTAL_AVAILABLE_BUSINESS > 1000) {
-                  calculator = Math.floor((TOTAL_AVAILABLE_BUSINESS / 1000) - 1);
-                  for (let index = 0; index < 2; index++) {
-                    let pageNumber = 1
+            let pageNumber = 1;
+            let nextTable;
+              if (totalRowCount > 1000) {
+                  calculator = Math.floor(totalRowCount / 1000);
+                  for (let index = 0; index < calculator; index++) {
                     const allArgs = {
                       PageID: pageNumber,
-                      PageCount: 5,
+                      PageCount: 1000,
                       BusinessTypeID: id
                     };
                     const computedArgs = { ...this.args, ...allArgs };
+                    const nextTable = await fetchTable(computedArgs);
+                    pageNumber++;
                     logger.log({
-                      level: 'debug',
-                      message: info()
-                    });
-                    const table = await fetchTable(computedArgs);
+                      level: 'info',
+                      message: `Then number of total business is ${totalRowCount}`,
+                      count: `The total loop is ${calculator}`,
+                      pageNumber: `The page number is ${pageNumber}`,
+                  })
+                  console.log(nextTable);
                 }
-                logger.log({
-                  level: 'info',
-                  message: `Then number of total business is ${TOTAL_AVAILABLE_BUSINESS}`,
-                  count: `The total loop is ${calculator}`,
-                  pageNumber: `The page number is ${pageNumber}`,
-                })
-                console.log(table);
-                return table;
+                return nextTable;
               }
               // this.isFetching = false;
               // this.isFinished = true;
@@ -110,7 +110,7 @@ class CorporationBasicRawStream {
             this.isFetching = false;
               this.isFinished = true;
               // console.log(table);
-              return table;
+              return ;
           }
         } catch(error) {
           logger.log({
@@ -134,8 +134,12 @@ class CorporationBasicRawStream {
               this.isFetching = false;
               this.isFinished = true;
               return table;
-            } else if (TOTAL_AVAILABLE_BUSINESS) {
-              this.pageId = Math.floor(TOTAL_AVAILABLE_BUSINESS - pageCount);
+            } else if (TOTAL_AVAILABLE_BUSINESS > 10000) {
+              logger.log({
+                level: 'debug',
+                message: `total count is ${TOTAL_AVAILABLE_BUSINESS}`
+              })
+              this.pageId = Math.floor(TOTAL_AVAILABLE_BUSINESS / 25);
               const newArgs = {
                 PageID: this.pageId,
                 PageCount: pageCount, 
