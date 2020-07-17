@@ -1,14 +1,11 @@
-import stream from "stream";
 import fetchTable from "./fetchTable";
 import clc from "cli-color";
 import logger from "./common/winston";
 import { postHttp } from "./httpService";
 import {AdvancedSearchEndpoint } from './fetchTableKeywords'
 
-var info = clc.white.bold;
-var error = clc.red.bold;
-var warn = clc.yellow;
-var notice = clc.blue;
+const info = clc.white.bold;
+
 
 enum BusinessType {
   WA_LIMITED_LIABILITY_CORPORATION = 65,
@@ -74,6 +71,7 @@ class CorporationBasicRawStream {
           level: 'debug',
           message: info()
         });
+        //initial fetch to determne the totalRowCount
         const data = await postHttp(AdvancedSearchEndpoint, computedArgs); 
         try {
           if(data) {
@@ -83,7 +81,9 @@ class CorporationBasicRawStream {
             let calculator;
             let pageNumber = 1;
             let nextTable;
+            // get the total number of business from initial fetch
               if (totalRowCount > 1000) {
+                // using calculator to determine the number of loop
                   calculator = Math.floor(totalRowCount / 1000);
                   for (let index = 0; index < calculator; index++) {
                     const allArgs = {
@@ -93,6 +93,7 @@ class CorporationBasicRawStream {
                     };
                     const computedArgs = { ...this.args, ...allArgs };
                     const nextTable = await fetchTable(computedArgs);
+                    // moving to the next page
                     pageNumber++;
                     logger.log({
                       level: 'info',
@@ -104,6 +105,23 @@ class CorporationBasicRawStream {
                 }
                 return nextTable;
               }
+              // since the total count is less than 1000. 
+              // it will be a single fetch without looping
+              const lessArgs = {
+                PageID: pageNumber,
+                PageCount: 1000,
+                BusinessTypeID: id
+              };
+              const lessComputedArgs = { ...this.args, ...lessArgs };
+              const lessTable = await fetchTable(lessComputedArgs);
+              logger.log({
+                level: 'info',
+                message: `Then number of total business is ${totalRowCount}`,
+                count: `The company has less than 1000 business`,
+                pageNumber: `The page number is ${pageNumber}`,
+            })
+              // for business that the total row count is less than 1000
+              // fetch is missing
               // this.isFetching = false;
               // this.isFinished = true;
           } else {

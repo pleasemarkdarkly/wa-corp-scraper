@@ -1,23 +1,14 @@
 import { postHttp } from "./httpService";
-import clc from "cli-color";
 import sw from "stopword";
 // import special_extraction_words from "./entityExtractionWords";
 import  logger  from './common/winston';
-import ecocarcafe from './keywords/ecocarcafe.json'
-import illustrations from './keywords/illustrations.json'
-import lawfirm from './keywords/lawfirm.json'
-import specialized from './keywords/specialized.json'
+
 
 import fetchFillingInformation from "./fetchFilingInformation";
 import fetchAnnualReportCriteria from "./fetchAnnualReportCriteria";
 import fetchBusinessInformation from "./fetchBusinessInformation";
 import convertToCSV from "./common/convert_csv";
-import keywords from "./keywords";
 
-const info = clc.white.bold;
-const error = clc.red.bold;
-const warn = clc.yellow;
-const notice = clc.blue;
 
 const special_extraction_words: any = [
   "any",
@@ -48,12 +39,10 @@ let startTime,
     fetchTableTime, 
     fetchBusinessTime, 
     fetchBillingTime, 
-    fetchAnnualTime: number, 
     BusinessType: string,
     averageFT_time: any,
     averageBT_time: any,
     averageBL_time: any,
-    averageAL_time: any,
     totalTimeTaken: any
 
     async function fetchTable(businessSearchCriteria: {BusinessTypeID: any, PageCount: any}) {  
@@ -66,19 +55,17 @@ let startTime,
 
   let BUSINESS_INFORMATION_REPORT = [];
   let BUSINESS_INFO = [];
-  let ALL_CSV = [];
-  let jsonKeywords: {}[] = []
   let businessId;
   let totalRowCount;
   let businessInformation;
   let fillingInformation;
   let business_Type: string;
-  let businessTypeId = businessSearchCriteria.BusinessTypeID
-  let pageCount = businessSearchCriteria.PageCount;
-  let searchEntityName;
   let businessIdContainer: any[] = []
 
-  const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria); 
+    // fetching data with business criteria
+  const data = await postHttp(AdvancedSearchEndpoint, businessSearchCriteria);
+  
+  // determining the number fetch at a time. this return can be change to continue.. to skip
       if(data.length === 0) return
       if (data) {
         fetchTableTime = Date.now();
@@ -91,6 +78,7 @@ let startTime,
             firstInfo.Criteria !== null ? firstInfo.Criteria.TotalRowCount : `NOT AVAILABLE`;
           let businessInfo = data[i];
           businessId = data[i].BusinessID;
+          // setting u a ontainer for only unique Id
          if(businessIdContainer.includes(businessId)) continue;
              logger.log({
                 level: 'debug',
@@ -244,13 +232,13 @@ let startTime,
         }
       }
     const CSV = convertToCSV(BUSINESS_INFO, business_Type);
+    // emptying the array to  get only unique data
     BUSINESS_INFO = []
   }
     return {
       BUSINESSTYPE: BusinessType,
       TOTAL_BUSINESS_PARSED: BUSINESS_INFORMATION_REPORT.length,
       TIME_TO_FETCH_BUSINESS_TABLES: `${averageFT_time}ms`,
-      TIME_TO_FETCH_ANNUAL_REPORT: `${averageAL_time}ms`,
       TIME_TO_FETCH_FILLING_REPORT: `${averageBL_time}ms`,
       TIME_TO_FETCH_BUSINESS_INFORMATION: `${averageBT_time}ms`,
       TOTAL_AVAILABLE_BUSINESS: totalRowCount,
