@@ -12,7 +12,7 @@
     "stopall": "forever stopall",
     "clean": "rm -rf ./csv-output-*/* && rm -rf ./csv-output*/* && rm -rf ./logs/* && rm -rf ./dist/*",
     "count": "cat ./csv-output/* | wc -l",
-    "save": "git add . && git commit -m 'update' && git push origin develop",
+    "save": "git add . && git commit -m ':octocat: :four_leaf_clover: please work' && git push origin develop",
     "create": "npm run build && npm run test",
     "build": "tsc -p .",
     "specialized": "yarn run corps company_keyword_scraper --c=1 --id=-1 --keyword=specialized",
